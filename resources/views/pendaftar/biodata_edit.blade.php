@@ -88,8 +88,17 @@
                 <input type="text" name="nama_mhs" class="w-full border rounded px-3 py-2" value="{{ old('nama_mhs', $pendaftar->nama_mhs ?? '') }}">
               </div>
               <div>
+                <label class="block text-sm text-slate-600 mb-1">Tempat Lahir</label>
+                <input type="text" name="tempat_lahir" class="w-full border rounded px-3 py-2" value="{{ old('tempat_lahir', $pendaftar->tempat_lahir ?? '') }}">
+              </div>
+              <div>
                 <label class="block text-sm text-slate-600 mb-1">No. HP</label>
                 <input type="text" name="no_hp" class="w-full border rounded px-3 py-2" value="{{ old('no_hp', $pendaftar->no_hp ?? '') }}">
+              </div>
+
+              <div>
+                <label class="block text-sm text-slate-600 mb-1">Angkatan</label>
+                <input type="text" name="angkatan" class="w-full border rounded px-3 py-2" value="{{ old('angkatan', $pendaftar->angkatan ?? '') }}">
               </div>
 
               <div>
@@ -103,6 +112,11 @@
                   <option value="Regular" {{ (old('jenis_kelas', $pendaftar->jenis_kelas ?? '') == 'Regular') ? 'selected' : '' }}>Regular</option>
                   <option value="Karyawan" {{ (old('jenis_kelas', $pendaftar->jenis_kelas ?? '') == 'Karyawan') ? 'selected' : '' }}>Karyawan</option>
                 </select>
+              </div>
+
+              <div>
+                <label class="block text-sm text-slate-600 mb-1">Periode</label>
+                <input type="text" name="periode" class="w-full border rounded px-3 py-2" value="{{ old('periode', $pendaftar->periode ?? '') }}">
               </div>
 
               <div>
@@ -183,6 +197,11 @@
               </div>
 
               <div>
+                <label class="block text-sm text-slate-600 mb-1">Nomor WhatsApp Orang Tua / Wali</label>
+                <input type="tel" name="whatsapp_wali" class="w-full border rounded px-3 py-2" value="{{ old('whatsapp_wali', $pendaftar->whatsapp_wali ?? '') }}">
+              </div>
+
+              <div>
                 <label class="block text-sm text-slate-600 mb-1">Pekerjaan Orang Tua / Wali</label>
                 <input type="text" name="pekerjaan_wali" class="w-full border rounded px-3 py-2" value="{{ old('pekerjaan_wali', $pendaftar->pekerjaan_wali ?? '') }}">
               </div>
@@ -190,8 +209,8 @@
               <div class="md:col-span-2">
                 <label class="block text-sm text-slate-600 mb-1">Foto Profil MAX 2MB</label>
                 <input type="file" name="photo" class="w-full">
-                @if(!empty($pendaftar->photo_url) || !empty($pendaftar->file_path))
-                  <div class="mt-2"><img src="{{ asset(ltrim($pendaftar->photo_url ?? $pendaftar->file_path,'/')) }}" alt="Preview" class="w-32 h-32 object-cover rounded-md border"></div>
+                @if(!empty($pendaftar->photo_url) || !empty($pendaftar->foto))
+                  <div class="mt-2"><img src="{{ asset(ltrim($pendaftar->foto ?? $pendaftar->photo_url,'/')) }}" alt="Preview" class="w-32 h-32 object-cover rounded-md border"></div>
                 @endif
               </div>
 

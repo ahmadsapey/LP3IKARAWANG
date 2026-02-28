@@ -166,6 +166,14 @@
 
         /* --- SEMUA CSS CONTENT (HERO, NEWS, ABOUT, DLL) DARI KODE ASLI KAMU --- */
         .hero { min-height: 80vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; color: white; }
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1;
+            pointer-events: none;
+        }
         .carousel-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
         .carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s; background-size: cover; background-position: center; }
         .carousel-slide.active { opacity: 1; }

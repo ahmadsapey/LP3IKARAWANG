@@ -233,7 +233,7 @@
 </head>
 <body>
 
-    @php
+    <?php
         $receiptDate = !empty($date) ? \Carbon\Carbon::parse($date) : now();
         $baseNo = $calon->nipd ?? ($calon->id_mahasiswa ?? ($calon->id ?? ''));
         $receiptNo = 'KWT-' . ($baseNo !== '' ? $baseNo : '000') . '-' . $receiptDate->format('Ymd');
@@ -261,21 +261,21 @@
 
         $logoSrc = $embedImage($logoFile) ?? str_replace('\\', '/', $logoFile);
         $patternSrc = $embedImage($patternFile) ?? str_replace('\\', '/', $patternFile);
-    @endphp
+    ?>
 
     <div class="receipt-container">
-        @if(!empty($patternSrc))
-            <img class="pattern-img" src="{{ $patternSrc }}" alt="Pattern" />
-        @endif
+        <?php if(!empty($patternSrc)): ?>
+            <img class="pattern-img" src="<?php echo e($patternSrc); ?>" alt="Pattern" />
+        <?php endif; ?>
 
         <table class="layout">
             <tr>
                 <td>
                     <!-- Header Section -->
                     <div class="header">
-                        @if(!empty($logoSrc))
-                            <img class="logo-img" src="{{ $logoSrc }}" alt="LP3I" />
-                        @endif
+                        <?php if(!empty($logoSrc)): ?>
+                            <img class="logo-img" src="<?php echo e($logoSrc); ?>" alt="LP3I" />
+                        <?php endif; ?>
                         <div class="header-text">
                             Lembaga Pendidikan<br>
                             Dan Pengembangan<br>
@@ -291,7 +291,7 @@
                             <td>
                                 <table class="fill" style="max-width: 520px;">
                                     <tr>
-                                        <td class="val">{{ $receiptNo }}</td>
+                                        <td class="val"><?php echo e($receiptNo); ?></td>
                                         <td class="dots"></td>
                                     </tr>
                                 </table>
@@ -304,7 +304,7 @@
                             <td>
                                 <table class="fill" style="max-width: 680px;">
                                     <tr>
-                                        <td class="val">{{ $payerName }}</td>
+                                        <td class="val"><?php echo e($payerName); ?></td>
                                         <td class="dots"></td>
                                     </tr>
                                 </table>
@@ -316,7 +316,7 @@
                             <td class="colon">:</td>
                             <td>
                                 <div class="rules-box" style="max-width: 680px;">
-                                    <div class="value">Rp {{ $amountFormatted }}</div>
+                                    <div class="value">Rp <?php echo e($amountFormatted); ?></div>
                                 </div>
                             </td>
                         </tr>
@@ -327,7 +327,7 @@
                             <td>
                                 <table class="fill" style="max-width: 680px;">
                                     <tr>
-                                        <td class="val">{{ $paymentDesc }}</td>
+                                        <td class="val"><?php echo e($paymentDesc); ?></td>
                                         <td class="dots"></td>
                                     </tr>
                                 </table>
@@ -340,7 +340,7 @@
                             <td>
                                 <table class="fill" style="max-width: 680px;">
                                     <tr>
-                                        <td class="val">{{ $receiptDate->format('d-m-Y') }}</td>
+                                        <td class="val"><?php echo e($receiptDate->format('d-m-Y')); ?></td>
                                         <td class="dots"></td>
                                     </tr>
                                 </table>
@@ -362,7 +362,7 @@
                                         <td class="rp-cell"><span class="rp-label">Rp.</span></td>
                                         <td>
                                             <div class="amount-lines">
-                                                <span class="value">{{ $amountFormatted }}</span>
+                                                <span class="value"><?php echo e($amountFormatted); ?></span>
                                             </div>
                                         </td>
                                     </tr>
@@ -379,4 +379,4 @@
     </div>
 
 </body>
-</html>
+</html><?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/pendaftar/receipt.blade.php ENDPATH**/ ?>

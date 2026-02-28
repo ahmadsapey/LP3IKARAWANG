@@ -19,7 +19,7 @@ class Mahasiswa extends Model
         'email', 'agama', 'no_tlp', 'tahun_lulus', 'kecamatan', 'desa', 'kode_pos', 'jenis_kelamin', 'jenis_kelas',
         'status_verifikasi', 'payment_status', 'payment_method', 'payment_proof_path', 'payment_bank_origin',
         'payment_account_name', 'payment_sender_name', 'payment_transfer_date', 'payment_expires_at', 'payment_amount',
-        'asal_sekolah', 'file_path', 'ktp_path', 'akte_kelahiran_path', 'ijazah_path', 'surat_sudah_bekerja_path',
+        'asal_sekolah', 'ktp_path', 'akte_kelahiran_path', 'ijazah_path', 'surat_sudah_bekerja_path',
         'instagram_path', 'nama_wali', 'telp_wali', 'pekerjaan_wali', 'whatsapp_wali', 'foto', 'status',
         'id_user', 'id_program_studi', 'id_kelas'
     ];

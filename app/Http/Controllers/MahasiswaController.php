@@ -83,7 +83,6 @@ class MahasiswaController extends Controller
             'payment_expires_at' => 'nullable|string|max:255',
             'payment_amount' => 'nullable|string|max:255',
             'asal_sekolah' => 'nullable|string|max:255',
-            'file_path' => 'nullable|string|max:255',
             'ktp_path' => 'nullable|string|max:255',
             'akte_kelahiran_path' => 'nullable|string|max:255',
             'ijazah_path' => 'nullable|string|max:255',
@@ -122,10 +121,10 @@ class MahasiswaController extends Controller
         }
         unset($validated['program_studi']);
 
-        // handle file if present
+        // handle optional uploaded file as profile photo (store URL in `foto`)
         if ($request->hasFile('file')) {
             $path = $request->file('file')->store('mahasiswa', ['disk' => 'public']);
-            $validated['file_path'] = $path;
+            $validated['foto'] = Storage::url($path);
         }
 
         // If kecamatan input was an ID, convert to the kecamatan name for storage
@@ -172,7 +171,7 @@ class MahasiswaController extends Controller
             'email', 'agama', 'no_tlp', 'tahun_lulus', 'kecamatan', 'desa', 'kode_pos', 'jenis_kelamin', 'jenis_kelas',
             'status_verifikasi', 'payment_status', 'payment_method', 'payment_proof_path', 'payment_bank_origin',
             'payment_account_name', 'payment_sender_name', 'payment_transfer_date', 'payment_expires_at', 'payment_amount',
-            'asal_sekolah', 'file_path', 'ktp_path', 'akte_kelahiran_path', 'ijazah_path', 'surat_sudah_bekerja_path',
+            'asal_sekolah', 'ktp_path', 'akte_kelahiran_path', 'ijazah_path', 'surat_sudah_bekerja_path',
             'instagram_path', 'nama_wali', 'telp_wali', 'pekerjaan_wali', 'whatsapp_wali', 'foto', 'status',
             'id_user', 'id_program_studi', 'id_kelas'
         ];
@@ -212,7 +211,7 @@ class MahasiswaController extends Controller
             'email', 'agama', 'no_tlp', 'tahun_lulus', 'kecamatan', 'desa', 'kode_pos', 'jenis_kelamin', 'jenis_kelas',
             'status_verifikasi', 'payment_status', 'payment_method', 'payment_proof_path', 'payment_bank_origin',
             'payment_account_name', 'payment_sender_name', 'payment_transfer_date', 'payment_expires_at', 'payment_amount',
-            'asal_sekolah', 'file_path', 'ktp_path', 'akte_kelahiran_path', 'ijazah_path', 'surat_sudah_bekerja_path',
+            'asal_sekolah', 'ktp_path', 'akte_kelahiran_path', 'ijazah_path', 'surat_sudah_bekerja_path',
             'instagram_path', 'nama_wali', 'telp_wali', 'pekerjaan_wali', 'whatsapp_wali', 'foto', 'status',
             'id_user', 'id_program_studi', 'id_kelas'
         ];
@@ -257,7 +256,7 @@ class MahasiswaController extends Controller
                 \Illuminate\Support\Facades\Auth::login($user);
             }
         } catch (\Exception $e) {
-            \Log::error('Gagal insert mahasiswa: ' . $e->getMessage(), ['data' => $dataToInsert]);
+            Log::error('Gagal insert mahasiswa: ' . $e->getMessage(), ['data' => $dataToInsert]);
             return back()->withInput()->withErrors(['mahasiswa' => 'Gagal menyimpan data mahasiswa: ' . $e->getMessage()]);
         }
         // Redirect atau tampilkan pesan sukses

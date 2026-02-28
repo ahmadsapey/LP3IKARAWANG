@@ -39,7 +39,6 @@ class MahasiswaSimpleController extends Controller
             'payment_expires_at' => '',
             'payment_amount' => '350000',
             'asal_sekolah' => 'SMA Dummy',
-            'file_path' => '',
             'ktp_path' => '',
             'akte_kelahiran_path' => '',
             'ijazah_path' => '',

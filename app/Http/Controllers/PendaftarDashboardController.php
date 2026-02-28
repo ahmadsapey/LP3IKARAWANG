@@ -197,7 +197,7 @@ class PendaftarDashboardController extends Controller
             $calon->save();
         } catch (\Illuminate\Database\QueryException $e) {
             // handle enum/column truncation errors (e.g., trying to write 'pending_verification' into an enum)
-            Log::warning('Save failed, retrying with safe payment_status: '.$e->getMessage(), ['userId' => $user->getKey()]);
+            Log::warning('Save failed, retrying with safe payment_status: '.$e->getMessage(), ['userId' => $user->id ?? ($user->id_user ?? null)]);
             try {
                 $calon->payment_status = 'unpaid';
                 $calon->save();
@@ -278,6 +278,9 @@ class PendaftarDashboardController extends Controller
 
         $v = $request->validate([
             'nama_mhs' => 'nullable|string|max:255',
+            'tempat_lahir' => 'nullable|string|max:255',
+            'angkatan' => 'nullable|string|max:255',
+            'periode' => 'nullable|string|max:255',
             'jenis_kelamin' => 'nullable|string|max:20',
             'agama' => 'nullable|string|max:50',
             'no_hp' => 'nullable|string|max:50',
@@ -296,15 +299,16 @@ class PendaftarDashboardController extends Controller
             'nama_wali' => 'nullable|string|max:255',
             'telp_wali' => 'nullable|string|max:50',
             'pekerjaan_wali' => 'nullable|string|max:255',
+            'whatsapp_wali' => 'nullable|string|max:50',
             'ktp_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'ijazah_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'akte_kelahiran_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'surat_sudah_bekerja_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'photo' => 'nullable|image|mimes:jpg,png|max:2048'
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         // assign allowed fields, but only if the corresponding DB column exists
-        $fields = ['nama_mhs','no_hp','email','jenis_kelas','id_program_studi','id_program_study','asal_sekolah','alamat','kecamatan','desa','kode_pos','jenis_kelamin','agama','tahun_lulus','instagram','nama_wali','telp_wali','pekerjaan_wali'];
+        $fields = ['nama_mhs','tempat_lahir','angkatan','periode','no_hp','email','jenis_kelas','id_program_studi','id_program_study','asal_sekolah','alamat','kecamatan','desa','kode_pos','jenis_kelamin','agama','tahun_lulus','instagram','nama_wali','telp_wali','whatsapp_wali','pekerjaan_wali'];
         foreach ($fields as $f) {
             if (array_key_exists($f, $v)) {
                 if (Schema::hasColumn('mahasiswa', $f)) {
@@ -379,8 +383,10 @@ class PendaftarDashboardController extends Controller
 
             // generate public URL (/storage/...)
             $publicUrl = $path ? Storage::url($path) : '/storage/image/' . $name;
-            // Save into existing column `file_path` (mahasiswas table) to avoid adding new column
-            $pendaftar->file_path = $publicUrl;
+            // Save photo URL into DB column `foto`
+            if (Schema::hasColumn('mahasiswa', 'foto')) {
+                $pendaftar->foto = $publicUrl;
+            }
             // Log for debugging: stored path and public URL
             Log::info('Uploaded pendafatar photo', ['user_id' => $user->id ?? null, 'mahasiswa_id' => $pendaftar->id ?? null, 'path' => $path, 'publicUrl' => $publicUrl]);
         }

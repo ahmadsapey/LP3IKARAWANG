@@ -39,7 +39,6 @@ class MahasiswaRegisterController extends Controller
             'payment_expires_at' => 'nullable|string|max:255',
             'payment_amount' => 'nullable|string|max:255',
             'asal_sekolah' => 'nullable|string|max:255',
-            'file_path' => 'nullable|string|max:255',
             'ktp_path' => 'nullable|string|max:255',
             'akte_kelahiran_path' => 'nullable|string|max:255',
             'ijazah_path' => 'nullable|string|max:255',
