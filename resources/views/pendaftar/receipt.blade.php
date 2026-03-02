@@ -6,6 +6,9 @@
     <title>Kuitansi LP3I</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+        * {
+            font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
+        }
 
         :root {
             --lp3i-blue: #2c5e8c;
@@ -20,7 +23,7 @@
 
         body {
             background: #ffffff;
-            font-family: 'Poppins', DejaVu Sans, Arial, sans-serif;
+            font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
             margin: 0;
         }
 
@@ -58,6 +61,7 @@
             line-height: 1.1;
             font-size: 20px;
             font-weight: 500;
+            font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
         }
 
         .header {
@@ -90,6 +94,7 @@
             font-size: 18px;
             width: 220px;
             display: inline-block;
+            font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
         }
 
         .table {
@@ -127,6 +132,7 @@
             white-space: nowrap;
             padding-right: 10px;
             width: 1%;
+            font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
         }
 
         .fill .dots {
@@ -158,6 +164,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
         }
 
         .footer {
@@ -193,6 +200,7 @@
             font-weight: 700;
             font-size: 22px;
             margin-right: 10px;
+            font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
         }
 
         .amount-lines {
@@ -222,6 +230,7 @@
             padding-right: 10px;
             white-space: nowrap;
             line-height: 25px;
+            font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
         }
 
         .signature-line {
@@ -263,26 +272,43 @@
         $patternSrc = $embedImage($patternFile) ?? str_replace('\\', '/', $patternFile);
     @endphp
 
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bukti Pendaftaran</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, Helvetica, sans-serif;
+        }
+        /* ...existing code... */
+    </style>
+</head>
+<body>
+    
     <div class="receipt-container">
         @if(!empty($patternSrc))
             <img class="pattern-img" src="{{ $patternSrc }}" alt="Pattern" />
         @endif
-
         <table class="layout">
+            <div class="header">
+    <img class="logo-img" src="{{ $logoSrc }}" alt="LP3I Logo" />
+    <div>
+        <div style="font-weight:700; font-size:20px; color:#2c5e8c; margin-top:2px;">
+            Lembaga Pendidikan<br>
+            Dan Pengembangan<br>
+            Profesi Indonesia
+        </div>
+    </div>
+</div>
+<br>
+<br>
             <tr>
                 <td>
-                    <!-- Header Section -->
-                    <div class="header">
-                        @if(!empty($logoSrc))
-                            <img class="logo-img" src="{{ $logoSrc }}" alt="LP3I" />
-                        @endif
-                        <div class="header-text">
-                            Lembaga Pendidikan<br>
-                            Dan Pengembangan<br>
-                            Profesi Indonesia
-                        </div>
-                    </div>
-
                     <!-- Body Section -->
                     <table class="table">
                         <tr>
@@ -297,7 +323,6 @@
                                 </table>
                             </td>
                         </tr>
-
                         <tr>
                             <td class="label">Telah terima dari</td>
                             <td class="colon">:</td>
@@ -310,7 +335,6 @@
                                 </table>
                             </td>
                         </tr>
-
                         <tr>
                             <td class="label">Uang sejumlah</td>
                             <td class="colon">:</td>
@@ -320,7 +344,6 @@
                                 </div>
                             </td>
                         </tr>
-
                         <tr>
                             <td class="label">Untuk pembayaran</td>
                             <td class="colon">:</td>
@@ -333,7 +356,6 @@
                                 </table>
                             </td>
                         </tr>
-
                         <tr>
                             <td class="label" style="visibility:hidden;">Untuk pembayaran</td>
                             <td class="colon" style="visibility:hidden;">:</td>
@@ -349,9 +371,9 @@
                     </table>
                 </td>
             </tr>
-<br>
-<br>
-<br>
+            <br>
+            <br>
+            <br>
             <tr>
                 <td class="footer-cell">
                     <table class="footer">
@@ -377,6 +399,8 @@
             </tr>
         </table>
     </div>
+</body>
+</html>
 
 </body>
 </html>

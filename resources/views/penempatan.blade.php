@@ -1,143 +1,350 @@
-
 @php
-	// Expecting `$images` to be passed from controller as a collection of Penempatan models.
-	// If not provided or empty, we'll render an empty state (no uploads yet).
-	$images = $images ?? [];
+    $images = $images ?? [];
 @endphp
 
 <!doctype html>
 <html lang="id">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Penempatan Kerja - LP3I Karawang</title>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-	<style>
-		:root { --basic: #004269; --adv: #40826D; --muted: #6b7280; }
-		html { font-family: 'Poppins', sans-serif; }
-		* { margin: 0; padding: 0; box-sizing: border-box; }
-		body { font-family: 'Poppins', sans-serif; color: #0f172a; line-height: 1.6; background: linear-gradient(180deg, var(--basic) 0%, rgba(0,66,105,0.08) 28%, #f6f9fc 100%); padding-top: 200px; }
-		@media (max-width: 768px) { body { padding-top: 240px; } }
-		
-		.wrap { max-width: 1200px; margin: 50px auto 0; padding: 2rem 1rem; }
-		h1 { color: #004269; margin-bottom: 1.5rem; font-size: 2rem; font-weight: 700; }
-		p { color: #445; font-size: 0.95rem; }
-		
-		.grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-		@media (min-width: 900px) { .grid { grid-template-columns: repeat(1, 1fr); } }
-		
-		.card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 8px 28px rgba(2,6,23,0.06); display: flex; align-items: center; gap: 1.5rem; }
-		@media (max-width: 768px) { .card { flex-direction: column; } }
-		
-		.poster { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 250px; }
-		.poster a { display: block; cursor: pointer; transition: transform 0.3s ease; }
-		.poster a:hover { transform: scale(1.02); }
-		.poster img { max-width: 100%; max-height: 300px; border-radius: 8px; box-shadow: 0 10px 30px rgba(2,6,23,0.08); object-fit: cover; }
-		
-		.meta { flex: 0 0 320px; padding: 0.5rem; }
-		.meta h3 { margin: 0 0 0.75rem; color: #004269; font-size: 1.1rem; font-weight: 600; }
-		.meta p { margin: 0 0 1.25rem; color: #556; font-size: 0.9rem; }
-		
-		.actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-		.btn { background: #004269; color: #fff; padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.25s ease; display: inline-block; border: none; cursor: pointer; }
-		.btn:hover { background: #003058; transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,66,105,0.15); }
-		
-		.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
-		.modal.show { display: flex; align-items: center; justify-content: center; }
-		.modal-content { background-color: #fefefe; max-width: 95%; max-height: 90vh; border-radius: 8px; position: relative; overflow: hidden; }
-		.modal img { max-width: 100%; max-height: 85vh; display: block; }
-		.close { position: absolute; right: 20px; top: 20px; color: white; font-size: 28px; font-weight: bold; cursor: pointer; background: rgba(0,0,0,0.5); width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.2s ease; }
-		.close:hover { background: rgba(0,0,0,0.8); }
-	</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Penempatan Kerja - LP3I Karawang</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-dark: #004269;
+            --brand-accent: #0b7280;
+            --brand-light: #f0fdfa;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-body: #f8fafc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg-body); 
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Header Section */
+        .hero-header {
+            background: linear-gradient(135deg, var(--brand-dark) 0%, #002d4a 100%);
+            color: white;
+            padding: 120px 1rem 60px;
+            text-align: center;
+            clip-path: ellipse(150% 100% at 50% 0%);
+        }
+
+        .hero-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .wrap { 
+            max-width: 1200px; 
+            margin: -40px auto 80px; 
+            padding: 0 1.5rem; 
+        }
+
+        /* Grid Layout */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+            gap: 2rem; 
+        }
+
+        /* Card Design */
+        .card { 
+            background: white; 
+            border-radius: 20px; 
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,66,105,0.12);
+        }
+
+        /* Poster Image Container */
+        .poster-wrapper {
+            position: relative;
+            overflow: hidden;
+            padding-top: 125%; /* 4:5 Aspect Ratio */
+            background: #f1f5f9;
+        }
+
+        .poster-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover .poster-wrapper img {
+            transform: scale(1.08);
+        }
+
+        /* Overlay on Hover */
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 66, 105, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .card:hover .overlay { opacity: 1; }
+
+        .zoom-icon {
+            color: white;
+            font-size: 2rem;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* Content Meta */
+        .meta {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta h3 {
+            color: var(--brand-dark);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        /* Buttons */
+        .actions { display: flex; gap: 0.8rem; }
+
+        .btn { 
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-download {
+            background: var(--brand-dark);
+            color: white;
+        }
+
+        .btn-download:hover {
+            background: var(--brand-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(11, 114, 128, 0.3);
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            background: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 20px;
+            border: 2px dashed #e2e8f0;
+        }
+
+        /* Modal Styles */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            inset: 0; 
+            background: rgba(15, 23, 42, 0.9); 
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content { 
+            position: relative;
+            max-width: 100%;
+            max-height: 90vh;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content { transform: scale(1); }
+
+        .modal img { 
+            max-width: 90vw; 
+            max-height: 85vh; 
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        @media (max-width: 768px) {
+            .hero-header { padding-top: 100px; }
+            .hero-header h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-	@include('partials.header')
-	<div class="wrap">
-		<h1>Bukti Penempatan Kerja</h1>
-		<p style="margin-bottom: 1.75rem;">Berikut beberapa bukti penempatan/kerja nyata alumni. Klik gambar untuk memperbesar atau tombol unduh untuk menyimpan poster.</p>
 
-		<div class="grid">
-			@if(empty($images) || count($images) === 0)
-				<div style="color: #666; padding: 2rem; text-align: center; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(2,6,23,0.04);">
-					<i class="fas fa-inbox" style="font-size: 2.5rem; color: #ccc; margin-bottom: 1rem; display: block;"></i>
-					<p style="color: #666; margin: 0;">Belum ada item penempatan. Silakan admin unggah bukti penempatan melalui panel admin.</p>
-				</div>
-			@else
-				@foreach($images as $img)
-				@php
-					$isString = is_string($img);
-					if ($isString) {
-						$url = \Illuminate\Support\Str::startsWith($img, 'http') ? $img : asset($img);
-						$title = 'Poster Penempatan';
-						$description = 'Poster ini menunjukkan bukti nyata alumni yang telah bekerja sebelum atau setelah lulus.';
-					} else {
-						// Model instance: support several stored path formats
-						$raw = $img->image_path ?? '';
-						if (!empty($raw)) {
-							if (\Illuminate\Support\Str::startsWith($raw, 'http')) {
-								$url = $raw;
-							} elseif (\Illuminate\Support\Str::startsWith($raw, '/storage') || \Illuminate\Support\Str::startsWith($raw, 'storage/')) {
-								$url = asset(ltrim($raw, '/'));
-							} else {
-								// if stored as 'penempatan/xyz' or 'upload/..' assume storage path
-								$url = asset('storage/' . ltrim($raw, '/'));
-							}
-						} else {
-							$url = '';
-						}
-						$title = $img->title ?? 'Poster Penempatan';
-						$description = $img->description ?? '';
-					}
-				@endphp
-				<div class="card">
-					<div class="poster">
-						<a href="{{ $url }}" target="_blank" rel="noopener" onclick="openModal(event, '{{ $url }}')">
-							<img src="{{ $url }}" alt="{{ $title }}" loading="lazy">
-						</a>
-					</div>
-					<div class="meta">
-						<h3>{{ $title }}</h3>
-						<p>{{ $description }}</p>
-						<div class="actions">
-							<a class="btn" href="{{ $url }}" target="_blank" rel="noopener" download>
-								<i class="fas fa-download"></i> Unduh
-							</a>
-						</div>
-					</div>
-				</div>
-				@endforeach
-			@endif
-		</div>
-	</div>
-	@include('layouts.footer')
+    @include('partials.header')
 
-	<!-- Modal for image preview -->
-	<div id="imageModal" class="modal">
-		<div class="modal-content">
-			<span class="close" onclick="closeModal()">&times;</span>
-			<img id="modalImage" src="" alt="Full size preview">
-		</div>
-	</div>
+    <section class="hero-header">
+        <h1>Bukti Penempatan Kerja</h1>
+        <p>Kebanggaan kami adalah melihat alumni sukses di dunia industri sebelum bahkan setelah lulus.</p>
+    </section>
 
-	<script>
-		function openModal(event, imageSrc) {
-			event.preventDefault();
-			document.getElementById('imageModal').classList.add('show');
-			document.getElementById('modalImage').src = imageSrc;
-		}
+    <div class="wrap">
+        <div class="grid">
+            @if(empty($images) || count($images) === 0)
+                <div class="empty-state">
+                    <i class="fas fa-file-invoice" style="font-size: 3.5rem; color: #cbd5e1; margin-bottom: 1.5rem; display: block;"></i>
+                    <h3 style="color: var(--brand-dark)">Belum Ada Data</h3>
+                    <p>Bukti penempatan akan segera diperbarui oleh admin.</p>
+                </div>
+            @else
+                @foreach($images as $img)
+                @php
+                    $isString = is_string($img);
+                    if ($isString) {
+                        $url = \Illuminate\Support\Str::startsWith($img, 'http') ? $img : asset($img);
+                        $title = 'Poster Sukses Alumni';
+                        $description = 'Bukti nyata keterserapan alumni di dunia kerja skala nasional maupun internasional.';
+                    } else {
+                        $raw = $img->image_path ?? '';
+                        if (!empty($raw)) {
+                            if (\Illuminate\Support\Str::startsWith($raw, 'http')) {
+                                $url = $raw;
+                            } elseif (\Illuminate\Support\Str::startsWith($raw, 'storage/')) {
+                                $url = asset(ltrim($raw, '/'));
+                            } else {
+                                $url = asset('storage/' . ltrim($raw, '/'));
+                            }
+                        } else {
+                            $url = '';
+                        }
+                        $title = $img->title ?? 'Poster Sukses Alumni';
+                        $description = $img->description ?? 'Alumni LP3I yang telah sukses meniti karir.';
+                    }
+                @endphp
 
-		function closeModal() {
-			document.getElementById('imageModal').classList.remove('show');
-		}
+                <div class="card">
+                    <div class="poster-wrapper">
+                        <div class="overlay" onclick="openModal('{{ $url }}')">
+                            <div class="zoom-icon"><i class="fas fa-search-plus"></i></div>
+                        </div>
+                        <img src="{{ $url }}" alt="{{ $title }}" loading="lazy">
+                    </div>
+                    <div class="meta">
+                        <h3>{{ $title }}</h3>
+                        <p>{{ \Illuminate\Support\Str::limit($description, 100) }}</p>
+                        <div class="actions">
+                            <a class="btn btn-download" href="{{ $url }}" download>
+                                <i class="fas fa-cloud-download-alt"></i> Simpan Poster
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            @endif
+        </div>
+    </div>
 
-		// Close modal when clicking outside the image
-		document.getElementById('imageModal').addEventListener('click', function(event) {
-			if (event.target === this) {
-				closeModal();
-			}
-		});
-	</script>
+    @include('layouts.footer')
+
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></span>
+            <img id="modalImage" src="" alt="Full size preview">
+        </div>
+    </div>
+
+    <script>
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = imageSrc;
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Stop scrolling
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") closeModal();
+        });
+    </script>
 
 </body>
 </html>

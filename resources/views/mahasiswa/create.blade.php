@@ -15,24 +15,92 @@
       :root { --brand-dark: #004269; --brand-accent: #009DA5; --brand-pink: #F15B67; --brand-red: #FF0000; }
       /* Color theme — match admin/dashboard vibe */
       body.registration-bg {
-        background: #004269; /* match input background */
+        background: #000000;
         min-height: 100vh;
         padding-top: 190px;
         color: #111827;
         font-family: 'Poppins', sans-serif;
+        position: relative;
+        overflow-x: hidden;
       }
       @media (max-width: 768px) {
         body.registration-bg { padding-top: 210px; }
       }
 
       /* Limit the registration container width so it doesn't reach the navbar edges */
-      .registration-container { max-width: 1100px; margin: 0 auto; }
+      .registration-container { max-width: 1100px; margin: 0 auto; background: none !important; position: relative; z-index: 1; }
+
+      /* Animated logos should live on the page background (not inside the map container) */
+      .lp3i-page-anim {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .lp3i-page-anim .lp3i-anim-area {
+        width: 100%;
+        height: 100%;
+        max-height: none;
+        position: relative;
+      }
+      .lp3i-page-anim .lp3i-anim-img {
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        opacity: 0.62;
+        mix-blend-mode: screen;
+        will-change: transform, filter;
+        animation: lp3i-bg-drift-a var(--dur, 18s) cubic-bezier(.45,0,.25,1) infinite alternate;
+        animation-delay: calc(var(--i) * -1.15s);
+        filter:
+          drop-shadow(0 0 18px rgba(255,255,255,0.42))
+          drop-shadow(0 0 34px rgba(0,157,165,0.32))
+          contrast(1.35)
+          brightness(1.55)
+          saturate(1.10);
+      }
+
+      @keyframes lp3i-bg-drift-a {
+        0%   { transform: translate3d(0,0,0) rotate(calc(var(--rot, 10deg) * -1)) scale(0.98); }
+        33%  { transform: translate3d(calc(var(--dx, 44px) * 0.55), calc(var(--dy, 34px) * -0.25), 0) rotate(var(--rot, 10deg)) scale(1.05); }
+        66%  { transform: translate3d(calc(var(--dx, 44px) * -0.35), calc(var(--dy, 34px) * 0.65), 0) rotate(calc(var(--rot, 10deg) * -0.6)) scale(1.02); }
+        100% { transform: translate3d(var(--dx, 44px), var(--dy, 34px), 0) rotate(calc(var(--rot, 10deg) * 0.2)) scale(1.08); }
+      }
+
+      @keyframes lp3i-bg-drift-b {
+        0%   { transform: translate3d(0,0,0) rotate(calc(var(--rot, 10deg) * 0.4)) scale(1.02); }
+        25%  { transform: translate3d(calc(var(--dx, 44px) * -0.6), calc(var(--dy, 34px) * 0.25), 0) rotate(calc(var(--rot, 10deg) * -1)) scale(1.08); }
+        50%  { transform: translate3d(calc(var(--dx, 44px) * 0.25), calc(var(--dy, 34px) * -0.75), 0) rotate(var(--rot, 10deg)) scale(1.00); }
+        100% { transform: translate3d(var(--dx, 44px), var(--dy, 34px), 0) rotate(calc(var(--rot, 10deg) * -0.2)) scale(1.10); }
+      }
+
+      @media (max-width: 768px) {
+        .lp3i-page-anim .lp3i-anim-img { width: 160px; height: 160px; opacity: 0.56; }
+      }
+      @media (max-width: 480px) {
+        .lp3i-page-anim .lp3i-anim-img { width: 135px; height: 135px; opacity: 0.52; }
+      }
+
+      /* Spread 9 logos across the background + varied movement */
+      .lp3i-page-anim .lp3i-anim-img:nth-child(1) { left: 6%;  top: 14%; --dx: 54px; --dy: 36px; --rot: 14deg; --dur: 17s; }
+      .lp3i-page-anim .lp3i-anim-img:nth-child(2) { left: 38%; top: 8%;  --dx: -62px; --dy: 40px; --rot: 11deg; --dur: 21s; animation-name: lp3i-bg-drift-b; }
+      .lp3i-page-anim .lp3i-anim-img:nth-child(3) { left: 72%; top: 16%; --dx: 48px; --dy: -44px; --rot: 16deg; --dur: 19s; }
+      .lp3i-page-anim .lp3i-anim-img:nth-child(4) { left: 14%; top: 46%; --dx: -56px; --dy: -34px; --rot: 12deg; --dur: 23s; animation-name: lp3i-bg-drift-b; }
+      .lp3i-page-anim .lp3i-anim-img:nth-child(5) { left: 46%; top: 42%; --dx: 66px; --dy: 28px; --rot: 10deg; --dur: 18s; }
+      .lp3i-page-anim .lp3i-anim-img:nth-child(6) { left: 80%; top: 46%; --dx: -44px; --dy: 46px; --rot: 15deg; --dur: 22s; animation-name: lp3i-bg-drift-b; }
+      .lp3i-page-anim .lp3i-anim-img:nth-child(7) { left: 8%;  top: 74%; --dx: 52px; --dy: -30px; --rot: 13deg; --dur: 20s; }
+      .lp3i-page-anim .lp3i-anim-img:nth-child(8) { left: 40%; top: 78%; --dx: -68px; --dy: -26px; --rot: 9deg;  --dur: 24s; animation-name: lp3i-bg-drift-b; }
+      .lp3i-page-anim .lp3i-anim-img:nth-child(9) { left: 74%; top: 76%; --dx: 58px; --dy: 34px; --rot: 12deg; --dur: 19.5s; }
 
       .registration-card {
-        background: #ffffff; /* card matching input background */
-        border: 2px solid rgba(30,60,114,0.12);
+        background: transparent; /* no fill — border only */
+        border: 2px solid rgba(0,157,165,0.65); /* brand accent */
         border-radius: 14px;
-        box-shadow: 0 10px 30px rgba(16,24,40,0.06);
+        box-shadow:
+          0 18px 45px rgba(2,6,23,0.22),
+          0 0 0 1px rgba(241,91,103,0.18) inset,
+          0 0 34px rgba(0,157,165,0.20);
         overflow: hidden;
       }
 
@@ -50,36 +118,91 @@
       /* Remove logo box — keep only color/gradient accents */
 
       .registration-card h2 {
-        color: var(--brand-dark); /* heading should be brand color */
-        text-shadow: 0 6px 20px rgb(178, 173, 173);
+        color: rgba(255,255,255,0.98);
+        text-shadow:
+          0 0 10px rgba(255,255,255,0.25),
+          0 0 22px rgba(0,157,165,0.20);
       }
 
       .registration-card p.text-muted { color: #6b7280; }
       /* header subtext — white; show required note (asterisk + text) in red */
-      .registration-subtext { color: #6b7280; }
+      .registration-subtext {
+        color: rgba(255,255,255,0.86);
+        text-shadow: 0 0 12px rgba(255,255,255,0.18);
+      }
       .registration-subtext .required { color: var(--brand-pink); font-weight:700; }
 
       /* Inputs */
       .registration-card .form-control,
       .registration-card .form-select {
-        background: #f8fafc; /* input lightly contrasted with page */
-        border: 1.5px solid rgba(30,60,114,0.12);
-        color: #111827;
-        text-align: left;
+        background: transparent !important; /* no fill */
+        border: 2px solid rgba(0,157,165,0.55) !important;
+        color: rgba(255,255,255,0.96) !important;
+        text-align: center;
         border-radius: 10px;
-        box-shadow: 0 6px 18px rgba(30,60,114,0.04);
+        box-shadow:
+          0 0 0 1px rgba(241,91,103,0.14) inset,
+          0 0 18px rgba(0,157,165,0.10) !important;
+        text-shadow: 0 0 10px rgba(255,255,255,0.16);
+      }
+
+      .registration-card .form-control::placeholder {
+        color: rgba(255,255,255,0.70);
+        text-shadow: 0 0 10px rgba(255,255,255,0.10);
+        text-align: center;
       }
 
       .registration-card .form-control:focus,
       .registration-card .form-select:focus {
         border-color: var(--brand-accent);
-        box-shadow: 0 6px 20px rgba(0,157,165,0.08) !important;
-        background: #ffffff;
-        color: #111827;
+        box-shadow:
+          0 0 0 4px rgba(0,157,165,0.22),
+          0 0 26px rgba(0,157,165,0.20) !important;
+        background: transparent !important;
+        color: rgba(255,255,255,0.98) !important;
       }
 
-      /* Labels should be dark because card uses light inputs */
-      .registration-card .form-label { color: var(--brand-dark); font-weight:600; }
+      /* TomSelect: match transparent inputs */
+      .registration-card .ts-control {
+        background: transparent !important;
+        border: 2px solid rgba(0,157,165,0.55) !important;
+        box-shadow:
+          0 0 0 1px rgba(241,91,103,0.14) inset,
+          0 0 18px rgba(0,157,165,0.10) !important;
+      }
+      .registration-card .ts-control,
+      .registration-card .ts-control .item,
+      .registration-card .ts-control input {
+        color: rgba(255,255,255,0.96) !important;
+        text-shadow: 0 0 10px rgba(255,255,255,0.14);
+        text-align: center;
+      }
+      .registration-card .ts-control .ts-placeholder {
+        color: rgba(255,255,255,0.70) !important;
+        text-align: center;
+      }
+      .registration-card .ts-dropdown {
+        background: rgba(0,0,0,0.92) !important;
+        border: 1px solid rgba(255,255,255,0.20) !important;
+      }
+      .registration-card .ts-dropdown .option,
+      .registration-card .ts-dropdown .create {
+        color: rgba(255,255,255,0.92) !important;
+      }
+
+      /* Labels */
+      .registration-card .form-label {
+        color: rgba(255,255,255,0.92);
+        font-weight: 650;
+        text-shadow: 0 0 10px rgba(255,255,255,0.16);
+      }
+
+      .registration-card hr {
+        border-color: rgba(0,157,165,0.40);
+        border-top-width: 2px;
+        opacity: 1;
+        box-shadow: 0 0 16px rgba(0,157,165,0.12);
+      }
 
       .btn-primary {
         background: linear-gradient(90deg,var(--brand-dark),var(--brand-accent));
@@ -113,21 +236,54 @@
       .registration-layout { display:block; }
 
       /* New layout: left illustration column + right form (responsive) */
-      .registration-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
-      .registration-illustration { background: linear-gradient(180deg, rgba(0,157,165,0.03), #f8fafc); border-radius: 12px; padding: 1rem; display:flex; align-items:center; justify-content:center; flex-direction: column; }
-      .registration-illustration img { max-width: 100%; height: auto; display:block; }
-      /* illustration wrapper: controlled height and light overlay to reduce dominance */
-      .illustration-wrapper { width:100%; height:300px; max-height:300px; border-radius:10px; background: linear-gradient(180deg,#fff,#f8fafc); border:1px solid rgba(0,157,165,0.06); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; background-size:cover; background-position:center center; }
-      .illustration-wrapper::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.45)); pointer-events: none; }
-      .illustration-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display:block; opacity:0.98; }
+      .registration-grid { display: grid; grid-template-columns: 1fr; gap: 0; align-items: start; }
+      .lp3i-anim-bg {
+        background: #004269;
+        border-radius: 12px;
+        padding: 1rem;
+        min-height: 320px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .lp3i-anim-area {
+        width: 100%;
+        height: 300px;
+        max-height: 320px;
+        position: relative;
+      }
+      .lp3i-anim-img {
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        object-fit: contain;
+        opacity: 0.92;
+        pointer-events: none;
+        animation: lp3i-float 8s cubic-bezier(.6,-0.01,.4,1.01) infinite alternate;
+        animation-delay: calc(var(--i) * 1.7s);
+      }
+      .lp3i-anim-img:nth-child(1) { left: 10%; top: 18%; }
+      .lp3i-anim-img:nth-child(2) { left: 60%; top: 10%; }
+      .lp3i-anim-img:nth-child(3) { left: 35%; top: 60%; }
+      @keyframes lp3i-float {
+        0%   { transform: translate(0,0) scale(1) rotate(-8deg); filter: blur(0px); }
+        18%  { transform: translate(-12px, 18px) scale(1.08) rotate(6deg); filter: blur(0.5px); }
+        36%  { transform: translate(18px, -10px) scale(0.97) rotate(-12deg); filter: blur(0.7px); }
+        54%  { transform: translate(-10px, 22px) scale(1.04) rotate(8deg); filter: blur(0.2px); }
+        72%  { transform: translate(12px, -16px) scale(1.02) rotate(-6deg); filter: blur(0.6px); }
+        100% { transform: translate(-8px, 10px) scale(1.01) rotate(0deg); filter: blur(0px); }
+      }
       /* Make object-position slightly higher on smaller screens to keep focal points visible */
       @media (max-width: 576px) {
-        .illustration-wrapper { height: 180px; aspect-ratio: auto; }
-        .illustration-wrapper img { object-position: center 40%; }
+        .lp3i-anim-area { height: 140px; }
+        .lp3i-anim-img { width: 54px; height: 54px; }
       }
       @media (max-width: 768px) {
-        .illustration-wrapper { height: 220px; }
-        .illustration-wrapper img { object-position: center 45%; }
+        .lp3i-anim-area { height: 180px; }
+        .lp3i-anim-img { width: 70px; height: 70px; }
       }
 
       /* Mobile-friendly layout: stack illustration and form */
@@ -172,7 +328,7 @@
             box-shadow: none !important;
         }
       /* Form actions and spacing */
-      .form-actions { display:flex; gap: 1rem; align-items:center; justify-content:center; margin-top: 1.25rem; }
+      .form-actions { display:flex; gap: 1rem; align-items:center; justify-content:space-between; margin-top: 1.25rem; }
       .form-actions .btn { min-width: 150px; border-radius: 28px; padding: 0.6rem 1.25rem; font-weight:600; }
       .form-actions .btn-cancel { background: transparent; color: var(--brand-pink); border: 1.5px solid var(--brand-pink); box-shadow:none; }
       .form-actions .btn-cancel:hover { background: rgba(241,91,103,0.04); }
@@ -185,15 +341,15 @@
     </style>
     <style>
       /* Form field sizing, labels and consistent spacing */
-      .registration-card h2 { font-size: 1.9rem; font-weight:700; color: var(--brand-dark); text-shadow: none; margin-bottom: 0.25rem; }
-      .registration-subtext { color: #6b7280; font-size: 0.95rem; margin-bottom: 0.6rem; }
-      .registration-subtext .required { color: var(--brand-pink); font-weight:600; opacity:0.9; font-size:0.95rem; }
+      .registration-card h2 { font-size: 1.9rem; font-weight:800; margin-bottom: 0.25rem; }
+      .registration-subtext { font-size: 0.95rem; margin-bottom: 0.6rem; }
+      .registration-subtext .required { font-weight:700; opacity:0.95; font-size:0.95rem; }
 
       /* Normalize spacing between fields */
       .mb-3 { margin-bottom: 16px !important; }
 
       /* Labels: consistent alignment and size */
-      .elegant-form .form-label { display:block; margin-bottom:6px; font-size:0.95rem; color:var(--brand-dark); font-weight:600; }
+      .elegant-form .form-label { display:block; margin-bottom:6px; font-size:0.95rem; }
 
       /* Inputs and selects: uniform height, padding and border */
       .elegant-form .form-control,
@@ -249,7 +405,7 @@
       .elegant-form textarea.form-control {
         border-radius: 12px;
         padding: .75rem .9rem;
-        border: 3px solid rgba(17, 0, 255, 0.12);
+        border: 2px solid rgba(255,255,255,0.35);
         background: linear-gradient(180deg, #ffffff, #fbfbff);
         box-shadow: 0 6px 18px rgba(30, 60, 114, 0.06);
         transition: all .18s ease-in-out;
@@ -257,19 +413,118 @@
       .elegant-form .form-control:focus,
       .elegant-form .form-select:focus,
       .elegant-form textarea.form-control:focus {
-        border-color: rgba(30,60,114,0.35);
+        border-color: rgba(0,157,165,0.55);
         box-shadow: 0 10px 26px rgba(30,60,114,0.12), 0 0 0 4px rgba(116,185,255,0.06);
         outline: none;
       }
-      .elegant-form .form-label { color: var(--brand-dark); font-weight:600; }
+      .elegant-form .form-label { font-weight:650; }
       .elegant-form .btn { border-radius: 900px; padding: .68rem 1.2rem; transition: transform .08s ease, box-shadow .08s ease; }
       .elegant-form .btn-primary { background: linear-gradient(90deg,var(--brand-dark),var(--brand-accent)); border:none; color:#fff; }
       .elegant-form .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30,60,114,0.14); }
       .ts-dropdown, .ts-control .dropdown-content { max-height: 240px; overflow: auto; }
     </style>
+
+    <style>
+      /* Final overrides (keep form controls transparent + white text) */
+      .registration-card .elegant-form .form-control,
+      .registration-card .elegant-form .form-select,
+      .registration-card .elegant-form textarea.form-control {
+        background: transparent !important;
+        background-image: none !important;
+        color: rgba(255,255,255,0.96) !important;
+        border: 2px solid rgba(0,157,165,0.55) !important;
+        box-shadow:
+          0 0 0 1px rgba(241,91,103,0.14) inset,
+          0 0 18px rgba(0,157,165,0.10) !important;
+        text-shadow: 0 0 10px rgba(255,255,255,0.14);
+        text-align: center;
+      }
+
+        .registration-card .elegant-form .ts-control,
+        .registration-card .elegant-form .ts-control .item,
+        .registration-card .elegant-form .ts-control input {
+          text-align: center;
+        }
+
+        .registration-card .elegant-form .ts-control input::placeholder {
+          text-align: center;
+        }
+
+      .registration-card .elegant-form .form-control::placeholder {
+        color: rgba(255,255,255,0.70) !important;
+        text-align: center;
+      }
+
+      .registration-card .elegant-form .form-control:focus,
+      .registration-card .elegant-form .form-select:focus,
+      .registration-card .elegant-form textarea.form-control:focus {
+        background: transparent !important;
+        color: rgba(255,255,255,0.98) !important;
+        border-color: rgba(0,157,165,0.75) !important;
+        box-shadow:
+          0 0 0 4px rgba(0,157,165,0.22),
+          0 0 26px rgba(0,157,165,0.20) !important;
+      }
+
+      /* Native select dropdown list (best-effort; browser dependent) */
+      .registration-card .elegant-form select option {
+        background: #000000;
+        color: #ffffff;
+      }
+
+      /* TomSelect (Jenis Kelas) */
+      .registration-card .ts-control {
+        background: transparent !important;
+        border: 2px solid rgba(0,157,165,0.55) !important;
+        box-shadow:
+          0 0 0 1px rgba(241,91,103,0.14) inset,
+          0 0 18px rgba(0,157,165,0.10) !important;
+      }
+      .registration-card .ts-control,
+      .registration-card .ts-control .item,
+      .registration-card .ts-control input {
+        color: rgba(255,255,255,0.96) !important;
+        text-shadow: 0 0 10px rgba(255,255,255,0.14);
+      }
+      .registration-card .ts-control .ts-placeholder {
+        color: rgba(255,255,255,0.70) !important;
+      }
+      .registration-card .ts-dropdown {
+        background: rgba(0,0,0,0.92) !important;
+        border: 1px solid rgba(255,255,255,0.20) !important;
+      }
+      .registration-card .ts-dropdown .option,
+      .registration-card .ts-dropdown .create {
+        color: rgba(255,255,255,0.92) !important;
+        background: transparent !important;
+      }
+      .registration-card .ts-dropdown .option.active,
+      .registration-card .ts-dropdown .option:hover {
+        background: rgba(0,157,165,0.22) !important;
+        color: rgba(255,255,255,0.98) !important;
+      }
+    </style>
   </head>
   <body class="registration-bg">
     @include('partials.header')
+
+    <!-- Floating logos as page background (not inside map container) -->
+    <div class="lp3i-page-anim" aria-hidden="true">
+      <div class="lp3i-anim-area">
+        <img src="/storage/image/SIMBOLISASE.png" class="lp3i-anim-img" style="--i:0;" alt="">
+        <img src="/storage/image/SIMBOLISASE.png" class="lp3i-anim-img" style="--i:1;" alt="">
+        <img src="/storage/image/SIMBOLISAIS.png" class="lp3i-anim-img" style="--i:2;" alt="">
+
+        <img src="/storage/image/SIMBOLISOAA.png" class="lp3i-anim-img" style="--i:3;" alt="">
+        <img src="/storage/image/SIMBOLISOAA.png" class="lp3i-anim-img" style="--i:4;" alt="">
+        <img src="/storage/image/SIMBOLISASE.png" class="lp3i-anim-img" style="--i:5;" alt="">
+
+        <img src="/storage/image/SIMBOLISAIS.png" class="lp3i-anim-img" style="--i:6;" alt="">
+        <img src="/storage/image/SIMBOLISOAA.png" class="lp3i-anim-img" style="--i:7;" alt="">
+        <img src="/storage/image/SIMBOLISAIS.png" class="lp3i-anim-img" style="--i:8;" alt="">
+      </div>
+    </div>
+
     <div class="container registration-container py-5">
       <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -279,15 +534,6 @@
                 <form action="{{ route('mahasiswa.store') }}" method="POST" enctype="multipart/form-data" novalidate class="elegant-form">
                   @csrf
                   <div class="registration-grid">
-                    <div class="registration-illustration">
-                      <div class="illustration-wrapper">
-                        <iframe
-                          loading="lazy"
-                          src="https://www.google.com/maps?q=Jalan+Tarumanegara+Blok+B+No.+4-6,+Kelurahan+Purwadana,+Kecamatan+Teluk+Jambe+Timur,+Kabupaten+Karawang,+Jawa+Barat&output=embed"
-                          style="width:100%;height:100%;border:0;display:block;border-radius:10px;"
-                          allowfullscreen="" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                      </div>
-                    </div>
                     <div>
                       <div class="registration-header">
                     <!-- logo removed — keeping layout minimal and colorful -->
@@ -315,34 +561,45 @@
               
 
                 <div class="row">
-                  <div class="mb-3 col-md-6">
+                  <div class="mb-3 col-lg-4 col-md-6">
                     <label class="form-label">Nama Lengkap *</label>
                     <input type="text" name="nama_mhs" value="{{ old('nama_mhs') }}" class="form-control" required>
                   </div>
 
-                  <div class="mb-3 col-md-6">
+                  <div class="mb-3 col-lg-4 col-md-6">
                     <label class="form-label">Jenis Kelas</label>
                     <select id="jenis_kelas" name="jenis_kelas" class="form-select">
-                      <option value="">-- Pilih Jenis Kelas --</option>
+                      <option value="">-- Pilih --</option>
                       <option value="Regular" {{ old('jenis_kelas') == 'Regular' ? 'selected' : '' }}>Regular</option>
                       <option value="Karyawan" {{ old('jenis_kelas') == 'Karyawan' ? 'selected' : '' }}>Karyawan</option>
                     </select>
                   </div>
-                </div>
 
-                <div class="row">
-                  <div class="mb-3 col-md-6">
+                  <div class="mb-3 col-lg-4 col-md-6">
                     <label class="form-label">No. HP *</label>
                     <input type="text" name="no_tlp" value="{{ old('no_tlp') }}" class="form-control" required>
                   </div>
-                  <div class="mb-3 col-md-6">
+                </div>
+
+                <div class="row">
+                  <div class="mb-3 col-lg-4 col-md-6">
                     <label class="form-label">Bidang Keahlian</label>
-                    <select name="id_program_studi" class="form-control">
+                    <select name="id_program_studi" class="form-select">
                       <option value="">--Pilih--</option>
                       <option value="2" {{ (string) old('id_program_studi') === '2' ? 'selected' : '' }}>Accounting Information System</option>
                       <option value="1" {{ (string) old('id_program_studi') === '1' ? 'selected' : '' }}>Application Software Engineering</option>
                       <option value="3" {{ (string) old('id_program_studi') === '3' ? 'selected' : '' }}>Office Administration Automatization</option>
                     </select>
+                  </div>
+
+                  <div class="mb-3 col-lg-4 col-md-6">
+                    <label class="form-label">Asal Sekolah</label>
+                    <input type="text" name="asal_sekolah" value="{{ old('asal_sekolah') }}" class="form-control">
+                  </div>
+
+                  <div class="mb-3 col-lg-4 col-md-6">
+                    <label class="form-label">Alamat Lengkap</label>
+                    <input type="text" name="alamat" value="{{ old('alamat') }}" class="form-control" required>
                   </div>
                 </div>
 
@@ -356,44 +613,19 @@
                   </div>
                 </div> --}}
 
-
-                <div class="row">
-                  <div class="mb-3 col-md-6">
-                    <label class="form-label">Asal Sekolah</label>
-                    <input type="text" name="asal_sekolah" value="{{ old('asal_sekolah') }}" class="form-control">
-                  </div>
-                  <div class="mb-3 col-md-6">
-                    <label class="form-label">Alamat Lengkap</label>
-                    <input type="text" name="alamat" value="{{ old('alamat') }}" class="form-control" required>
-                  </div>
-                  <div class="mb-3 col-md-6">
-                    <label class="form-label">Domisili</label>
-                    <input type="text" name="domisili" value="{{ old('domisili') }}" class="form-control" required>
-                  </div>
-                  <div class="mb-3 col-md-6">
-                    <label class="form-label">Tanggal Lahir</label>
-                    <input type="date" name="tgl_lahir" value="{{ old('tgl_lahir') }}" class="form-control" required>
-                  </div>
-                </div>
-
-
-
                 <hr />
                 <div class="row mt-3">
-                  <div class="col-12">
-                  </div>
-
-                  <div class="mb-3 col-md-6">
+                  <div class="mb-3 col-lg-4 col-md-6">
                     <label class="form-label">Email Akun</label>
                     <input type="email" name="account_email" value="{{ old('account_email') }}" class="form-control">
                   </div>
 
-                  <div class="mb-3 col-md-6">
+                  <div class="mb-3 col-lg-4 col-md-6">
                     <label class="form-label">Password Akun</label>
                     <input type="password" name="password" class="form-control" autocomplete="new-password">
                   </div>
 
-                  <div class="mb-3 col-md-6">
+                  <div class="mb-3 col-lg-4 col-md-6">
                     <label class="form-label">Konfirmasi Password</label>
                     <input type="password" name="password_confirmation" class="form-control" autocomplete="new-password">
                   </div>

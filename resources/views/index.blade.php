@@ -409,7 +409,15 @@
     }
     .gk-slide:hover { box-shadow: 0 16px 48px rgba(30,60,114,.18); }
     .gk-slide img {
-        width: 100%; height: 260px; object-fit: cover; display: block;
+        width: 100%;
+        height: 320px;
+        max-width: 350px;
+        max-height: 420px;
+        aspect-ratio: 1080/1350;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto;
+        border-radius: 12px;
         transition: transform .4s ease;
     }
     .gk-slide:hover img { transform: scale(1.04); }
@@ -464,8 +472,20 @@
     }
     @media (max-width: 640px) {
         .glide-kegiatan { padding: 2rem 0 1.5rem; }
-        .gk-slide { flex: 0 0 calc(85%); }
-        .gk-slide img { height: 200px; }
+        .gk-slide { flex: 0 0 220px; max-width: 350px; }
+        .gk-slide img { height: 320px; max-width: 350px; max-height: 420px; aspect-ratio: 1080/1350; }
+                @media (max-width: 1200px) {
+                    .gk-slide { flex: 0 0 180px; }
+                    .gk-slide img { height: 180px; }
+                }
+                @media (max-width: 900px) {
+                    .gk-slide { flex: 0 0 140px; }
+                    .gk-slide img { height: 140px; }
+                }
+                @media (max-width: 600px) {
+                    .gk-slide { flex: 0 0 80vw; max-width: 90vw; }
+                    .gk-slide img { height: 110px; max-width: 90vw; }
+                }
         .gk-arrow { width: 40px; height: 40px; font-size: .95rem; }
         .gk-arrow.prev { left: .5rem; }
         .gk-arrow.next { right: .5rem; }
@@ -476,14 +496,29 @@
 
     <div class="glide-kegiatan" id="kegiatan-showcase">
         <div class="gk-header">
-            <div class="gk-label"><i class="fas fa-camera"></i> Galeri Kegiatan</div>
-            <h2 class="gk-title">Momen Seru di LP3I Karawang</h2>
-            <p class="gk-subtitle">Kegiatan, prestasi, dan suasana kampus yang menginspirasi</p>
+            <div class="gk-label promo-badge" style="background:linear-gradient(90deg,#1e3c72,#009da5);color:#fff;"><i class="fas fa-bolt"></i> AYO DAFTAR</div>
+            <h2 class="gk-title" style="font-size:2.2rem;color:#1e3c72;font-weight:900;letter-spacing:1px;">Gabung &amp; Rasakan Pengalaman Berbeda!</h2>
+            <p class="gk-subtitle" style="font-size:1.1rem;color:#1e3c72;font-weight:600;">Inilah momen-momen terbaik, prestasi, dan suasana seru di LP3I Karawang yang siap menginspirasi kamu untuk berkembang!</p>
         </div>
 
         <div class="gk-viewport" id="gk-viewport">
             <div class="gk-track" id="gk-track">
                 <div class="gk-empty" id="gk-empty"><i class="fas fa-images"></i>Memuat kegiatan…</div>
+            </div>
+        </div>
+
+        <!-- Modal untuk tampilan besar carousel kegiatan -->
+        <div id="gk-modal" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(30,60,114,0.92);align-items:center;justify-content:center;">
+            <div id="gk-modal-content" style="background:#fff;border-radius:18px;max-width:95vw;max-height:90vh;padding:0;box-shadow:0 8px 40px rgba(30,60,114,0.25);position:relative;display:flex;flex-direction:column;align-items:center;">
+                <button id="gk-modal-close" style="position:absolute;top:12px;right:18px;background:rgba(30,60,114,0.9);color:#fff;border:none;border-radius:50%;width:38px;height:38px;font-size:1.5rem;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;"><i class="fas fa-times"></i></button>
+                <img id="gk-modal-img" src="" alt="" style="max-width:90vw;max-height:60vh;border-radius:12px;margin:32px 0 12px 0;box-shadow:0 2px 16px rgba(30,60,114,0.10);">
+                <div style="padding:0 2vw 32px 2vw;text-align:center;max-width:700px;">
+                    <div style="display:flex;justify-content:center;align-items:center;margin-bottom:10px;">
+                        <span id="gk-modal-badge" class="promo-badge" style="background:linear-gradient(90deg,#1e3c72,#009da5);color:#fff;padding:6px 18px;font-size:.85rem;font-weight:800;border-radius:99px;letter-spacing:1px;box-shadow:0 2px 8px rgba(30,60,114,0.08);">Highlight</span>
+                    </div>
+                    <h3 id="gk-modal-title" style="font-size:1.15rem;color:#1e3c72;font-weight:800;margin:10px 0 12px 0;line-height:1.3;"></h3>
+                    <div id="gk-modal-caption" style="font-size:.95rem;color:#1e3c72;font-weight:500;line-height:1.5;text-align:center;"></div>
+                </div>
             </div>
         </div>
 
@@ -571,14 +606,54 @@
                 const card = document.createElement('div');
                 card.className = 'gk-slide is-active';
                 card.innerHTML = `
-                    <img src="/${item.image_path}" alt="${item.title || 'Kegiatan'}" loading="lazy" draggable="false">
+                    <img src="/${item.image_path}" alt="${item.title || 'Kegiatan'}" loading="lazy" draggable="false" class="gk-slide-img">
                     <div class="gk-slide-caption">
-                        <h3>${item.title || 'Kegiatan'}</h3>
-                        <span class="gk-slide-tag">Kegiatan</span>
+                        <span class="gk-slide-tag promo-badge" style="background:linear-gradient(90deg,#1e3c72,#009da5);color:#fff;">Highlight</span>
+                        <h3 style="font-size:1.1rem;color:#1e3c72;font-weight:700;">${item.title || 'Momen Spesial LP3I'}</h3>
+                        <span style="display:block;font-size:.85rem;color:#1e3c72;font-weight:500;">${item.caption || 'Ayo jadi bagian dari cerita sukses ini!'}</span>
                     </div>`;
+                // Tambah event klik untuk modal
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', function() {
+                    document.getElementById('gk-modal-img').src = `/${item.image_path}`;
+                    document.getElementById('gk-modal-img').alt = item.title || 'Kegiatan';
+                    document.getElementById('gk-modal-title').textContent = item.title || 'Momen Spesial LP3I';
+                    // Rapikan deskripsi: jika ada baris baru, ganti jadi <br>
+                    let caption = item.caption || 'Ayo jadi bagian dari cerita sukses ini!';
+                    caption = caption.replace(/\n/g, '<br>');
+                    document.getElementById('gk-modal-caption').innerHTML = caption;
+                    document.getElementById('gk-modal').style.display = 'flex';
+                });
                 track.appendChild(card);
                 items.push(card);
             });
+        // Modal close event
+        document.addEventListener('DOMContentLoaded', function() {
+            var modal = document.getElementById('gk-modal');
+            var closeBtn = document.getElementById('gk-modal-close');
+            var modalContent = document.getElementById('gk-modal-content');
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+            if (closeBtn) {
+                closeBtn.onclick = closeModal;
+            }
+            // Tutup modal jika klik di luar modal-content
+            if (modal) {
+                modal.addEventListener('mousedown', function(e) {
+                    // Pastikan klik di luar modal-content
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
+            // Tutup modal dengan tombol ESC
+            document.addEventListener('keydown', function(e) {
+                if (modal.style.display === 'flex' && (e.key === 'Escape' || e.keyCode === 27)) {
+                    closeModal();
+                }
+            });
+        });
 
             perView = getPerView();
             prevBtn.style.display = '';

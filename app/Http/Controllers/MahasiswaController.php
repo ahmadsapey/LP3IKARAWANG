@@ -57,7 +57,7 @@ class MahasiswaController extends Controller
             'email' => 'nullable|email|max:255',
             'nipd' => 'nullable|string|max:255',
             'alamat' => 'nullable|string',
-            'domisili' => 'required|string',
+            'domisili' => 'nullable|string|max:255',
             'tempat_lahir' => 'nullable|string|max:255',
             'tgl_lahir' => 'nullable|date',
             'angkatan' => 'nullable|string|max:255',
@@ -193,7 +193,7 @@ class MahasiswaController extends Controller
             }
             // Kolom NOT NULL harus diisi string kosong jika tidak ada input
             $notNullFields = [
-                'nama_mhs', 'domisili', 'tempat_lahir', 'angkatan', 'periode', 'agama'
+                'nama_mhs', 'tempat_lahir', 'angkatan', 'periode', 'agama'
             ];
             if (in_array($field, $notNullFields)) {
                 if (!isset($validated[$field]) || $validated[$field] === null || $validated[$field] === '') {
