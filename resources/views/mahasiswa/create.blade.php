@@ -15,7 +15,8 @@
       :root { --brand-dark: #004269; --brand-accent: #009DA5; --brand-pink: #F15B67; --brand-red: #FF0000; }
       /* Color theme — match admin/dashboard vibe */
       body.registration-bg {
-        background: #000000;
+        /* Gradient behind floating logos */
+        background: linear-gradient(135deg, #009DA5 0%, #004269 70%);
         min-height: 100vh;
         padding-top: 190px;
         color: #111827;
@@ -94,13 +95,15 @@
       .lp3i-page-anim .lp3i-anim-img:nth-child(9) { left: 74%; top: 76%; --dx: 58px; --dy: 34px; --rot: 12deg; --dur: 19.5s; }
 
       .registration-card {
-        background: transparent; /* no fill — border only */
-        border: 2px solid rgba(0,157,165,0.65); /* brand accent */
+        background: rgba(255,255,255,0.24); /* option A: more solid card for higher contrast */
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 2px solid rgba(0,157,165,0.86); /* brand accent (stronger) */
         border-radius: 14px;
         box-shadow:
-          0 18px 45px rgba(2,6,23,0.22),
+          0 18px 45px rgba(2,6,23,0.34),
           0 0 0 1px rgba(241,91,103,0.18) inset,
-          0 0 34px rgba(0,157,165,0.20);
+          0 0 34px rgba(0,157,165,0.30);
         overflow: hidden;
       }
 
@@ -429,13 +432,14 @@
       .registration-card .elegant-form .form-control,
       .registration-card .elegant-form .form-select,
       .registration-card .elegant-form textarea.form-control {
-        background: transparent !important;
+        /* Slight brand-dark tint behind inputs for readability on gradient */
+        background: rgba(0, 66, 105, 0.22) !important;
         background-image: none !important;
         color: rgba(255,255,255,0.96) !important;
-        border: 2px solid rgba(0,157,165,0.55) !important;
+        border: 2px solid rgba(0,157,165,0.72) !important;
         box-shadow:
           0 0 0 1px rgba(241,91,103,0.14) inset,
-          0 0 18px rgba(0,157,165,0.10) !important;
+          0 0 18px rgba(0,157,165,0.14) !important;
         text-shadow: 0 0 10px rgba(255,255,255,0.14);
         text-align: center;
       }
@@ -451,14 +455,14 @@
         }
 
       .registration-card .elegant-form .form-control::placeholder {
-        color: rgba(255,255,255,0.70) !important;
+        color: rgba(255,255,255,0.78) !important;
         text-align: center;
       }
 
       .registration-card .elegant-form .form-control:focus,
       .registration-card .elegant-form .form-select:focus,
       .registration-card .elegant-form textarea.form-control:focus {
-        background: transparent !important;
+        background: rgba(0, 66, 105, 0.28) !important;
         color: rgba(255,255,255,0.98) !important;
         border-color: rgba(0,157,165,0.75) !important;
         box-shadow:
@@ -474,11 +478,11 @@
 
       /* TomSelect (Jenis Kelas) */
       .registration-card .ts-control {
-        background: transparent !important;
-        border: 2px solid rgba(0,157,165,0.55) !important;
+        background: rgba(0, 66, 105, 0.22) !important;
+        border: 2px solid rgba(0,157,165,0.72) !important;
         box-shadow:
           0 0 0 1px rgba(241,91,103,0.14) inset,
-          0 0 18px rgba(0,157,165,0.10) !important;
+          0 0 18px rgba(0,157,165,0.14) !important;
       }
       .registration-card .ts-control,
       .registration-card .ts-control .item,
@@ -487,7 +491,12 @@
         text-shadow: 0 0 10px rgba(255,255,255,0.14);
       }
       .registration-card .ts-control .ts-placeholder {
-        color: rgba(255,255,255,0.70) !important;
+        color: rgba(255,255,255,0.92) !important;
+      }
+
+      /* TomSelect caret (dropdown arrow) */
+      .registration-card .ts-control:after {
+        border-color: rgba(255,255,255,0.88) transparent transparent transparent !important;
       }
       .registration-card .ts-dropdown {
         background: rgba(0,0,0,0.92) !important;
@@ -495,7 +504,7 @@
       }
       .registration-card .ts-dropdown .option,
       .registration-card .ts-dropdown .create {
-        color: rgba(255,255,255,0.92) !important;
+        color: rgba(255,255,255,0.96) !important;
         background: transparent !important;
       }
       .registration-card .ts-dropdown .option.active,

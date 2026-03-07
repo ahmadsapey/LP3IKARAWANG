@@ -12,6 +12,60 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --brand-dark: #004269;
+            --brand-accent: #009DA5;
+            --brand-blue: #4a90e2;
+            --surface: rgba(255,255,255,0.92);
+            --surface-strong: rgba(255,255,255,0.98);
+            --border: rgba(2,6,23,0.10);
+            --text: #0f172a;
+            --muted: #586674;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 420px at 20% 0%, rgba(0,157,165,0.18), transparent 60%),
+                radial-gradient(1000px 420px at 90% 10%, rgba(0,66,105,0.18), transparent 55%),
+                linear-gradient(180deg, #f7fafc 0%, #eef3f9 100%);
+            min-height: 100vh;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem 3rem;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, var(--brand-dark), var(--brand-accent));
+            color: white;
+            border-radius: 16px;
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 14px 34px rgba(2,6,23,0.16);
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+
+        .admin-header h1 {
+            font-size: 2.05rem;
+            margin: 0 0 0.35rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            letter-spacing: 0.2px;
+        }
+
+        .admin-header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
         .news-list-container {
             margin-top: 20px;
             overflow-x: auto;
@@ -43,15 +97,8 @@
         }
 
         .news-excerpt {
-            color: #586674;
+            color: var(--muted);
             font-size: 13px;
-        }
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .admin-header p {
-            opacity: 0.9;
         }
 
         .admin-content {
@@ -61,11 +108,12 @@
         }
 
         .sidebar {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--surface);
             border-radius: 15px;
             padding: 2rem;
             height: fit-content;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 14px 32px rgba(2,6,23,0.10);
+            border: 1px solid var(--border);
         }
 
         .sidebar h3 {
@@ -76,6 +124,8 @@
 
         .sidebar-menu {
             list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
         .sidebar-menu li {
@@ -93,15 +143,16 @@
 
         .sidebar-menu a:hover,
         .sidebar-menu a.active {
-            background: #4a90e2;
+            background: linear-gradient(90deg, var(--brand-dark), var(--brand-accent));
             color: white;
         }
 
         .main-content {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--surface);
             border-radius: 15px;
             padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 14px 32px rgba(2,6,23,0.10);
+            border: 1px solid var(--border);
         }
 
         .content-section {
@@ -116,7 +167,7 @@
             color: #1e3c72;
             font-size: 2rem;
             margin-bottom: 2rem;
-            border-bottom: 3px solid #4a90e2;
+            border-bottom: 3px solid var(--brand-accent);
             padding-bottom: 0.5rem;
         }
 
@@ -128,14 +179,15 @@
         }
 
         .carousel-item {
-            background: #f8f9fa;
+            background: var(--surface-strong);
             border-radius: 10px;
             padding: 1.5rem;
-            border-left: 4px solid #4a90e2;
+            border-left: 4px solid var(--brand-accent);
             display: flex;
             gap: 1rem;
             align-items: center;
             flex-wrap: wrap;
+            border: 1px solid rgba(2,6,23,0.06);
         }
 
         .carousel-item-info h4 {
@@ -148,9 +200,60 @@
             font-size: 0.9rem;
         }
 
-        .carousel-item-actions {
+        .carousel-actions {
             display: flex;
             gap: 0.5rem;
+            margin-left: auto;
+            flex-wrap: wrap;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid rgba(2,6,23,0.10);
+        }
+        .status.active {
+            background: rgba(39, 174, 96, 0.12);
+            color: #1f7a46;
+        }
+        .status.inactive {
+            background: rgba(231, 76, 60, 0.10);
+            color: #9f2f25;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            padding: 0.5rem 0.85rem;
+            border: 1px solid rgba(2,6,23,0.10);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+        }
+
+        .btn-edit {
+            background: rgba(74, 144, 226, 0.14);
+            color: #1e3c72;
+        }
+        .btn-edit:hover {
+            transform: translateY(-1px);
+            background: rgba(74, 144, 226, 0.20);
+            box-shadow: 0 10px 22px rgba(2,6,23,0.10);
+        }
+
+        .btn-delete {
+            background: rgba(231, 76, 60, 0.12);
+            color: #7a231b;
+        }
+        .btn-delete:hover {
+            transform: translateY(-1px);
+            background: rgba(231, 76, 60, 0.18);
+            box-shadow: 0 10px 22px rgba(2,6,23,0.10);
         }
 
 
@@ -206,20 +309,22 @@
         .btn {
             padding: 0.5rem 1rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
             text-decoration: none;
             font-size: 0.9rem;
             transition: all 0.3s;
+            font-weight: 600;
         }
 
         .btn-primary {
-            background: #4a90e2;
+            background: linear-gradient(90deg, var(--brand-dark), var(--brand-accent));
             color: white;
         }
 
         .btn-primary:hover {
-            background: #357abd;
+            filter: brightness(0.98);
+            transform: translateY(-1px);
         }
 
         .btn-danger {
@@ -255,16 +360,28 @@
         .form-group textarea {
             width: 100%;
             padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 1px solid rgba(2,6,23,0.14);
+            border-radius: 12px;
             font-size: 1rem;
             transition: border-color 0.3s;
+            font-family: inherit;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #4a90e2;
+            border-color: rgba(0,157,165,0.55);
+            box-shadow: 0 0 0 4px rgba(0,157,165,0.12);
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(2,6,23,0.14);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            font-family: inherit;
         }
 
         .form-group textarea {
@@ -380,6 +497,8 @@
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
+            box-shadow: 0 18px 46px rgba(2,6,23,0.22);
+            border: 1px solid rgba(2,6,23,0.10);
         }
 
         .modal-header {
@@ -491,14 +610,14 @@
                     </div>
                 </li>
             </ul>
-        </nav>
+        </nav> --}}
     </header>
 
     <div class="admin-container">
         <div class="admin-header">
             <h1><i class="fas fa-cogs"></i> Admin Panel</h1>
             <p>Kelola Carousel & Konten Website LP3I Karawang</p>
-        </div> --}}
+        </div>
 
         <div class="admin-content">
             <div class="sidebar">

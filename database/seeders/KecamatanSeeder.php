@@ -19,7 +19,7 @@ class KecamatanSeeder extends Seeder
         ];
 
         foreach ($kecamatans as $name) {
-            DB::table('kecamatans')->updateOrInsert(['name' => $name], ['name' => $name]);
+            DB::table('kecamatan')->updateOrInsert(['name' => $name], ['name' => $name]);
         }
     }
 }

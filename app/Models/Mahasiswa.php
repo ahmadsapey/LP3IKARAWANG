@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Mahasiswa extends Model
 {
@@ -113,9 +114,24 @@ class Mahasiswa extends Model
 
     protected static function booted()
     {
+        static::saving(function ($model) {
+            $status = trim(strtolower((string) ($model->status_verifikasi ?? '')));
+            $nipd = strtoupper(trim((string) ($model->nipd ?? '')));
+            $isPlaceholder = $nipd !== '' && str_starts_with($nipd, 'PND');
+
+            // If already verified (or becoming verified) and nipd is missing/placeholder, generate a real NIPD.
+            if ($status === 'verified' && (empty($model->nipd) || $isPlaceholder)) {
+                $model->nipd = self::generateNipd(
+                    $model->id_program_studi ?? ($model->id_program_study ?? null)
+                );
+            }
+        });
+
         static::creating(function ($model) {
             $status = trim(strtolower((string) ($model->status_verifikasi ?? '')));
-            if ($status === 'verified' && empty($model->nipd)) {
+            $nipd = strtoupper(trim((string) ($model->nipd ?? '')));
+            $isPlaceholder = $nipd !== '' && str_starts_with($nipd, 'PND');
+            if ($status === 'verified' && (empty($model->nipd) || $isPlaceholder)) {
                 $model->nipd = self::generateNipd(
                     $model->id_program_studi ?? ($model->id_program_study ?? null)
                 );
@@ -128,7 +144,9 @@ class Mahasiswa extends Model
             }
 
             $status = trim(strtolower((string) ($model->status_verifikasi ?? '')));
-            if ($status === 'verified' && empty($model->nipd)) {
+            $nipd = strtoupper(trim((string) ($model->nipd ?? '')));
+            $isPlaceholder = $nipd !== '' && str_starts_with($nipd, 'PND');
+            if ($status === 'verified' && (empty($model->nipd) || $isPlaceholder)) {
                 $model->nipd = self::generateNipd(
                     $model->id_program_studi ?? ($model->id_program_study ?? null)
                 );
@@ -147,24 +165,24 @@ class Mahasiswa extends Model
      */
     public static function createWithUniqueNipd(array $attrs, int $maxAttempts = 5): self
     {
+        $attrs = self::normalizeForInsert($attrs);
+        $status = trim(strtolower((string) ($attrs['status_verifikasi'] ?? '')));
+        $shouldGenerate = ($status === 'verified');
         $attempt = 0;
         do {
             $attempt++;
-            // Ensure NIPD is present for this attempt. Leave it empty to let booted() hook generate it if desired.
-            if (empty($attrs['nipd'])) {
+            // Only generate a real NIPD when the record is verified.
+            if ($shouldGenerate && empty($attrs['nipd'])) {
                 $attrs['nipd'] = self::generateNipd($attrs['id_program_studi'] ?? ($attrs['id_program_study'] ?? null));
             }
 
             try {
-                // Pastikan domisili selalu ada
-                if (!array_key_exists('domisili', $attrs)) {
-                    $attrs['domisili'] = '';
-                }
+                $attrs = self::normalizeForInsert($attrs);
                 return self::create($attrs);
             } catch (\Illuminate\Database\QueryException $e) {
                 $msg = strtolower($e->getMessage());
                 // Detect NIPD-specific unique constraint failure (SQLite message, MySQL, PostgreSQL variants)
-                if (str_contains($msg, 'nipd') || str_contains($msg, 'mahasiswas_nipd') || str_contains($msg, 'mahasiswas.nipd')) {
+                if ($shouldGenerate && (str_contains($msg, 'nipd') || str_contains($msg, 'mahasiswas_nipd') || str_contains($msg, 'mahasiswas.nipd'))) {
                     \Illuminate\Support\Facades\Log::warning('NIPD collision detected, retrying create', ['attempt' => $attempt, 'error' => $e->getMessage()]);
                     // Remove nipd so next loop generates a fresh one
                     unset($attrs['nipd']);
@@ -182,6 +200,201 @@ class Mahasiswa extends Model
         } while ($attempt <= $maxAttempts);
 
         throw new \RuntimeException("Failed to create Mahasiswa after {$maxAttempts} attempts due to NIPD collisions.");
+    }
+
+    /**
+     * Normalize attrs to satisfy DB constraints (ENUM/NOT NULL/defaults) without hardcoding every column.
+     * This is especially useful when the database schema differs from local migrations.
+     */
+    private static function normalizeForInsert(array $attrs): array
+    {
+        $meta = self::getMahasiswaColumnMeta();
+        if (empty($meta)) {
+            return $attrs;
+        }
+
+        foreach ($attrs as $key => $value) {
+            if (!isset($meta[$key])) {
+                continue;
+            }
+
+            $column = $meta[$key];
+            $isNullable = ($column['is_nullable'] ?? 'YES') === 'YES';
+            $dataType = strtolower((string) ($column['data_type'] ?? ''));
+            $columnTypeRaw = (string) ($column['column_type'] ?? '');
+            $columnTypeLower = strtolower($columnTypeRaw);
+            $default = $column['column_default'] ?? null;
+
+            $isEmptyString = is_string($value) && trim($value) === '';
+            $isNull = $value === null;
+
+            // ENUM columns: coerce invalid/empty values to a valid enum option.
+            if (str_starts_with($columnTypeLower, 'enum(')) {
+                $enumValues = self::parseEnumValues($columnTypeRaw);
+
+                $normalized = null;
+                if ($isNull) {
+                    $normalized = null;
+                } elseif (is_string($value)) {
+                    $normalized = trim($value);
+                } else {
+                    $normalized = (string) $value;
+                }
+
+                $isValid = $normalized !== null && in_array($normalized, $enumValues, true);
+                if ($isValid) {
+                    continue;
+                }
+
+                if ($isNullable) {
+                    $attrs[$key] = null;
+                    continue;
+                }
+                if ($default !== null && $default !== '') {
+                    $attrs[$key] = $default;
+                    continue;
+                }
+
+                $attrs[$key] = $enumValues[0] ?? '';
+                continue;
+            }
+
+            if (!$isNull && !$isEmptyString) {
+                continue;
+            }
+
+            // If nullable, prefer NULL for absent values.
+            if ($isNullable) {
+                $attrs[$key] = null;
+                continue;
+            }
+
+            // NOT NULL fallback values based on data type
+            if ($default !== null) {
+                $attrs[$key] = $default;
+                continue;
+            }
+
+            if ($dataType === 'date') {
+                $attrs[$key] = '1900-01-01';
+                continue;
+            }
+            if ($dataType === 'datetime' || $dataType === 'timestamp') {
+                $attrs[$key] = now()->toDateTimeString();
+                continue;
+            }
+
+            $numericTypes = ['int', 'integer', 'bigint', 'smallint', 'mediumint', 'tinyint', 'decimal', 'float', 'double'];
+            if (in_array($dataType, $numericTypes, true)) {
+                $attrs[$key] = 0;
+                continue;
+            }
+
+            // Default for NOT NULL text-ish columns
+            $attrs[$key] = '';
+        }
+
+        return $attrs;
+    }
+
+    private static function getMahasiswaColumnMeta(): array
+    {
+        static $cache = null;
+        if (is_array($cache)) {
+            return $cache;
+        }
+
+        try {
+            $dbName = DB::getDatabaseName();
+            if (empty($dbName)) {
+                $cache = [];
+                return $cache;
+            }
+
+            $rows = DB::select(
+                'SELECT COLUMN_NAME, IS_NULLABLE, DATA_TYPE, COLUMN_TYPE, COLUMN_DEFAULT\n'
+                . 'FROM information_schema.COLUMNS\n'
+                . 'WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?'
+                , [$dbName, 'mahasiswa']
+            );
+
+            $cache = [];
+            foreach ($rows as $row) {
+                $cache[$row->COLUMN_NAME] = [
+                    'is_nullable' => $row->IS_NULLABLE,
+                    'data_type' => $row->DATA_TYPE,
+                    'column_type' => $row->COLUMN_TYPE,
+                    'column_default' => $row->COLUMN_DEFAULT,
+                ];
+            }
+
+            if (!empty($cache)) {
+                return $cache;
+            }
+        } catch (\Throwable $e) {
+            // ignore and try fallback
+        }
+
+        // Fallback for MySQL users without information_schema privileges.
+        try {
+            if (DB::getDriverName() !== 'mysql') {
+                $cache = [];
+                return $cache;
+            }
+
+            $cols = DB::select('SHOW COLUMNS FROM `mahasiswa`');
+            $cache = [];
+
+            foreach ($cols as $col) {
+                $type = (string) ($col->Type ?? '');
+                $typeLower = strtolower($type);
+                $dataType = '';
+
+                if (str_starts_with($typeLower, 'enum(')) {
+                    $dataType = 'enum';
+                } elseif (str_starts_with($typeLower, 'varchar') || str_starts_with($typeLower, 'char')) {
+                    $dataType = 'varchar';
+                } elseif (str_starts_with($typeLower, 'text') || str_contains($typeLower, 'text')) {
+                    $dataType = 'text';
+                } elseif ($typeLower === 'date') {
+                    $dataType = 'date';
+                } elseif (str_starts_with($typeLower, 'datetime')) {
+                    $dataType = 'datetime';
+                } elseif (str_starts_with($typeLower, 'timestamp')) {
+                    $dataType = 'timestamp';
+                } elseif (preg_match('/int\b/i', $type)) {
+                    $dataType = 'int';
+                } elseif (preg_match('/decimal|float|double/i', $type)) {
+                    $dataType = 'decimal';
+                } else {
+                    $dataType = $typeLower;
+                }
+
+                $cache[$col->Field] = [
+                    'is_nullable' => (($col->Null ?? 'YES') === 'YES') ? 'YES' : 'NO',
+                    'data_type' => $dataType,
+                    'column_type' => $type,
+                    'column_default' => $col->Default ?? null,
+                ];
+            }
+
+            return $cache;
+        } catch (\Throwable $e) {
+            $cache = [];
+            return $cache;
+        }
+    }
+
+    /** @return array<int, string> */
+    private static function parseEnumValues(string $columnType): array
+    {
+        if (!preg_match("/^enum\\((.*)\\)$/i", trim($columnType), $m)) {
+            return [];
+        }
+
+        $inner = $m[1];
+        $values = str_getcsv($inner, ',', "'");
+        return array_values(array_filter(array_map('strval', $values), fn ($v) => $v !== ''));
     }
 }
 

@@ -4,43 +4,169 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Login Pendaftar</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--brand-dark:#004269;--brand-accent:#009DA5}
-    html,body{height:100%}
-    body{font-family:'Poppins';margin:0;padding:2rem;display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(--brand-dark),#0b7280);color:#fff;position:relative;overflow:hidden}
+    :root {
+      --brand-dark: #004269;
+      --brand-accent: #009DA5;
+      --glass-bg: rgba(255, 255, 255, 0.12);
+      --glass-border: rgba(255, 255, 255, 0.25);
+      --input-bg: rgba(255, 255, 255, 0.08);
+    }
 
-    /* Floating logos on the page background */
-    .lp3i-page-anim{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-    .lp3i-anim-area{width:100%;height:100%;position:relative}
-    .lp3i-anim-img{position:absolute;width:96px;height:96px;object-fit:contain;opacity:0.14;filter:blur(.15px);animation:lp3i-float 9s cubic-bezier(.6,-0.01,.4,1.01) infinite alternate;animation-delay:calc(var(--i) * 1.7s)}
-    .lp3i-anim-img:nth-child(1){left:8%;top:18%}
-    .lp3i-anim-img:nth-child(2){left:62%;top:10%}
-    .lp3i-anim-img:nth-child(3){left:34%;top:62%}
-    @keyframes lp3i-float{0%{transform:translate(0,0) scale(1) rotate(-8deg)}18%{transform:translate(-16px,22px) scale(1.08) rotate(6deg)}36%{transform:translate(22px,-14px) scale(.97) rotate(-12deg)}54%{transform:translate(-14px,26px) scale(1.04) rotate(8deg)}72%{transform:translate(16px,-18px) scale(1.02) rotate(-6deg)}100%{transform:translate(-10px,14px) scale(1.01) rotate(0deg)}}
-    @media (max-width:480px){.lp3i-anim-img{width:68px;height:68px;opacity:0.12}}
+    * { box-sizing: border-box; }
 
-    .card{width:100%;max-width:420px;padding:2.2rem 2rem;background:rgba(255,255,255,0.14);border-radius:16px;box-shadow:0 18px 45px rgba(2,6,23,0.24);border:1px solid rgba(255,255,255,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);text-align:center;color:#ffffff;position:relative;z-index:1}
-    .logo-wrap{display:flex;justify-content:center;margin-bottom:0.5rem}
-    .logo-wrap img{height:48px;object-fit:contain}
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #0b7280, var(--brand-dark));
+      color: #fff;
+      overflow-x: hidden;
+    }
 
-    .login-title{font-family:'Poppins'; font-weight:700;letter-spacing:4px;margin:0 0 0.6rem 0;color:#ffffff}
-    .login-title::after{content:'';display:block;height:4px;width:70px;margin:8px auto 0;background:linear-gradient(90deg,var(--brand-dark),var(--brand-accent));border-radius:4px}
-    .lead{margin:0 0 1rem 0;color:rgba(255,255,255,0.78);font-size:0.95rem}
+    /* Floating Background Elements */
+    .lp3i-page-anim { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .lp3i-anim-img {
+      position: absolute;
+      width: 120px;
+      opacity: 0.1;
+      filter: blur(1px);
+      animation: lp3i-float 15s infinite ease-in-out alternate;
+    }
+    .lp3i-anim-img:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .lp3i-anim-img:nth-child(2) { top: 60%; left: 80%; animation-delay: -5s; width: 150px; }
+    .lp3i-anim-img:nth-child(3) { top: 75%; left: 15%; animation-delay: -10s; width: 80px; }
 
-    label.form-label{display:block;margin:1.1rem 0 0.35rem 0;text-align:left;color:rgba(255,255,255,0.9);font-weight:600}
-    .input-wrap{position:relative}
-    .form-control{width:100%;Padding:.55rem 0;border:none;border-bottom:2px solid rgba(255,255,255,0.25);background:transparent;font-size:1rem;color:#ffffff}
-    .form-control::placeholder{color:rgba(255,255,255,0.55)}
-    .form-control:focus{outline:none;border-bottom-color:transparent;background-image:linear-gradient(90deg,var(--brand-dark),var(--brand-accent));background-repeat:no-repeat;background-position:0 100%;background-size:100% 3px}
+    @keyframes lp3i-float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(30px, 50px) rotate(15deg); }
+    }
 
-    .forgot{font-size:0.9rem;color:var(--brand-accent);text-decoration:none}
+    /* Card Styling */
+    .card {
+      width: 90%;
+      max-width: 420px;
+      padding: 3rem 2.5rem;
+      background: var(--glass-bg);
+      border-radius: 24px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      z-index: 1;
+      transition: transform 0.3s ease;
+    }
 
-    .btn-primary{display:inline-block;margin-top:1.6rem;padding:.85rem 2.4rem;border-radius:999px;background:linear-gradient(90deg,var(--brand-dark),var(--brand-accent));color:#fff;border:none;cursor:pointer;font-weight:700;box-shadow:0 18px 30px rgba(0,157,165,0.12);text-transform:uppercase;letter-spacing:2px}
+    .logo-wrap { margin-bottom: 1.5rem; }
+    .logo-wrap img { height: 55px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2)); }
 
-    .small-note{margin-top:0.8rem;color:var(--brand-accent)}
+    .login-title { 
+      font-weight: 700; 
+      letter-spacing: 2px; 
+      margin-bottom: 0.5rem; 
+      text-transform: uppercase;
+    }
+    
+    .lead { 
+      font-size: 0.85rem; 
+      color: rgba(255, 255, 255, 0.7); 
+      margin-bottom: 2rem; 
+      line-height: 1.5;
+    }
 
-    @media (max-width:480px){body{padding:1rem}.card{padding:1.25rem;border-radius:12px}}
+    /* Alerts */
+    .alert-success, .alert-error {
+      padding: 0.8rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      border-left: 4px solid;
+    }
+    .alert-success { background: rgba(40, 167, 69, 0.2); border-color: #28a745; color: #d4edda; }
+    .alert-error { background: rgba(220, 53, 69, 0.2); border-color: #dc3545; color: #f8d7da; }
+
+    /* Forms */
+    .form-group { margin-bottom: 1.5rem; text-align: left; }
+    .form-label { 
+      font-size: 0.8rem; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+      margin-bottom: 8px; 
+      display: block;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .input-wrap { position: relative; }
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--input-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      background: rgba(255,255,255,0.15);
+      border-color: var(--brand-accent);
+      box-shadow: 0 0 0 4px rgba(0, 157, 165, 0.2);
+    }
+
+    .forgot { 
+      font-size: 0.75rem; 
+      color: var(--brand-accent); 
+      text-decoration: none; 
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .forgot:hover { opacity: 0.8; text-decoration: underline; }
+
+    /* Button */
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      margin-top: 1rem;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--brand-accent), var(--brand-dark));
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 25px rgba(0, 157, 165, 0.3);
+      filter: brightness(1.1);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .small-note { 
+      margin-top: 1.5rem; 
+      font-size: 0.85rem; 
+      color: rgba(255,255,255,0.7); 
+    }
+    .small-note a { color: var(--brand-accent); font-weight: 700; text-decoration: none; }
+    .small-note a:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.5rem; }
+      .lp3i-anim-img { width: 60px; }
+    }
   </style>
 </head>
 <body>
@@ -54,28 +180,38 @@
 
   <div class="card">
     <div class="logo-wrap">
-          <img src="{{ asset('storage/image/LOGO_LP3I_BLUE.png') }}" alt="LP3I Karawang">
+      <img src="{{ asset('storage/image/LOGO_LP3I_BLUE.png') }}" alt="LP3I Karawang">
     </div>
-    <h2 class="login-title">LOGIN</h2>
-    <p class="lead">Masuk untuk mengelola pendaftaran dan melihat status Anda.</p>
+    
+    <h2 class="login-title">Selamat Datang</h2>
+    <p class="lead">Silakan masuk untuk memantau status pendaftaran kuliah Anda.</p>
 
     @if(session('success')) <div class="alert-success">{{ session('success') }}</div> @endif
     @if($errors->any()) <div class="alert-error">{{ $errors->first() }}</div> @endif
 
     <form action="{{ route('pendaftar.login.post') }}" method="POST">
       @csrf
-      <div style="margin:.2rem 0;text-align:left">
-        <label class="form-label">Email</label>
-        <div class="input-wrap"><input type="email" name="email" required class="form-control" placeholder="email@domain.com"></div>
+      <div class="form-group">
+        <label class="form-label">Alamat Email</label>
+        <div class="input-wrap">
+          <input type="email" name="email" required class="form-control" placeholder="nama@email.com" autocomplete="email">
+        </div>
       </div>
-      <div style="margin:.2rem 0;text-align:left">
-        <label class="form-label">Password</label>
-        <div class="input-wrap"><input type="password" name="password" required class="form-control" placeholder="Masukkan password"></div>
-        <div style="display:flex;justify-content:flex-end;margin-top:6px"><a href="{{ route('pendaftar.forgot-password') }}" class="forgot">Lupa password?</a></div>
+
+      <div class="form-group">
+        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label class="form-label" style="margin-bottom:0">Password</label>
+            <a href="{{ route('pendaftar.forgot-password') }}" class="forgot">Lupa?</a>
+        </div>
+        <div class="input-wrap">
+          <input type="password" name="password" required class="form-control" placeholder="••••••••" autocomplete="current-password">
+        </div>
       </div>
-      <div style="text-align:center">
-        <button class="btn-primary" type="submit">Login</button>
-        <div class="small-note">Belum punya akun? <a href="{{ route('mahasiswa.create') }}" style="color:var(--brand-accent);text-decoration:none">Daftar</a></div>
+
+      <button class="btn-primary" type="submit">Masuk Sekarang</button>
+      
+      <div class="small-note">
+        Belum memiliki akun? <a href="{{ route('mahasiswa.create') }}">Daftar Disini</a>
       </div>
     </form>
   </div>

@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
-use App\Models\Kecamatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class MahasiswaController extends Controller
 {
     public function create()
     {
-        $kecamatans = Kecamatan::orderBy('name')->get();
-        // load desas grouped by kecamatan id for cascading dropdown
-        // Note: Desa model/table doesn't exist, using empty collection
+        // DB stores kecamatan as a free-text column on mahasiswa.
+        // Don't query a reference table that may not exist.
+        $kecamatans = collect([]);
         $desas = collect([]);
 
         // Read optional registration image setting from public/data/settings.csv
@@ -54,7 +54,9 @@ class MahasiswaController extends Controller
         // If account fields are present, require them
         $rules = [
             'nama_mhs' => 'required|string|max:255',
+            // The form uses `account_email` (Email Akun). We'll map it to mahasiswa.email.
             'email' => 'nullable|email|max:255',
+            'account_email' => 'required|email|max:255|unique:mahasiswa,email',
             'nipd' => 'nullable|string|max:255',
             'alamat' => 'nullable|string',
             'domisili' => 'nullable|string|max:255',
@@ -95,7 +97,8 @@ class MahasiswaController extends Controller
             'foto' => 'nullable|string|max:255',
             'status' => 'nullable|string|max:255',
             'id_user' => 'nullable|integer',
-            'id_program_studi' => 'nullable|integer|in:1,2,3',
+            // DB has FK+NOT NULL on mahasiswa.id_program_studi in some environments
+            'id_program_studi' => 'required|integer|in:1,2,3',
             // legacy name used by older forms
             'program_studi' => 'nullable|integer|in:1,2,3',
             'id_kelas' => 'nullable|integer',
@@ -104,7 +107,7 @@ class MahasiswaController extends Controller
 
         // If the pendaftar created an account (password provided), validate account fields (use account_email to avoid colliding with contact email)
         if ($request->filled('password') || $request->filled('password_confirmation')) {
-            $rules['account_email'] = 'required|email|unique:users,email';
+            $rules['account_email'] = 'required|email|unique:mahasiswa,email|unique:users,email';
             $rules['password'] = 'required|string|min:6|confirmed';
         }
 
@@ -127,13 +130,7 @@ class MahasiswaController extends Controller
             $validated['foto'] = Storage::url($path);
         }
 
-        // If kecamatan input was an ID, convert to the kecamatan name for storage
-        if (!empty($validated['kecamatan']) && is_numeric($validated['kecamatan'])) {
-            $kec = Kecamatan::find($validated['kecamatan']);
-            if ($kec) {
-                $validated['kecamatan'] = $kec->name;
-            }
-        }
+        // Store kecamatan as-is (free text) to match the mahasiswa table schema.
 
         // Tidak perlu mapping, gunakan no_tlp langsung
         // Mapping email ke account_email jika ada
@@ -150,7 +147,8 @@ class MahasiswaController extends Controller
             $user->name = $validated['nama_mhs'];
             $user->email = $email;
             $user->password = \Illuminate\Support\Facades\Hash::make($validated['password']);
-            $user->is_applicant = true;
+            // `users.role` is an ENUM in this project DB; use an allowed value.
+            $user->role = 'mahasiswa';
             $user->save();
         }
         $userId = $user ? $user->id : null;
@@ -191,19 +189,33 @@ class MahasiswaController extends Controller
                 }
                 continue;
             }
-            // Kolom NOT NULL harus diisi string kosong jika tidak ada input
-            $notNullFields = [
-                'nama_mhs', 'tempat_lahir', 'angkatan', 'periode', 'agama'
-            ];
-            if (in_array($field, $notNullFields)) {
-                if (!isset($validated[$field]) || $validated[$field] === null || $validated[$field] === '') {
-                    $validated[$field] = '';
+
+            // NIPD should remain NULL for new applicants until verified.
+            // Avoid defaulting it to empty string (can violate UNIQUE constraints on some DBs).
+            if ($field === 'nipd') {
+                if (!isset($validated[$field]) || $validated[$field] === null || trim((string) $validated[$field]) === '') {
+                    $validated[$field] = null;
                 }
                 continue;
             }
-            // Kolom lain: null jika kosong
-            if (!isset($validated[$field]) || $validated[$field] === null || $validated[$field] === '') {
-                $validated[$field] = null;
+            // Some DBs enforce NOT NULL on date fields like `tgl_lahir`.
+            // If absent, use a valid placeholder date to prevent insert failures.
+            $dateFields = ['tgl_lahir'];
+            if (in_array($field, $dateFields)) {
+                if (!isset($validated[$field]) || $validated[$field] === '') {
+                    $validated[$field] = '1900-01-01';
+                }
+                continue;
+            }
+
+            // Many environments enforce NOT NULL on various varchar/text columns in `mahasiswa`.
+            // Default missing string-ish fields to empty string to prevent insert failures.
+            if (!isset($validated[$field]) || $validated[$field] === null) {
+                $validated[$field] = '';
+                continue;
+            }
+            if (is_string($validated[$field]) && trim($validated[$field]) === '') {
+                $validated[$field] = '';
             }
         }
         $dbFields = [
@@ -222,6 +234,38 @@ class MahasiswaController extends Controller
         // Default status verifikasi untuk pendaftar baru
         if (empty($dataToInsert['status_verifikasi'])) {
             $dataToInsert['status_verifikasi'] = 'pending';
+        }
+
+        // Some DBs enforce FK+NOT NULL on mahasiswa.id_kelas.
+        // If the form doesn't provide id_kelas, auto-pick a class for the chosen program.
+        if (empty($dataToInsert['id_kelas'])) {
+            $programId = $dataToInsert['id_program_studi'] ?? null;
+            $picked = null;
+
+            try {
+                if (!empty($programId)) {
+                    $picked = DB::table('kelas')
+                        ->where('id_program_studi', $programId)
+                        ->orderBy('id_kelas')
+                        ->value('id_kelas');
+                }
+
+                if (empty($picked)) {
+                    $picked = DB::table('kelas')
+                        ->orderBy('id_kelas')
+                        ->value('id_kelas');
+                }
+            } catch (\Throwable $e) {
+                $picked = null;
+            }
+
+            if (empty($picked)) {
+                return back()->withInput()->withErrors([
+                    'id_kelas' => 'Data kelas belum tersedia. Silakan isi/seed tabel kelas terlebih dahulu.',
+                ]);
+            }
+
+            $dataToInsert['id_kelas'] = (int) $picked;
         }
 
         // Prevent quick duplicate submissions (same email/phone within a short window)
@@ -250,10 +294,35 @@ class MahasiswaController extends Controller
         }
 
         try {
-            $mahasiswa = \App\Models\Mahasiswa::create($dataToInsert);
+            $mahasiswa = Mahasiswa::createWithUniqueNipd($dataToInsert);
             // Login otomatis setelah pendaftaran
             if ($user) {
                 \Illuminate\Support\Facades\Auth::login($user);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            $msg = strtolower($e->getMessage());
+            $isNipdNotNull = (str_contains($msg, 'nipd') && (str_contains($msg, 'cannot be null') || str_contains($msg, 'doesn\'t have a default value') || str_contains($msg, 'has no default')));
+            if ($isNipdNotNull) {
+                // Fallback for DBs that require nipd NOT NULL at registration time.
+                $attempts = 0;
+                do {
+                    $attempts++;
+                    $candidate = 'PND' . now()->format('ymdHis') . random_int(1000, 9999);
+                } while (Mahasiswa::where('nipd', $candidate)->exists() && $attempts < 8);
+                $dataToInsert['nipd'] = $candidate;
+
+                try {
+                    $mahasiswa = Mahasiswa::createWithUniqueNipd($dataToInsert);
+                    if ($user) {
+                        \Illuminate\Support\Facades\Auth::login($user);
+                    }
+                } catch (\Exception $e2) {
+                    Log::error('Gagal insert mahasiswa (fallback nipd): ' . $e2->getMessage(), ['data' => $dataToInsert]);
+                    return back()->withInput()->withErrors(['mahasiswa' => 'Gagal menyimpan data mahasiswa: ' . $e2->getMessage()]);
+                }
+            } else {
+                Log::error('Gagal insert mahasiswa: ' . $e->getMessage(), ['data' => $dataToInsert]);
+                return back()->withInput()->withErrors(['mahasiswa' => 'Gagal menyimpan data mahasiswa: ' . $e->getMessage()]);
             }
         } catch (\Exception $e) {
             Log::error('Gagal insert mahasiswa: ' . $e->getMessage(), ['data' => $dataToInsert]);
