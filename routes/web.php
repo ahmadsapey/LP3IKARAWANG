@@ -176,10 +176,15 @@ Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admi
 // Admin panel routes (protected by admin middleware). Legacy link to admin.php still supported.
 Route::middleware([EnsureAdmin::class])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/carousel', [AdminController::class, 'index'])->name('admin.carousel');
+    Route::get('/admin/berita', [AdminController::class, 'index'])->name('admin.berita');
+    Route::get('/admin/pengaturan', [AdminController::class, 'index'])->name('admin.pengaturan');
     Route::get('/admin.php', [AdminController::class, 'index']);
     Route::post('/admin/action', [AdminController::class, 'handleAction'])->name('admin.action');
-    // Carousel Kegiatan (modern bawah video)
-    Route::get('/admin/carousel-kegiatan', [\App\Http\Controllers\CarouselKegiatanController::class, 'list']);
+    // Carousel Kegiatan admin panel section
+    Route::get('/admin/carousel-kegiatan', [AdminController::class, 'index'])->name('admin.carousel-kegiatan');
+    // Carousel Kegiatan CRUD API endpoints
+    Route::get('/admin/carousel-kegiatan/json', [\App\Http\Controllers\CarouselKegiatanController::class, 'list']);
     Route::post('/admin/carousel-kegiatan', [\App\Http\Controllers\CarouselKegiatanController::class, 'store']);
     Route::post('/admin/carousel-kegiatan/{id}', [\App\Http\Controllers\CarouselKegiatanController::class, 'update']);
     Route::delete('/admin/carousel-kegiatan/{id}', [\App\Http\Controllers\CarouselKegiatanController::class, 'destroy']);

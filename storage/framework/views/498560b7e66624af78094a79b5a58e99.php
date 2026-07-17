@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <link rel="shortcut icon" href="{{ asset('images/logos/Logo_LP3I.png') }}" type="image/png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Struktur Organisasi - Admin</title>
+    <link rel="shortcut icon" href="<?php echo e(asset('images/logos/Logo_LP3I.png')); ?>" type="image/png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Admin - Penempatan</title>
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -14,11 +14,9 @@
             --brand-dark: #004269;
             --brand-accent: #009DA5;
             --brand-blue: #3b82f6;
-            --brand-success: #10b981;
             --brand-danger: #ef4444;
             
             --bg-gradient: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-            --card-bg: rgba(255, 255, 255, 0.9);
             --text-main: #1f2937;
             --text-muted: #6b7280;
             --border-color: rgba(229, 231, 235, 0.8);
@@ -125,16 +123,6 @@
             box-shadow: 0 4px 12px rgba(0, 157, 165, 0.25);
         }
 
-        .btn-secondary {
-            background: var(--brand-dark);
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #003352;
-            box-shadow: 0 4px 12px rgba(0, 66, 105, 0.25);
-        }
-
         /* Alert styling */
         .alert {
             background: #d1fae5;
@@ -150,7 +138,7 @@
             box-shadow: var(--shadow-sm);
         }
 
-        /* Modern Table Card */
+        /* Table container */
         .table-container {
             background: white;
             border-radius: 20px;
@@ -191,11 +179,11 @@
             background: #f9fafb;
         }
 
-        /* Profile avatar container */
+        /* Image preview */
         .photo-wrapper {
-            width: 54px;
+            width: 80px;
             height: 54px;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
             background: #f3f4f6;
             border: 1px solid var(--border-color);
@@ -211,54 +199,11 @@
         }
 
         .photo-wrapper i {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: #9ca3af;
         }
 
-        /* Status and Posisi Badges */
-        .posisi-badge {
-            display: inline-flex;
-            padding: 0.3rem 0.75rem;
-            border-radius: 99px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .posisi-director {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .posisi-secretary {
-            background: #f3e8ff;
-            color: #6b21a8;
-        }
-
-        .posisi-staff {
-            background: #e0f2fe;
-            color: #075985;
-        }
-
-        .status-badge {
-            display: inline-flex;
-            padding: 0.25rem 0.65rem;
-            border-radius: 99px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .status-badge.active {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-badge.inactive {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        /* Action Buttons */
+        /* Actions styling */
         .actions {
             display: flex;
             gap: 0.5rem;
@@ -306,7 +251,6 @@
             box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
         }
 
-        /* Responsive Breakpoints */
         @media (max-width: 768px) {
             .page-header {
                 flex-direction: column;
@@ -330,86 +274,73 @@
         </div>
 
         <div class="page-header">
-            <h1><i class="fas fa-sitemap"></i> Struktur Organisasi</h1>
-            <a href="{{ route('struktur-organisasi.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Tambah Anggota
+            <h1><i class="fas fa-briefcase"></i> Kelola Penempatan</h1>
+            <a href="<?php echo e(route('admin.penempatan.create')); ?>" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Tambah Item
             </a>
         </div>
 
-        @if (session('success'))
+        <?php if(session('success')): ?>
             <div class="alert">
                 <i class="fas fa-check-circle"></i>
-                <span>{{ session('success') }}</span>
+                <span><?php echo e(session('success')); ?></span>
             </div>
-        @endif
+        <?php endif; ?>
 
         <div class="table-container">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Foto</th>
-                        <th>Nama</th>
-                        <th>Role/Jabatan</th>
-                        <th>Posisi</th>
-                        <th>Urutan</th>
-                        <th>Status</th>
+                        <th style="width: 110px;">Gambar</th>
+                        <th>Judul</th>
+                        <th>Deskripsi</th>
                         <th style="width: 120px; text-align: center;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($strukturs as $struktur)
+                    <?php $__empty_1 = true; $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $it): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <tr>
                             <td>
                                 <div class="photo-wrapper">
-                                    @if ($struktur->foto)
-                                        <img src="{{ Storage::url($struktur->foto) }}" alt="{{ $struktur->nama }}">
-                                    @else
-                                        <i class="fas fa-user"></i>
-                                    @endif
+                                    <?php if($it->image_path): ?>
+                                        <img src="<?php echo e(asset(str_replace('storage/','',$it->image_path))); ?>" alt="<?php echo e($it->title); ?>">
+                                    <?php else: ?>
+                                        <i class="fas fa-briefcase"></i>
+                                    <?php endif; ?>
                                 </div>
                             </td>
-                            <td><strong>{{ $struktur->nama }}</strong></td>
-                            <td>{{ $struktur->role }}</td>
-                            <td>
-                                <span class="posisi-badge posisi-{{ $struktur->posisi }}">
-                                    {{ ucfirst($struktur->posisi) }}
-                                </span>
-                            </td>
-                            <td><span style="font-weight: 600;">{{ $struktur->urutan }}</span></td>
-                            <td>
-                                <span class="status-badge {{ $struktur->is_active ? 'active' : 'inactive' }}">
-                                    {{ $struktur->is_active ? 'Aktif' : 'Tidak Aktif' }}
-                                </span>
-                            </td>
+                            <td><strong><?php echo e($it->title); ?></strong></td>
+                            <td><div style="color: var(--text-muted); font-size: 0.9rem; max-height: 48px; overflow: hidden;"><?php echo e(\Illuminate\Support\Str::limit($it->description, 120)); ?></div></td>
                             <td>
                                 <div class="actions" style="justify-content: center;">
-                                    <a href="{{ route('struktur-organisasi.edit', $struktur) }}" class="action-btn edit" title="Edit Anggota">
+                                    <a href="<?php echo e(route('admin.penempatan.edit', $it)); ?>" class="action-btn edit" title="Edit Item">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form method="POST" action="{{ route('struktur-organisasi.destroy', $struktur) }}" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="action-btn delete" title="Hapus Anggota">
+                                    <form method="POST" action="<?php echo e(route('admin.penempatan.destroy', $it)); ?>" style="display:inline;" onsubmit="return confirm('Hapus item ini?');">
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
+                                        <button type="submit" class="action-btn delete" title="Hapus Item">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
                                 </div>
                             </td>
                         </tr>
-                    @empty
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <tr>
-                            <td colspan="7" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                            <td colspan="4" style="text-align: center; padding: 3rem; color: var(--text-muted);">
                                 <i class="fas fa-inbox" style="font-size: 2.5rem; color: #cbd5e1; margin-bottom: 1rem; display: block;"></i>
-                                <p>Tidak ada data struktur organisasi.</p>
-                                <a href="{{ route('struktur-organisasi.create') }}" class="btn btn-secondary" style="margin-top: 1rem; font-size: 0.85rem; padding: 0.5rem 1rem;">
+                                <p>Tidak ada item penempatan.</p>
+                                <a href="<?php echo e(route('admin.penempatan.create')); ?>" class="btn btn-secondary" style="margin-top: 1rem; font-size: 0.85rem; padding: 0.5rem 1rem; background: var(--brand-dark); color: white;">
                                     Tambah Sekarang
                                 </a>
                             </td>
                         </tr>
-                    @endforelse
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </div>
 </body>
 </html>
+<?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/admin/penempatan/index.blade.php ENDPATH**/ ?>

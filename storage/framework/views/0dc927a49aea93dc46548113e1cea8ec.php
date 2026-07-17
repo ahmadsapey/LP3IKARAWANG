@@ -5,6 +5,7 @@
 <!doctype html>
 <html lang="id">
 <head>
+    <link rel="shortcut icon" href="<?php echo e(asset('images/logos/Logo_LP3I.png')); ?>" type="image/png">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Penempatan Kerja - LP3I Karawang</title>

@@ -1,95 +1,157 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="shortcut icon" href="{{ asset('images/logos/Logo_LP3I.png') }}" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Struktur Organisasi - Admin</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
+        :root {
+            --brand-dark: #004269;
+            --brand-accent: #009DA5;
+            --brand-blue: #3b82f6;
+            --brand-danger: #ef4444;
+            
+            --bg-gradient: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: rgba(229, 231, 235, 0.8);
+            
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.1);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: #f5f7fa;
-            color: #333;
+            color: var(--text-main);
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
-            padding: 2rem;
         }
 
+        /* Back Link */
         .back-link {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .back-link a {
-            color: #004269;
-            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            color: var(--brand-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
         }
 
         .back-link a:hover {
-            text-decoration: underline;
+            color: var(--brand-accent);
+            transform: translateX(-4px);
         }
 
+        /* Form Card */
         .form-container {
             background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
         }
 
         .form-container h1 {
-            color: #004269;
-            margin-bottom: 1.5rem;
+            color: var(--brand-dark);
             font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            letter-spacing: -0.5px;
         }
 
         .form-group {
             margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
+            color: var(--brand-dark);
             font-weight: 600;
-            color: #333;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group label i {
+            color: var(--brand-accent);
+            opacity: 0.8;
+        }
+
+        .form-control,
+        .form-select,
+        textarea.form-control {
             width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-family: 'Poppins', sans-serif;
+            padding: 0.8rem 1.15rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-family: inherit;
             font-size: 0.95rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+            color: var(--text-main);
             outline: none;
-            border-color: #004269;
-            box-shadow: 0 0 0 3px rgba(0, 66, 105, 0.1);
+            background: #ffffff;
+            transition: var(--transition);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
+        .form-control::placeholder {
+            color: #9ca3af;
         }
 
+        .form-control:focus,
+        .form-select:focus,
+        textarea.form-control:focus {
+            border-color: var(--brand-accent);
+            box-shadow: 0 0 0 4px rgba(0, 157, 165, 0.1);
+        }
+
+        /* Current Image styling */
+        .current-photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            margin-top: 0.25rem;
+        }
+
+        .current-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* custom file input wrapper */
         .file-input-wrapper {
             position: relative;
         }
@@ -101,146 +163,141 @@
         .file-input-label {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem;
-            background: #f8f9fa;
-            border: 2px dashed #ddd;
-            border-radius: 6px;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: #f9fafb;
+            border: 2px dashed rgba(0, 157, 165, 0.3);
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
+            font-weight: 500;
+            color: var(--text-main);
         }
 
         .file-input-label:hover {
-            border-color: #004269;
-            background: #f0f4f9;
+            border-color: var(--brand-accent);
+            background: rgba(0, 157, 165, 0.02);
         }
 
-        .file-name {
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-family: 'Poppins', sans-serif;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .btn-primary {
-            background: #004269;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #003050;
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-
-        .alert {
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1.5rem;
-        }
-
-        .alert-danger {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .error-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .error-list li {
-            padding: 0.25rem 0;
-        }
-
-        .error-list li:before {
-            content: "• ";
-            margin-right: 0.5rem;
+        .file-input-label i {
+            font-size: 1.3rem;
+            color: var(--brand-accent);
         }
 
         .preview-image {
-            max-width: 150px;
-            max-height: 150px;
-            border-radius: 6px;
-            margin-top: 0.5rem;
+            max-width: 140px;
+            max-height: 140px;
+            border-radius: 12px;
+            margin-top: 1rem;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
         }
 
+        /* Checkbox styling */
         .checkbox-group {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            cursor: pointer;
         }
 
         .checkbox-group input[type="checkbox"] {
-            width: auto;
-            padding: 0;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--brand-accent);
+            cursor: pointer;
         }
 
-        .current-photo {
-            margin-bottom: 1rem;
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
         }
 
-        .current-photo img {
-            max-width: 150px;
-            max-height: 150px;
-            border-radius: 6px;
-            display: block;
+        /* Form Actions Buttons */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            text-decoration: none;
+            font-family: inherit;
+            flex: 1;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #4b5563;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-primary {
+            background: var(--brand-accent);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 157, 165, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #00828a;
+            box-shadow: 0 6px 16px rgba(0, 157, 165, 0.3);
+        }
+
+        /* Error alerts */
+        .alert {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 1rem 1.5rem;
+            border-radius: 14px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .alert strong {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .error-list {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+        }
+
+        .error-list li {
+            margin-bottom: 0.25rem;
         }
 
         @media (max-width: 600px) {
-            .container {
-                padding: 1rem;
-            }
-
             .form-container {
-                padding: 1.5rem;
+                padding: 1.75rem;
             }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
             .form-actions {
                 flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
             }
         }
     </style>
@@ -252,11 +309,11 @@
         </div>
 
         <div class="form-container">
-            <h1><i class="fas fa-user-edit"></i> Edit Anggota Organisasi</h1>
+            <h1><i class="fas fa-user-edit"></i> Edit Anggota</h1>
 
             @if ($errors->any())
-                <div class="alert alert-danger">
-                    <strong><i class="fas fa-exclamation-circle"></i> Ada kesalahan:</strong>
+                <div class="alert">
+                    <strong><i class="fas fa-exclamation-circle"></i> Ada kesalahan input:</strong>
                     <ul class="error-list">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -265,23 +322,23 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('struktur-organisasi.update', $strukturOrganisasi) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('struktur-organisasi.update', $strukturOrganisasi) }}" enctype="multipart/form-data" class="elegant-form">
                 @csrf
                 @method('PUT')
 
                 <div class="form-group">
                     <label for="nama"><i class="fas fa-user"></i> Nama Lengkap *</label>
-                    <input type="text" id="nama" name="nama" value="{{ old('nama', $strukturOrganisasi->nama) }}" required>
+                    <input type="text" id="nama" name="nama" class="form-control" value="{{ old('nama', $strukturOrganisasi->nama) }}" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="role"><i class="fas fa-briefcase"></i> Role/Jabatan *</label>
-                    <input type="text" id="role" name="role" value="{{ old('role', $strukturOrganisasi->role) }}" required>
+                    <label for="role"><i class="fas fa-briefcase"></i> Role / Jabatan *</label>
+                    <input type="text" id="role" name="role" class="form-control" value="{{ old('role', $strukturOrganisasi->role) }}" required>
                 </div>
 
                 <div class="form-group">
                     <label for="posisi"><i class="fas fa-layer-group"></i> Posisi *</label>
-                    <select id="posisi" name="posisi" required onchange="updateParentOptions()">
+                    <select id="posisi" name="posisi" class="form-select" required onchange="updateParentOptions()">
                         <option value="">-- Pilih Posisi --</option>
                         @foreach ($posisiOptions as $value => $label)
                             <option value="{{ $value }}" {{ old('posisi', $strukturOrganisasi->posisi) == $value ? 'selected' : '' }}>
@@ -292,45 +349,46 @@
                 </div>
 
                 <div class="form-group" id="parent-group" style="display: none;">
-                    <label for="parent_id"><i class="fas fa-user-tie"></i> Atasan/Role Head (untuk Staff)</label>
-                    <select id="parent_id" name="parent_id">
+                    <label for="parent_id"><i class="fas fa-user-tie"></i> Atasan / Head (untuk Staff)</label>
+                    <select id="parent_id" name="parent_id" class="form-select">
                         <option value="">-- Belum Ditentukan --</option>
                     </select>
-                    <small style="color: #666; margin-top: 0.5rem; display: block;">Pilih role head sebagai atasan langsung anggota ini</small>
+                    <small class="form-help">Pilih Head/Atasan langsung sebagai penghubung anggota staf ini.</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="urutan"><i class="fas fa-sort-numeric-up"></i> Urutan</label>
-                    <input type="number" id="urutan" name="urutan" value="{{ old('urutan', $strukturOrganisasi->urutan) }}" min="0">
+                    <label for="urutan"><i class="fas fa-sort-numeric-up"></i> Urutan Prioritas</label>
+                    <input type="number" id="urutan" name="urutan" class="form-control" value="{{ old('urutan', $strukturOrganisasi->urutan) }}" min="0">
+                    <small class="form-help">Angka urutan tampilan struktur (opsional).</small>
                 </div>
 
                 <div class="form-group">
-                    <label><i class="fas fa-image"></i> Foto Saat Ini</label>
+                    <label><i class="fas fa-image"></i> Foto Profil Saat Ini</label>
                     @if ($strukturOrganisasi->foto)
                         <div class="current-photo">
                             <img src="{{ Storage::url($strukturOrganisasi->foto) }}" alt="{{ $strukturOrganisasi->nama }}">
                         </div>
                     @else
-                        <p style="color: #999;">Tidak ada foto</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; font-style: italic; padding-left: 0.25rem;">Tidak ada foto profil.</p>
                     @endif
                 </div>
 
                 <div class="form-group">
-                    <label for="foto"><i class="fas fa-upload"></i> Ubah Foto</label>
+                    <label for="foto"><i class="fas fa-upload"></i> Ganti Foto Profil</label>
                     <div class="file-input-wrapper">
                         <input type="file" id="foto" name="foto" accept="image/*" onchange="previewImage(event)">
                         <label for="foto" class="file-input-label">
                             <i class="fas fa-cloud-upload-alt"></i>
-                            <span>Klik untuk memilih foto baru</span>
+                            <span>Klik untuk upload foto baru</span>
                         </label>
                     </div>
-                    <div id="preview" class="file-name"></div>
+                    <div id="preview" style="display: flex; justify-content: center;"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 1rem;">
                     <div class="checkbox-group">
                         <input type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', $strukturOrganisasi->is_active) ? 'checked' : '' }}>
-                        <label for="is_active" style="margin: 0;"><i class="fas fa-check-circle"></i> Aktif</label>
+                        <label for="is_active"><i class="fas fa-check-circle" style="color: var(--brand-accent)"></i> Status Aktif</label>
                     </div>
                 </div>
 
@@ -339,7 +397,7 @@
                         <i class="fas fa-times"></i> Batal
                     </a>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Simpan
+                        <i class="fas fa-save"></i> Simpan Perubahan
                     </button>
                 </div>
             </form>
@@ -347,7 +405,7 @@
     </div>
 
     <script>
-        // Data untuk parent options (akan diisi dari controller)
+        // Data untuk parent options (diisi dari database)
         let headList = [
             @foreach(\App\Models\StrukturOrganisasi::active()->where(function($q){ $q->where('posisi', 'head')->orWhere('role','like','%Head%')->orWhere('role','like','%Kepala%'); })->get() as $head)
                 { id: '{{ $head->id }}', name: '{{ addslashes($head->nama) }}', role: '{{ addslashes($head->role) }}' },
@@ -362,23 +420,19 @@
 
             if (posisi === 'staff') {
                 parentGroup.style.display = 'block';
-                // Populate dengan head options
                 parentSelect.innerHTML = '<option value="">-- Belum Ditentukan --</option>';
                 headList.forEach(h => {
                     if (!h || !h.id) return;
-                    const nama = h.name;
-                    if (nama === null || nama === undefined) return;
-                    if (String(nama).trim() === '' || String(nama) === '0') return;
                     const option = document.createElement('option');
                     option.value = h.id;
-                    option.textContent = nama;
+                    option.textContent = h.name + ' (' + h.role + ')';
                     if (String(h.id) === String(currentParentId)) {
                         option.selected = true;
                     }
                     parentSelect.appendChild(option);
                 });
 
-                // attempt to auto-assign parent based on role text if parent not selected
+                // Auto-assignment helper
                 const roleInput = document.getElementById('role');
                 if (roleInput) {
                     const roleText = roleInput.value || '';
@@ -389,22 +443,6 @@
                         });
                         if (found) parentSelect.value = found.id;
                     }
-
-                    // attach input listener once to try auto-assign while typing
-                    if (!roleInput.dataset.hasListener) {
-                        roleInput.addEventListener('input', function() {
-                            if (document.getElementById('posisi').value !== 'staff') return;
-                            if (parentSelect.value) return;
-                            const text = this.value || '';
-                            if (!text) return;
-                            const found = headList.find(h => {
-                                const combined = (h.name + ' ' + h.role).toLowerCase();
-                                return text.toLowerCase().split(/\s+/).some(tok => tok && combined.includes(tok));
-                            });
-                            if (found) parentSelect.value = found.id;
-                        });
-                        roleInput.dataset.hasListener = '1';
-                    }
                 }
             } else {
                 parentGroup.style.display = 'none';
@@ -412,9 +450,24 @@
             }
         }
 
-        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             updateParentOptions();
+
+            const roleInput = document.getElementById('role');
+            if (roleInput) {
+                roleInput.addEventListener('input', function() {
+                    const parentSelect = document.getElementById('parent_id');
+                    if (document.getElementById('posisi').value !== 'staff') return;
+                    if (parentSelect.value) return;
+                    const text = this.value || '';
+                    if (!text) return;
+                    const found = headList.find(h => {
+                        const combined = (h.name + ' ' + h.role).toLowerCase();
+                        return text.toLowerCase().split(/\s+/).some(tok => tok && combined.includes(tok));
+                    });
+                    if (found) parentSelect.value = found.id;
+                });
+            }
         });
 
         function previewImage(event) {

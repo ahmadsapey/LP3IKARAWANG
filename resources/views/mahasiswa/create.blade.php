@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="id">
   <head>
+    <link rel="shortcut icon" href="{{ asset('images/logos/Logo_LP3I.png') }}" type="image/png">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Daftar Mahasiswa - LP3I Karawang</title>
@@ -24,8 +25,9 @@
         position: relative;
         overflow-x: hidden;
       }
-      @media (max-width: 768px) {
-        body.registration-bg { padding-top: 210px; }
+      @media (max-width: 900px) {
+        body.registration-bg { padding-top: 130px; }
+        body.registration-bg.header-compact-body { padding-top: 70px; }
       }
 
       /* Limit the registration container width so it doesn't reach the navbar edges */

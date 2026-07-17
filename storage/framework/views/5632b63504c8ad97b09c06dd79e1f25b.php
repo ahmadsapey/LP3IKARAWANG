@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="id">
   <head>
+    <link rel="shortcut icon" href="<?php echo e(asset('images/logos/Logo_LP3I.png')); ?>" type="image/png">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Daftar Mahasiswa - LP3I Karawang</title>
@@ -24,8 +25,9 @@
         position: relative;
         overflow-x: hidden;
       }
-      @media (max-width: 768px) {
-        body.registration-bg { padding-top: 210px; }
+      @media (max-width: 900px) {
+        body.registration-bg { padding-top: 130px; }
+        body.registration-bg.header-compact-body { padding-top: 70px; }
       }
 
       /* Limit the registration container width so it doesn't reach the navbar edges */
@@ -595,8 +597,8 @@
                     <label class="form-label">Bidang Keahlian</label>
                     <select name="id_program_studi" class="form-select">
                       <option value="">--Pilih--</option>
-                      <option value="2" <?php echo e((string) old('id_program_studi') === '2' ? 'selected' : ''); ?>>Accounting Information System</option>
-                      <option value="1" <?php echo e((string) old('id_program_studi') === '1' ? 'selected' : ''); ?>>Application Software Engineering</option>
+                      <option value="1" <?php echo e((string) old('id_program_studi') === '1' ? 'selected' : ''); ?>>Accounting Information System</option>
+                      <option value="2" <?php echo e((string) old('id_program_studi') === '2' ? 'selected' : ''); ?>>Application Software Engineering</option>
                       <option value="3" <?php echo e((string) old('id_program_studi') === '3' ? 'selected' : ''); ?>>Office Administration Automatization</option>
                     </select>
                   </div>

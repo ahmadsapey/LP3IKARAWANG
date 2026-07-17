@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="shortcut icon" href="<?php echo e(asset('images/logos/Logo_LP3I.png')); ?>" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
@@ -15,117 +16,121 @@
         :root {
             --brand-dark: #004269;
             --brand-accent: #009DA5;
-            --brand-blue: #4a90e2;
-            --surface: rgba(255,255,255,0.92);
-            --surface-strong: rgba(255,255,255,0.98);
-            --border: rgba(2,6,23,0.10);
-            --text: #0f172a;
-            --muted: #586674;
+            --brand-blue: #3b82f6;
+            --brand-success: #10b981;
+            --brand-danger: #ef4444;
+            --brand-warning: #f59e0b;
+            
+            --bg-gradient: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-bg-hover: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: rgba(229, 231, 235, 0.8);
+            
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
-            margin: 0;
-            font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-            color: var(--text);
-            background:
-                radial-gradient(1200px 420px at 20% 0%, rgba(0,157,165,0.18), transparent 60%),
-                radial-gradient(1000px 420px at 90% 10%, rgba(0,66,105,0.18), transparent 55%),
-                linear-gradient(180deg, #f7fafc 0%, #eef3f9 100%);
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+            color: var(--text-main);
+            background: 
+                radial-gradient(at 0% 0%, rgba(0, 157, 165, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 66, 105, 0.05) 0px, transparent 50%),
+                #f9fafb;
             min-height: 100vh;
-        }
-
-        .admin-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1.25rem 3rem;
-        }
-
-        .admin-header {
-            background: linear-gradient(135deg, var(--brand-dark), var(--brand-accent));
-            color: white;
-            border-radius: 16px;
-            padding: 1.5rem 1.75rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 14px 34px rgba(2,6,23,0.16);
-            border: 1px solid rgba(255,255,255,0.18);
-        }
-
-        .admin-header h1 {
-            font-size: 2.05rem;
-            margin: 0 0 0.35rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            letter-spacing: 0.2px;
-        }
-
-        .admin-header p {
+            padding: 0;
             margin: 0;
-            opacity: 0.9;
         }
 
-        .news-list-container {
-            margin-top: 20px;
-            overflow-x: auto;
+        /* Container Layout */
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
         }
 
-        .news-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-            border-radius: 8px;
+        /* Elegant Header Card */
+        .admin-header {
+            background: linear-gradient(135deg, var(--brand-dark) 0%, #002c47 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2.25rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
             overflow: hidden;
         }
 
-        .news-table thead {
-            background: #f6f8fb;
+        .admin-header::after {
+            content: '';
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: rgba(0, 157, 165, 0.15);
+            border-radius: 50%;
+            top: -100px;
+            right: -50px;
+            filter: blur(50px);
+            pointer-events: none;
         }
 
-        .news-table th,
-        .news-table td {
-            padding: 12px 14px;
-            text-align: left;
-            border-bottom: 1px solid #eef1f5;
-            vertical-align: middle;
+        .admin-header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
         }
 
-        .news-table tbody tr:hover {
-            background: #fbfdff;
+        .admin-header p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
         }
 
-        .news-excerpt {
-            color: var(--muted);
-            font-size: 13px;
-        }
-
+        /* Two Column Grid */
         .admin-content {
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 280px 1fr;
             gap: 2rem;
+            align-items: start;
         }
 
+        /* Sidebar Styling */
         .sidebar {
-            background: var(--surface);
-            border-radius: 15px;
-            padding: 2rem;
-            height: fit-content;
-            box-shadow: 0 14px 32px rgba(2,6,23,0.10);
-            border: 1px solid var(--border);
+            background: white;
+            border-radius: 20px;
+            padding: 1.75rem 1.25rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
         }
 
         .sidebar h3 {
-            color: #1e3c72;
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
+            color: var(--brand-dark);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1.25rem;
+            padding-left: 0.75rem;
+            opacity: 0.65;
         }
 
         .sidebar-menu {
             list-style: none;
-            margin: 0;
-            padding: 0;
         }
 
         .sidebar-menu li {
@@ -133,347 +138,444 @@
         }
 
         .sidebar-menu a {
-            display: block;
-            padding: 1rem;
-            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.85rem 1.25rem;
+            color: #4b5563;
             text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
         }
 
-        .sidebar-menu a:hover,
+        .sidebar-menu a i {
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .sidebar-menu a:hover {
+            color: var(--brand-dark);
+            background: #f3f4f6;
+            transform: translateX(3px);
+        }
+
         .sidebar-menu a.active {
-            background: linear-gradient(90deg, var(--brand-dark), var(--brand-accent));
+            background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-accent) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 66, 105, 0.2);
+        }
+
+        .sidebar-menu a.active i {
             color: white;
         }
 
+        /* Main Content Panel */
         .main-content {
-            background: var(--surface);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 14px 32px rgba(2,6,23,0.10);
-            border: 1px solid var(--border);
+            background: white;
+            border-radius: 20px;
+            padding: 2.25rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            min-height: 550px;
         }
 
         .content-section {
             display: none;
+            animation: fadeIn 0.4s ease;
         }
 
         .content-section.active {
             display: block;
         }
 
-        .section-title {
-            color: #1e3c72;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            border-bottom: 3px solid var(--brand-accent);
-            padding-bottom: 0.5rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        .section-title {
+            color: var(--brand-dark);
+            font-size: 1.65rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: var(--brand-accent);
+        }
+
+        /* Custom Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.25rem;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: var(--brand-dark);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #003352;
+            box-shadow: 0 4px 12px rgba(0, 66, 105, 0.2);
+        }
+
+        .btn-success {
+            background: var(--brand-success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-danger {
+            background: var(--brand-danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-edit {
+            background: #eff6ff;
+            color: var(--brand-blue);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-edit:hover {
+            background: var(--brand-blue);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-delete {
+            background: #fef2f2;
+            color: var(--brand-danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-delete:hover {
+            background: var(--brand-danger);
+            color: white;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+
+        /* Carousel/Slide Card Grid */
         .carousel-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .carousel-item {
-            background: var(--surface-strong);
-            border-radius: 10px;
-            padding: 1.5rem;
-            border-left: 4px solid var(--brand-accent);
+            background: white;
+            border-radius: 16px;
+            padding: 1.25rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
             display: flex;
-            gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
-            border: 1px solid rgba(2,6,23,0.06);
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 220px;
         }
 
-        .carousel-item-info h4 {
-            color: #1e3c72;
+        .carousel-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(0, 157, 165, 0.3);
+        }
+
+        .carousel-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .carousel-info h3 {
+            color: var(--brand-dark);
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        .carousel-info p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
             margin-bottom: 0.5rem;
         }
 
-        .carousel-item-info p {
-            color: #666;
-            font-size: 0.9rem;
+        .image-preview {
+            width: 100%;
+            height: 140px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f3f4f6;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border-color);
         }
 
-        .carousel-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-left: auto;
-            flex-wrap: wrap;
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .status {
             display: inline-flex;
             align-items: center;
-            padding: 0.25rem 0.55rem;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border: 1px solid rgba(2,6,23,0.10);
-        }
-        .status.active {
-            background: rgba(39, 174, 96, 0.12);
-            color: #1f7a46;
-        }
-        .status.inactive {
-            background: rgba(231, 76, 60, 0.10);
-            color: #9f2f25;
-        }
-
-        .btn-edit,
-        .btn-delete {
-            padding: 0.5rem 0.85rem;
-            border: 1px solid rgba(2,6,23,0.10);
-            border-radius: 10px;
-            cursor: pointer;
+            width: fit-content;
+            padding: 0.25rem 0.65rem;
+            border-radius: 99px;
+            font-size: 0.75rem;
             font-weight: 600;
-            font-size: 0.9rem;
-            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+            text-transform: uppercase;
         }
 
-        .btn-edit {
-            background: rgba(74, 144, 226, 0.14);
-            color: #1e3c72;
-        }
-        .btn-edit:hover {
-            transform: translateY(-1px);
-            background: rgba(74, 144, 226, 0.20);
-            box-shadow: 0 10px 22px rgba(2,6,23,0.10);
+        .status.active {
+            background: #d1fae5;
+            color: #065f46;
         }
 
-        .btn-delete {
-            background: rgba(231, 76, 60, 0.12);
-            color: #7a231b;
-        }
-        .btn-delete:hover {
-            transform: translateY(-1px);
-            background: rgba(231, 76, 60, 0.18);
-            box-shadow: 0 10px 22px rgba(2,6,23,0.10);
+        .status.inactive {
+            background: #fee2e2;
+            color: #991b1b;
         }
 
-
-        /* News list as a clean table for admin */
-        .news-list-container { margin-bottom: 2rem; }
-        .news-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 6px 18px rgba(2,6,23,0.06); }
-        .news-table thead { background: linear-gradient(90deg,#eef6fb,#f7fbff); }
-        .news-table th, .news-table td { padding: 0.85rem 1rem; text-align: left; border-bottom: 1px solid #f0f4f8; font-size:0.95rem; color:#07374a }
-        .news-table th { color:#1e3c72; font-weight:700; font-size:0.95rem }
-        .news-table tbody tr:hover { background: #fbfdff }
-        .news-excerpt { color: #546b75; display:block; margin-top:0.35rem; font-size:0.9rem }
-        .news-actions { display:flex; gap:0.5rem }
-        .news-actions .btn { padding:0.4rem 0.7rem; border-radius:6px; font-size:0.9rem }
-
-        @media (max-width: 1024px) {
-            .admin-content { grid-template-columns: 1fr; }
-            .sidebar { width: 100%; }
-            .main-content { padding: 1.5rem; }
-            .news-list-container { overflow-x: auto; }
-            .news-table { min-width: 720px; }
+        .carousel-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.75rem;
         }
 
-        @media (max-width: 640px) {
-            .main-content { padding: 1rem; }
-            .carousel-list { grid-template-columns: 1fr; }
-            .carousel-item { flex-direction: column; align-items: flex-start; }
-            .news-actions { flex-wrap: wrap; }
+        .carousel-actions .btn {
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Modern Tables */
+        .news-list-container {
+            margin-top: 1.5rem;
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .news-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            text-align: left;
+        }
+
+        .news-table th {
+            background: #f9fafb;
+            padding: 1rem 1.25rem;
+            color: var(--brand-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .news-table td {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+            vertical-align: middle;
+        }
+
+        .news-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .news-table tbody tr:hover {
+            background: #f9fafb;
         }
 
         .news-item-info h4 {
-            margin: 0 0 0.5rem 0;
-            color: #1e3c72;
+            color: var(--brand-dark);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
         }
 
-        .news-item-info p {
-            margin: 0 0 0.5rem 0;
-            color: #666;
+        .news-excerpt {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.4;
         }
 
         .category-badge {
-            background: #4a90e2;
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
+            display: inline-flex;
+            padding: 0.25rem 0.65rem;
+            background: #eff6ff;
+            color: var(--brand-blue);
+            border-radius: 6px;
             font-size: 0.8rem;
+            font-weight: 500;
         }
 
-        .news-item-actions {
+        .news-actions {
             display: flex;
             gap: 0.5rem;
         }
 
-        .btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            font-weight: 600;
+        .news-actions .btn {
+            padding: 0.45rem 0.75rem;
+            font-size: 0.8rem;
         }
 
-        .btn-primary {
-            background: linear-gradient(90deg, var(--brand-dark), var(--brand-accent));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            filter: brightness(0.98);
-            transform: translateY(-1px);
-        }
-
-        .btn-danger {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #c0392b;
-        }
-
-        .btn-success {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #219a52;
+        /* Beautiful Forms */
+        .elegant-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #1e3c72;
-            font-weight: 500;
+            color: var(--brand-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .form-group input,
+        .form-control,
+        .form-select,
+        textarea.form-control,
+        .form-group input:not([type="file"]):not([type="submit"]):not([type="hidden"]),
+        .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid rgba(2,6,23,0.14);
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--border-color);
             border-radius: 12px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
             font-family: inherit;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
+            font-size: 0.95rem;
+            color: var(--text-main);
             outline: none;
-            border-color: rgba(0,157,165,0.55);
-            box-shadow: 0 0 0 4px rgba(0,157,165,0.12);
+            background: #ffffff;
+            transition: var(--transition);
         }
 
-        .form-group select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid rgba(2,6,23,0.14);
-            border-radius: 12px;
-            font-size: 1rem;
+        .form-control::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-control:focus,
+        .form-select:focus,
+        textarea.form-control:focus,
+        .form-group input:not([type="file"]):not([type="submit"]):not([type="hidden"]):focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--brand-accent);
+            box-shadow: 0 0 0 4px rgba(0, 157, 165, 0.1);
             background: white;
-            font-family: inherit;
         }
 
-        .form-group textarea {
+        textarea.form-control {
             resize: vertical;
             min-height: 100px;
         }
 
+        .form-help {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Custom File Upload dropzone */
         .image-upload {
-            border: 2px dashed #4a90e2;
-            border-radius: 8px;
-            padding: 2rem;
+            border: 2px dashed rgba(0, 157, 165, 0.3);
+            background: #f9fafb;
+            border-radius: 16px;
+            padding: 2.25rem 1.5rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
         }
 
         .image-upload:hover {
-            background: rgba(74, 144, 226, 0.1);
+            background: rgba(0, 157, 165, 0.03);
+            border-color: var(--brand-accent);
         }
 
         .image-upload i {
-            font-size: 3rem;
-            color: #4a90e2;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            color: var(--brand-accent);
+            opacity: 0.8;
         }
 
-        .image-preview {
-            max-width: 200px;
-            max-height: 150px;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        .image-preview img {
-            max-width: 200px;
-            max-height: 150px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .gallery-preview {
-            margin-top: 1rem;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .gallery-item img {
+        .form-group input[type="file"] {
             width: 100%;
-            height: 80px;
-            object-fit: cover;
-        }
-
-        .gallery-item .remove-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(255, 0, 0, 0.8);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 12px;
+            padding: 0.75rem 1rem;
+            border: 1.5px dashed var(--border-color);
+            border-radius: 12px;
+            background: #f9fafb;
+            color: var(--text-main);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: var(--transition);
         }
 
-        .gallery-item .remove-btn:hover {
-            background: rgba(255, 0, 0, 1);
+        .form-group input[type="file"]:hover {
+            border-color: var(--brand-accent);
+            background: rgba(0, 157, 165, 0.02);
         }
 
-        .form-help {
-            color: #666;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            display: block;
-        }
-
+        /* Modern Modals */
         .modal {
             display: none;
             position: fixed;
@@ -481,8 +583,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
             z-index: 1000;
+            animation: fadeIn 0.25s ease;
         }
 
         .modal-content {
@@ -491,76 +595,83 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            border-radius: 15px;
-            padding: 2rem;
+            border-radius: 24px;
+            padding: 2.5rem;
             max-width: 600px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
-            box-shadow: 0 18px 46px rgba(2,6,23,0.22);
-            border: 1px solid rgba(2,6,23,0.10);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translate(-50%, -42%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 1rem;
         }
 
         .modal-header h3 {
-            color: #1e3c72;
+            color: var(--brand-dark);
+            font-size: 1.35rem;
+            font-weight: 700;
         }
 
         .close-modal {
-            background: none;
+            background: #f3f4f6;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             cursor: pointer;
-            color: #666;
+            color: var(--text-muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
         }
 
-        @media (max-width: 768px) {
+        .close-modal:hover {
+            background: #e5e7eb;
+            color: var(--text-main);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
             .admin-content {
                 grid-template-columns: 1fr;
             }
-            
             .sidebar {
-                order: 2;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .admin-container {
+                padding: 1rem;
+            }
+            .main-content {
+                padding: 1.5rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
             }
         }
     </style>
-        <style>
-                /* Inline elegant-form fallback for admin (when global CSS not loaded) */
-                .elegant-form .form-control,
-                .elegant-form .form-select,
-                .elegant-form textarea.form-control {
-                    border-radius: 12px;
-                    padding: .75rem .9rem;
-                    border: 1px solid rgba(30,60,114,0.12);
-                    background: linear-gradient(180deg, #ffffff, #fbfbff);
-                    box-shadow: 0 6px 18px rgba(30, 60, 114, 0.06);
-                    transition: all .18s ease-in-out;
-                }
-                .elegant-form .form-control:focus,
-                .elegant-form .form-select:focus,
-                .elegant-form textarea.form-control:focus {
-                    border-color: rgba(30,60,114,0.35);
-                    box-shadow: 0 10px 26px rgba(30,60,114,0.12), 0 0 0 4px rgba(116,185,255,0.06);
-                    outline: none;
-                }
-                .elegant-form .form-label, .elegant-form label { color: #1e3c72; font-weight:600; }
-                .elegant-form .btn { border-radius: 999px; padding: .68rem 1.2rem; transition: transform .08s ease, box-shadow .08s ease; }
-                .elegant-form .btn-primary { background: linear-gradient(90deg,#1e3c72,#2a5298); border:none; color:#fff; }
-                .elegant-form .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30,60,114,0.14); }
-                .elegant-form .form-help { color: rgba(30,60,114,0.7); }
-                .ts-dropdown, .ts-control .dropdown-content { max-height: 240px; overflow: auto; }
-        </style>
 </head>
 <body>
     <header>
+    <link rel="shortcut icon" href="<?php echo e(asset('images/logos/Logo_LP3I.png')); ?>" type="image/png">
         
     </header>
 
@@ -574,26 +685,26 @@
             <div class="sidebar">
                 <h3>Menu Admin</h3>
                 <ul class="sidebar-menu">
-                    <li><a href="#" class="<?php echo e((isset($active) && $active === 'carousel') ? 'menu-link active' : 'menu-link'); ?>" data-section="carousel">
+                    <li><a href="/admin/carousel" class="<?php echo e((isset($active) && $active === 'carousel') ? 'menu-link active' : 'menu-link'); ?>" data-section="carousel">
                         <i class="fas fa-images"></i> Kelola Carousel (Home)
                     </a></li>
-                    <li><a href="#" class="<?php echo e((isset($active) && $active === 'news') ? 'menu-link active' : 'menu-link'); ?>" data-section="news">
+                    <li><a href="/admin/berita" class="<?php echo e((isset($active) && $active === 'news') ? 'menu-link active' : 'menu-link'); ?>" data-section="news">
                         <i class="fas fa-newspaper"></i> Kelola Berita
                     </a></li>
 
-                    <li><a href="#" class="<?php echo e((isset($active) && $active === 'carousel_kegiatan') ? 'menu-link active' : 'menu-link'); ?>" data-section="carousel-kegiatan">
+                    <li><a href="/admin/carousel-kegiatan" class="<?php echo e((isset($active) && $active === 'carousel_kegiatan') ? 'menu-link active' : 'menu-link'); ?>" data-section="carousel-kegiatan">
                         <i class="fas fa-images"></i> Kelola Carousel (Kegiatan)
                     </a></li>
 
-                    <li><a href="#" class="menu-link" data-section="penempatan">
+                    <li><a href="/admin/penempatan" class="menu-link">
                         <i class="fas fa-briefcase"></i> Kelola Penempatan
                     </a></li>
 
-                    <li><a href="#" class="menu-link" data-section="struktur-organisasi">
+                    <li><a href="/admin/struktur-organisasi" class="menu-link">
                         <i class="fas fa-sitemap"></i> Kelola Struktur Organisasi
                     </a></li>
 
-                    <li><a href="#" class="menu-link" data-section="settings">
+                    <li><a href="/admin/pengaturan" class="<?php echo e((isset($active) && $active === 'settings') ? 'menu-link active' : 'menu-link'); ?>" data-section="settings">
                         <i class="fas fa-cog"></i> Pengaturan
                     </a></li>
                     <li><a href="/" class="menu-link">
@@ -655,7 +766,7 @@
                 </div>
 
                 <!-- News Management Section -->
-                <div class="content-section" id="news-section">
+                <div class="content-section<?php echo e((isset($active) && $active === 'news') ? ' active' : ''); ?>" id="news-section">
                     <h2 class="section-title">Kelola Berita</h2>
                     
                     <button class="btn btn-success" onclick="openAddNewsModal()">
@@ -739,24 +850,101 @@
                 </div>
 
                 <!-- Settings Section -->
-                <div class="content-section" id="settings-section">
+                <div class="content-section<?php echo e((isset($active) && $active === 'settings') ? ' active' : ''); ?>" id="settings-section">
                     <h2 class="section-title">Pengaturan</h2>
                     <p>Atur aset dan preferensi website seperti gambar registrasi.</p>
-                    <div style="display:flex; gap:1rem; flex-direction:column; max-width:600px;">
-                        <div class="form-group">
-                            <label for="registration-image-input">Gambar Registrasi (tampil di halaman pendaftaran)</label>
-                            <div class="image-upload" onclick="document.getElementById('registration-image-input').click();">
-                                <i class="fas fa-upload"></i>
-                                <div id="registration-image-preview" class="image-preview"></div>
+                    <div style="display:flex; gap:1.5rem; flex-direction:column; max-width:600px;">
+                        
+                        <!-- Gambar Registrasi -->
+                        <div style="background:#fff; border:1px solid #e2e8f0; padding:1.5rem; border-radius:12px;">
+                            <h3 style="font-weight:700; margin-bottom:1rem; font-size:1.1rem; color:var(--primary);">Gambar Registrasi</h3>
+                            <div class="form-group">
+                                <label for="registration-image-input">Gambar Registrasi (tampil di halaman pendaftaran)</label>
+                                <div class="image-upload" onclick="document.getElementById('registration-image-input').click();">
+                                    <i class="fas fa-upload"></i>
+                                    <div id="registration-image-preview" class="image-preview"></div>
+                                </div>
+                                <small id="registration-image-path" style="display:block;margin-top:0.5rem;color:#666;font-size:0.85rem;"></small>
+                                <input type="file" id="registration-image-input" name="image" style="display:none;" accept="image/*" onchange="previewRegistrationImage(this)">
+                                <span class="form-help">Pilih file gambar (jpg, png) untuk ditampilkan pada halaman pendaftaran.</span>
                             </div>
-                            <small id="registration-image-path" style="display:block;margin-top:0.5rem;color:#666;font-size:0.85rem;"></small>
-                            <input type="file" id="registration-image-input" name="image" style="display:none;" accept="image/*" onchange="previewRegistrationImage(this)">
-                            <span class="form-help">Pilih file gambar (jpg, png) untuk ditampilkan pada halaman pendaftaran.</span>
+                            <div style="display:flex; gap:1rem; justify-content:flex-end; margin-top:1rem;">
+                                <button type="button" class="btn btn-danger" onclick="resetRegistrationImage()">Reset</button>
+                                <button type="button" class="btn btn-success" onclick="saveRegistrationImage()">Simpan</button>
+                            </div>
                         </div>
-                        <div style="display:flex; gap:1rem; justify-content:flex-end;">
-                            <button type="button" class="btn btn-danger" onclick="resetRegistrationImage()">Reset</button>
-                            <button type="button" class="btn btn-success" onclick="saveRegistrationImage()">Simpan</button>
+
+                        <!-- Sambutan Branch Manager -->
+                        <div style="background:#fff; border:1px solid #e2e8f0; padding:1.5rem; border-radius:12px;">
+                            <h3 style="font-weight:700; margin-bottom:1rem; font-size:1.1rem; color:var(--primary);">Sambutan Branch Manager (Kepala Kampus)</h3>
+                            
+                            <div class="form-group" style="margin-bottom:1rem;">
+                                <label for="bm-name-input">Nama Lengkap Kepala Kampus:</label>
+                                <input type="text" id="bm-name-input" placeholder="Contoh: Aceng Ajat, S.T., M.M." style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px; margin-top:0.25rem;">
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1rem;">
+                                <label for="bm-title-input">Jabatan (Badge):</label>
+                                <input type="text" id="bm-title-input" placeholder="Contoh: Branch Manager" style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px; margin-top:0.25rem;">
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1rem;">
+                                <label for="bm-role-input">Peran/Instansi (Signature):</label>
+                                <input type="text" id="bm-role-input" placeholder="Contoh: Kepala Kampus LP3I Karawang" style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px; margin-top:0.25rem;">
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1rem;">
+                                <label for="bm-greeting-input">Kalimat Salam / Pembuka:</label>
+                                <textarea id="bm-greeting-input" rows="2" placeholder="Contoh: Assalamu’alaikum Warahmatullahi Wabarakatuh..." style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px; margin-top:0.25rem; font-family:inherit;"></textarea>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1rem;">
+                                <label for="bm-quote-input">Kutipan Highlight (Quote):</label>
+                                <textarea id="bm-quote-input" rows="2" placeholder="Tulis kutipan motivasi yang disorot..." style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px; margin-top:0.25rem; font-family:inherit;"></textarea>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1.5rem;">
+                                <label for="bm-content-input">Isi Sambutan Lengkap (Gunakan tag &lt;p&gt; untuk paragraf baru):</label>
+                                <textarea id="bm-content-input" rows="8" placeholder="Tulis paragraf lengkap sambutan..." style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px; margin-top:0.25rem; font-family:inherit;"></textarea>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1rem;">
+                                <label>Foto Kepala Kampus (Rasio pas-foto 3:4):</label>
+                                <div class="image-upload" onclick="document.getElementById('bm-image-input').click();" style="border: 2px dashed #cbd5e1; padding: 1.5rem; border-radius: 12px; text-align: center; cursor: pointer; margin-top:0.25rem;">
+                                    <i class="fas fa-upload" style="font-size:1.5rem; color:#94a3b8; margin-bottom:0.5rem; display:block;"></i>
+                                    <div id="bm-image-preview" class="image-preview"></div>
+                                </div>
+                                <small id="bm-image-path" style="display:block;margin-top:0.5rem;color:#666;font-size:0.85rem;"></small>
+                                <input type="file" id="bm-image-input" name="image" style="display:none;" accept="image/*" onchange="previewBmImage(this)">
+                                <span class="form-help">Pilih foto formal Kepala Kampus LP3I (jpg, png).</span>
+                            </div>
+
+                            <div style="display:flex; gap:1rem; justify-content:flex-end; margin-top:1.5rem;">
+                                <button type="button" class="btn btn-danger" onclick="resetBmSettings()">Reset</button>
+                                <button type="button" class="btn btn-success" onclick="saveBmSettings()">Simpan Sambutan</button>
+                            </div>
                         </div>
+
+                        <!-- Visi & Misi -->
+                        <div style="background:#fff; border:1px solid #e2e8f0; padding:1.5rem; border-radius:12px;">
+                            <h3 style="font-weight:700; margin-bottom:1rem; font-size:1.1rem; color:var(--primary);">Visi & Misi Kampus</h3>
+                            
+                            <div class="form-group" style="margin-bottom:1rem;">
+                                <label for="vision-input">Visi Kampus:</label>
+                                <textarea id="vision-input" rows="3" placeholder="Tulis visi lembaga LP3I..." style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px; margin-top:0.25rem; font-family:inherit;"></textarea>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1rem;">
+                                <label for="mission-input">Misi Kampus (Tulis satu misi per baris):</label>
+                                <textarea id="mission-input" rows="8" placeholder="Tulis misi kampus...&#10;Satu baris untuk setiap poin misi" style="width:100%; padding:0.5rem; border:1px solid #ccc; border-radius:6px; margin-top:0.25rem; font-family:inherit;"></textarea>
+                            </div>
+
+                            <div style="display:flex; gap:1rem; justify-content:flex-end; margin-top:1.5rem;">
+                                <button type="button" class="btn btn-danger" onclick="resetVmSettings()">Reset</button>
+                                <button type="button" class="btn btn-success" onclick="saveVmSettings()">Simpan Visi Misi</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -930,7 +1118,7 @@
                 let carouselKegiatanData = [];
                 async function fetchCarouselKegiatan() {
                     try {
-                        const res = await fetch('/admin/carousel-kegiatan', {
+                        const res = await fetch('/admin/carousel-kegiatan/json', {
                             headers: {
                                 'X-Requested-With': 'XMLHttpRequest',
                                 'Accept': 'application/json'
@@ -1312,6 +1500,150 @@
             }
         }
 
+        let bmImageFile = null;
+        let existingBmImagePath = '';
+
+        function previewBmImage(input) {
+            if (input.files && input.files[0]) {
+                bmImageFile = input.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('bm-image-preview').innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width:200px; max-height:150px; object-fit:cover; border-radius:8px;">`;
+                };
+                reader.readAsDataURL(input.files[0]);
+                document.getElementById('bm-image-path').innerText = input.files[0].name;
+            }
+        }
+
+        async function fetchBmSettings() {
+            try {
+                const formData = new FormData();
+                formData.append('action', 'get_branch_manager_settings');
+                const result = await safeJsonFetch('/admin/action', formData);
+                if (result.success && result.data) {
+                    document.getElementById('bm-name-input').value = result.data.branch_manager_name || '';
+                    document.getElementById('bm-title-input').value = result.data.branch_manager_title || '';
+                    document.getElementById('bm-role-input').value = result.data.branch_manager_role || '';
+                    document.getElementById('bm-greeting-input').value = result.data.branch_manager_greeting || '';
+                    document.getElementById('bm-quote-input').value = result.data.branch_manager_quote || '';
+                    document.getElementById('bm-content-input').value = result.data.branch_manager_content || '';
+                    
+                    existingBmImagePath = result.data.branch_manager_image || '';
+                    let p = result.data.branch_manager_image_url || result.data.branch_manager_image || '';
+                    if (p) {
+                        if (!p.startsWith('/') && !p.startsWith('http')) p = '/' + p;
+                        document.getElementById('bm-image-preview').innerHTML = `<img src="${p}" alt="Foto Branch Manager" style="max-width:200px; max-height:150px; object-fit:cover; border-radius:8px;">`;
+                        document.getElementById('bm-image-path').innerText = existingBmImagePath;
+                    } else {
+                        document.getElementById('bm-image-preview').innerHTML = '';
+                        document.getElementById('bm-image-path').innerText = '';
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching Branch Manager settings:', error);
+            }
+        }
+
+        async function saveBmSettings() {
+            const btn = document.querySelector('#settings-section button[onclick="saveBmSettings()"]');
+            if (btn) btn.disabled = true;
+            try {
+                const formData = new FormData();
+                formData.append('action', 'save_branch_manager_settings');
+                formData.append('name', document.getElementById('bm-name-input').value);
+                formData.append('title', document.getElementById('bm-title-input').value);
+                formData.append('role', document.getElementById('bm-role-input').value);
+                formData.append('greeting', document.getElementById('bm-greeting-input').value);
+                formData.append('quote', document.getElementById('bm-quote-input').value);
+                formData.append('content', document.getElementById('bm-content-input').value);
+
+                if (bmImageFile) { 
+                    formData.append('image', bmImageFile); 
+                } else if (existingBmImagePath) { 
+                    formData.append('existing_image', existingBmImagePath); 
+                }
+
+                const result = await safeJsonFetch('/admin/action', formData);
+                if (result.success) {
+                    alert('Sambutan Branch Manager berhasil disimpan');
+                    if (result.data && result.data.image_path) {
+                        existingBmImagePath = result.data.image_path;
+                        let p = existingBmImagePath;
+                        if (!p.startsWith('/') && !p.startsWith('http')) p = '/' + p;
+                        document.getElementById('bm-image-preview').innerHTML = `<img src="${p}" alt="Foto Branch Manager" style="max-width:200px; max-height:150px; object-fit:cover; border-radius:8px;">`;
+                        document.getElementById('bm-image-path').innerText = existingBmImagePath;
+                    }
+                    bmImageFile = null;
+                    document.getElementById('bm-image-input').value = '';
+                } else {
+                    alert('Gagal menyimpan sambutan: ' + (result.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error saving Branch Manager settings:', error);
+                alert('Error: ' + error.message);
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        }
+
+        async function resetBmSettings() {
+            if (confirm('Apakah Anda yakin ingin mengosongkan form sambutan?')) {
+                document.getElementById('bm-name-input').value = '';
+                document.getElementById('bm-title-input').value = '';
+                document.getElementById('bm-role-input').value = '';
+                document.getElementById('bm-greeting-input').value = '';
+                document.getElementById('bm-quote-input').value = '';
+                document.getElementById('bm-content-input').value = '';
+                document.getElementById('bm-image-preview').innerHTML = '';
+                document.getElementById('bm-image-path').innerText = '';
+                bmImageFile = null;
+                existingBmImagePath = '';
+                document.getElementById('bm-image-input').value = '';
+            }
+        async function fetchVmSettings() {
+            try {
+                const formData = new FormData();
+                formData.append('action', 'get_vision_mission_settings');
+                const result = await safeJsonFetch('/admin/action', formData);
+                if (result.success && result.data) {
+                    document.getElementById('vision-input').value = result.data.vision || '';
+                    document.getElementById('mission-input').value = result.data.mission || '';
+                }
+            } catch (error) {
+                console.error('Error fetching Vision & Mission settings:', error);
+            }
+        }
+
+        async function saveVmSettings() {
+            const btn = document.querySelector('#settings-section button[onclick="saveVmSettings()"]');
+            if (btn) btn.disabled = true;
+            try {
+                const formData = new FormData();
+                formData.append('action', 'save_vision_mission_settings');
+                formData.append('vision', document.getElementById('vision-input').value);
+                formData.append('mission', document.getElementById('mission-input').value);
+
+                const result = await safeJsonFetch('/admin/action', formData);
+                if (result.success) {
+                    alert('Visi & Misi berhasil disimpan');
+                } else {
+                    alert('Gagal menyimpan Visi & Misi: ' + (result.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error saving Vision & Mission settings:', error);
+                alert('Error: ' + error.message);
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        }
+
+        function resetVmSettings() {
+            if (confirm('Apakah Anda yakin ingin mengosongkan form Visi & Misi?')) {
+                document.getElementById('vision-input').value = '';
+                document.getElementById('mission-input').value = '';
+            }
+        }
+
         // Unified loadNewsList implemented later (table-based) — duplicate removed here.
 
         async function saveNews(formData) {
@@ -1688,6 +2020,8 @@
             fetchCarouselData();
             fetchNewsData();
             fetchRegistrationImage();
+            fetchBmSettings();
+            fetchVmSettings();
 
             
             // Menu switching
@@ -1719,6 +2053,8 @@
                         fetchNewsData();
                     } else if (section === 'settings') {
                         fetchRegistrationImage();
+                        fetchBmSettings();
+                        fetchVmSettings();
                     } else if (section === 'struktur-organisasi') {
                         fetchStrukturOrganisasi();
                     } else if (section === 'penempatan') {
@@ -1858,10 +2194,7 @@
 
         function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"})[c]); }
 
-        // When penempatan menu clicked, load data
-        document.querySelectorAll('.menu-link[data-section="penempatan"]').forEach(link=>{
-            link.addEventListener('click', function(e){ e.preventDefault(); document.querySelectorAll('.menu-link').forEach(l=>l.classList.remove('active')); this.classList.add('active'); document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active')); document.getElementById('penempatan-section').classList.add('active'); fetchPenempatan(); });
-        });
+
     </script>
 </body>
 </html>

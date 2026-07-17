@@ -8,316 +8,1095 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LP3I Karawang - Politeknik LP3I Kampus Karawang</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="<?php echo e(asset('images/logos/Logo_LP3I.png')); ?>" type="image/png">
+    
+    <!-- Fonts & Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* CSS DASAR DARI KODE ASLI KAMU */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #333; }
-
-        /* --- MODIFIKASI HEADER 3 LAYER (PERMINTAAN DOSEN) --- */
-        header { width: 100%; z-index: 1200; position: fixed; top: 0; left: 0; right: 0; }
-        body { padding-top: 190px; }
-        @media (max-width: 768px) { body { padding-top: 210px; } }
-
-        /* Site header (assistant navbar) - minimal rules to preserve your layout but keep assistant look */
-        .site-header { width: 100%; position: relative; z-index: 1100; }
-        .site-header .topbar { background: #ff7a18; color: white; padding: 6px 0; font-size: 0.9rem; font-weight: 600; }
-        .site-header .topbar .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display:flex; justify-content:space-between; align-items:center; }
-
-        /* Ensure standalone .topbar (used in this view) is styled consistently */
-        .topbar { background: #009da5; color: white; padding: 6px 0; font-size: 0.95rem; font-weight: 600; }
-        .topbar .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display:flex; justify-content:space-between; align-items:center; gap:1rem; }
-        .topbar-left, .topbar-right { display:flex; align-items:center; gap:1rem; }
-        .topbar a { color: white; text-decoration: none; display:inline-flex; align-items:center; gap:0.5rem; padding:4px 8px; border-radius:6px; }
-        .topbar a:hover { background: rgba(255,255,255,0.08); }
-        .topbar a i { font-size:0.95rem; }
-        @media (max-width: 768px) {
-            .topbar .container { flex-direction: column; align-items: flex-start; gap:8px; }
-            .topbar-right { justify-content: flex-start; }
+        /* Design Tokens & Theme Setup */
+        :root {
+            --primary: #1e3c72;
+            --primary-dark: #0f2347;
+            --primary-light: #2a5298;
+            --primary-glow: rgba(30, 60, 114, 0.15);
+            --cyan: #009da5;
+            --cyan-light: #00d4ff;
+            --cyan-glow: rgba(0, 157, 165, 0.35);
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.35);
+            --dark-bg: #0b1329;
+            --dark-bg-card: rgba(15, 23, 42, 0.4);
+            --light-bg: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.45);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --card-shadow: 0 10px 30px rgba(30, 60, 114, 0.06);
+            --card-shadow-hover: 0 20px 45px rgba(30, 60, 114, 0.12);
         }
-        .site-header .brandbar { background: #213C72; color: white; padding: 12px 0; }
-        .site-header .brandbar .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display:flex; justify-content:space-between; align-items:center; }
-        .site-header .brandbar .logo img { max-height: 55px; }
-        .site-header .menubar { background: #ffffff; border-bottom: 1px solid #eee; }
-        .site-header .menubar .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; display:flex; justify-content:space-between; align-items:center; }
-        .site-header .menubar .nav-links { display:flex; gap:0; list-style:none; align-items:center; }
-        .site-header .menubar .nav-links a { color:#213C72; text-decoration:none; padding:1rem 1.2rem; font-weight:600; }
-        .site-header .menubar .nav-links a:hover { color:#0b2a59; background:#f6f8fb; }
-        .site-header .menubar .dropdown-content { background:#ffffff; border:1px solid #eee; box-shadow:0 8px 22px rgba(0,0,0,0.06); }
 
-        /* keep your dropdown item appearance when inside assistant menubar */
-        .site-header .menubar .dropdown-content a { color:#213C72 !important; }
-
-        /* Layer 1: Top Bar (legacy names kept for compatibility) */
-        .top-bar { background: #00a8e8; padding: 6px 0; color: white; font-size: 0.8rem; font-weight: 500; }
-        .top-bar .container { display: flex; justify-content: flex-end; gap: 20px; max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
-        .top-bar a { color: white; text-decoration: none; }
-
-        /* Layer 2: Mid Header (Logo & Kontak) */
-        .mid-header { background: #1e3c72; padding: 15px 0; color: white; }
-        .mid-header .container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
-        .logo img { max-height: 55px; width: auto; object-fit: contain; }
-        .header-contact { display: flex; gap: 30px; }
-        .contact-item { display: flex; align-items: center; gap: 10px; }
-        .contact-item i { font-size: 1.9rem; color: #00a8e8; }
-        .contact-text strong { display: block; font-size: 0.85rem; margin-bottom: 2px; }
-        .contact-text span { font-size: 0.75rem; opacity: 0.8; display: block; }
-
-        /* Layer 3: Nav Utama (Putih & Sticky saat scroll) */
-        nav { 
-            background: white; 
-            border-bottom: 1px solid #eee; 
-            position: relative; 
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            z-index: 1200;
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
         }
-        nav.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; position: relative; }
-        .nav-menu { display: flex; align-items: center; gap: 12px; }
-        .nav-toggle { display: none; border: 0; background: transparent; padding: 10px; cursor: pointer; align-items: center; gap: 10px; }
-        .nav-toggle .bar { display: block; width: 22px; height: 2px; background: #1e3c72; margin: 4px 0; border-radius: 2px; transition: transform 0.2s ease; }
-        .nav-toggle-label { font-size: 0.9rem; font-weight: 700; color: #1e3c72; letter-spacing: 0.3px; }
 
-        /* Mempertahankan style Nav-Links kamu */
-        .nav-links { display: flex; list-style: none; align-items: center; }
-        .nav-links a { 
-            color: #333; 
-            text-decoration: none; 
-            padding: 1rem 1.2rem; 
-            display: block; 
-            font-size: 0.9rem; 
-            font-weight: 600; 
-            position: relative;
-            transition: color 0.3s ease;
+        body { 
+            font-family: 'Plus Jakarta Sans', 'Poppins', sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-dark); 
+            background-color: var(--light-bg);
+            overflow-x: hidden;
         }
-        .nav-links a:hover { 
-            color: #1e3c72; 
-            background: transparent;
-        }
-        .nav-links a:after {
-            content: '';
+
+        /* Floating background glow elements */
+        .bg-glow-container {
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #009da5, #1e3c72);
-            transform: translateX(-50%);
-            transition: width 0.3s ease;
-        }
-        .nav-links a:hover:after {
-            width: 70%;
-        }
-
-        /* Mempertahankan Dropdown & Item Akademik (AK|MI) kamu */
-        .dropdown { position: relative; }
-        .dropdown-content {
-            position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-            background: linear-gradient(135deg, #043158 0%, #1a5a6f 100%); 
-            min-width: 240px; 
-            display: none; 
-            z-index: 1000;
-            border-radius: 8px;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
             overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            animation: dropdownSlide 0.3s ease;
-        }
-        @keyframes dropdownSlide {
-            from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-        .dropdown:hover .dropdown-content { display: block; }
-        .dropdown-content a { 
-            color: white !important; 
-            font-size: 0.85rem; 
-            padding: 12px 20px; 
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            transition: all 0.25s ease;
-            display: block;
-        }
-        .dropdown-content a:last-child { border-bottom: none; }
-        .dropdown-content a:hover { 
-            background: rgba(255,255,255,0.1);
-            padding-left: 24px;
-        }
-        .dropdown-content a.akademik-item { display: flex; gap: 12px; flex-direction: column; }
-        .dropdown-content a.akademik-item .ak-prefix { color: #fff; font-weight: 700; font-size: 0.8rem; }
-        .dropdown-content a.akademik-item .ak-prefix:first-child { color: #00d4ff; font-weight: 800; letter-spacing: 0.5px; }
-        .dropdown-content a.akademik-item .ak-prefix:last-child { color: #b0e0e6; font-size: 0.75rem; font-weight: 500; }
-
-        /* Mempertahankan style Button & Animasi Pulse kamu */
-        .register-btn {
-            background: #004269 !important; color: white !important; padding: 0.6rem 1.2rem !important;
-            border-radius: 20px !important; font-weight: 600 !important; font-size: 0.9rem !important;
-            animation: registerPulse 2s ease-in-out infinite; text-decoration: none;
-        }
-        .login-btn {
-            background: transparent !important; color: #1e3c72 !important; padding: 0.55rem 1rem !important;
-            border-radius: 18px !important; font-weight: 600 !important; border: 1px solid #1e3c72 !important;
-            margin-right: 10px; text-decoration: none;
-        }
-        @keyframes registerPulse {
-            0%, 100% { box-shadow: 0 4px 15px rgba(0, 66, 105, 0.3); }
-            50% { box-shadow: 0 6px 25px rgba(0, 66, 105, 0.6); }
+            pointer-events: none;
+            z-index: 0;
         }
 
-        /* --- SEMUA CSS CONTENT (HERO, NEWS, ABOUT, DLL) DARI KODE ASLI KAMU --- */
-        .hero { min-height: 80vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; color: white; }
+        .glow-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.14;
+            animation: floatBlob 25s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+
+        .glow-blob-1 {
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, var(--cyan-light) 0%, var(--primary) 70%, transparent 100%);
+            top: 15%;
+            left: -150px;
+        }
+
+        .glow-blob-2 {
+            width: 650px;
+            height: 650px;
+            background: radial-gradient(circle, var(--primary-light) 0%, var(--cyan) 70%, transparent 100%);
+            top: 55%;
+            right: -250px;
+            animation-delay: -7s;
+        }
+
+        .glow-blob-3 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, var(--cyan-light) 0%, var(--primary-dark) 70%, transparent 100%);
+            bottom: 5%;
+            left: 15%;
+            animation-delay: -14s;
+        }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, -40px) scale(1.15); }
+            100% { transform: translate(-40px, 50px) scale(0.9); }
+        }
+
+        /* Hero Section Styling */
+        .hero { 
+            min-height: 85vh; 
+            position: relative; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            padding-top: 4rem;
+        }
+
         .hero::before {
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.45);
+            background: linear-gradient(180deg, rgba(11, 19, 41, 0.45) 0%, rgba(11, 19, 41, 0.88) 100%);
             z-index: 1;
             pointer-events: none;
         }
-        .carousel-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
-        .carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s; background-size: cover; background-position: center; }
-        .carousel-slide.active { opacity: 1; }
-        .hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; padding: 20px; }
-            .hero-content h1 { font-size: 3rem; font-weight: 800; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }        
 
-            /* Alasan Pilih LP3I section */
-            .reasons { padding: 4rem 2rem; background: #f5f8fb; }
-            .reasons .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-            .reasons .section-title { color: #1e3c72; font-size: 1.5rem; font-weight: 700; }
-            .reasons-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 1.5rem; }
-            .reason-card { background: #fff; border-radius: 12px; padding: 1.25rem; text-align: center; box-shadow: 0 6px 18px rgba(16,24,40,0.06); }
-            .reason-card i { font-size: 2rem; color: #1e3c72; margin-bottom: 0.5rem; }
-            .reason-card h4 { margin: 0.35rem 0; font-size: 1rem; color: #213C72; }
-            .reason-card p { font-size: 0.95rem; color: #556; opacity: 0.95; }
+        .carousel-container { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 0; 
+        }
 
-            @media (max-width: 992px) {
-                .reasons-grid { grid-template-columns: repeat(2, 1fr); }
-            }
-            @media (max-width: 576px) {
-                .reasons-grid { grid-template-columns: 1fr; }
-            }
+        .carousel-slide { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            opacity: 0; 
+            background-size: cover; 
+            background-position: center; 
+            z-index: 0;
+            will-change: transform, opacity;
+        }
 
-            /* Partners / Kerjasama Perusahaan */
-            .partners { padding: 3.5rem 2rem; background: #ffffff; }
-            .partners .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-            .partners .heading { display:flex; align-items:center; gap:12px; margin-bottom:1rem; }
-            .partners .heading .accent { width:6px; height:36px; background:#ff7a18; border-radius:4px; }
-            .partners h2 { margin:0; color:#1e3c72; font-size:1.6rem; font-weight:700; }
-            .partners p.lead { color:#6b7280; margin-bottom:1.5rem; }
-            .partners-grid { display:grid; grid-template-columns: repeat(6, 1fr); gap:1.5rem; align-items:center; }
-            .partner-item { display:flex; align-items:center; justify-content:center; padding:12px; background:transparent; }
-            .partner-item img { max-width:100%; max-height:56px; opacity:0.95; filter:grayscale(0%); transition: transform .18s ease, opacity .18s ease; }
-            .partner-item:hover img { transform: translateY(-6px); opacity:1; }
+        .hero-content { 
+            position: relative; 
+            z-index: 2; 
+            text-align: center; 
+            max-width: 1000px; 
+            padding: 2.5rem 1.5rem; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
-            /* Single wide partner image (responsive/cropped) */
-            .partners-hero { width:100%; overflow:hidden; border-radius:12px; margin-top:1rem; }
-            .partners-hero img { width:100%; height:360px; object-fit:cover; display:block; }
-            @media (max-width: 768px) { .partners-hero img { height:180px; } }
-
-            @media (max-width: 1100px) { .partners-grid { grid-template-columns: repeat(4, 1fr); } }
-            @media (max-width: 768px) { .partners-grid { grid-template-columns: repeat(2, 1fr); } .partner-item img { max-height:48px; } }
-            @media (max-width: 420px) { .partners-grid { grid-template-columns: 1fr; } }
-            
-            /* Promo video styles merged into reasons */
-            .reasons .video-block { padding-top: 1.5rem; }
-            .reasons .video-wrapper { width: 100%; max-width: 1200px; margin: 0.75rem auto 0 auto; position: relative; padding-top: 56.25%; }
-            .reasons .video-wrapper video, .reasons .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 12px 34px rgba(16,24,40,0.08); }
-            .reasons .video-caption { text-align: center; margin-top: 0.75rem; color: #556; font-size: 0.95rem; }
-
-            @media (max-width: 768px) {
-                .reasons .video-wrapper { padding-top: 56.25%; }
-            }
-        .cta-button {
-            display: inline-block;
-            background: #1e3c72;
-            color: #fff;
-            padding: 0.75rem 1.25rem;
-            border-radius: 28px;
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 18px;
+            border-radius: 100px;
+            font-size: 0.82rem;
             font-weight: 700;
-            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-badge i {
+            font-size: 0.9rem;
+        }
+
+        .hero-content h1 { 
+            font-size: 4rem; 
+            font-weight: 800; 
+            line-height: 1.15;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.4); 
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--cyan-light) 0%, #00ffd5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 750px;
+            line-height: 1.6;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+        }
+
+        /* Dual CTAs */
+        .hero-actions {
+            display: flex;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+            justify-content: center;
             margin-top: 1rem;
-            box-shadow: 0 6px 18px rgba(30,60,114,0.18);
-            transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
         }
-        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(30,60,114,0.28); opacity: 0.98; }
+
+        .btn-primary-glow {
+            background: linear-gradient(90deg, var(--cyan) 0%, #028a90 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 36px;
+            font-weight: 700;
+            border-radius: 50px;
+            font-size: 0.98rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 20px rgba(0, 157, 165, 0.45);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 157, 165, 0.7);
+            color: white;
+        }
+
+        .btn-secondary-glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            text-decoration: none;
+            padding: 15px 36px;
+            font-weight: 700;
+            border-radius: 50px;
+            font-size: 0.98rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .btn-secondary-glass:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.45);
+            transform: translateY(-3px);
+            color: white;
+        }
+
+        /* Floating statistics card overlay */
+        .hero-stats {
+            display: flex;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 1.5rem 3.5rem;
+            margin-top: 2rem;
+            gap: 3.5rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 4px;
+        }
+
+        .stat-divider {
+            width: 1px;
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        /* --- Section Styling Commons --- */
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3.5rem auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--cyan);
+            font-weight: 800;
+            font-size: 0.78rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+
+        .section-title {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title span {
+            color: var(--cyan);
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-top: 0.6rem;
+        }
+
+        /* --- Reasons/Alasan Section --- */
+        .reasons { 
+            padding: 6.5rem 2rem; 
+            position: relative;
+            background: #f8fafc; 
+        }
+
+        .reasons .container { 
+            max-width: 1240px; 
+            margin: 0 auto; 
+            position: relative;
+            z-index: 5;
+        }
+
+        .reasons-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 2rem; 
+            margin-top: 1.5rem; 
+        }
+
+        .reason-card { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 24px; 
+            padding: 2.5rem 1.75rem; 
+            text-align: center; 
+            box-shadow: var(--card-shadow); 
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+        }
+
+        .reason-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--cyan) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: rgba(30, 60, 114, 0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .reason-card:hover::before {
+            opacity: 1;
+        }
+
+        .reason-card-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.05) 0%, rgba(0, 157, 165, 0.05) 100%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .reason-card-icon i {
+            font-size: 2.1rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .reason-card:hover .reason-card-icon {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--cyan) 100%);
+        }
+
+        .reason-card:hover .reason-card-icon i {
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .reason-card h4 { 
+            margin-bottom: 0.6rem; 
+            font-size: 1.25rem; 
+            font-weight: 750;
+            color: var(--primary); 
+        }
+
+        .reason-card p { 
+            font-size: 0.95rem; 
+            color: #475569; 
+            line-height: 1.6;
+        }
+
+        /* --- Kegiatan Section (Dark Theme Showcase) --- */
+        .kegiatan {
+            padding: 6.5rem 2rem;
+            background: linear-gradient(180deg, #0b1329 0%, #070d1e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kegiatan .glow-blob {
+            opacity: 0.12;
+        }
+
+        .kegiatan .section-title {
+            color: white;
+        }
+
+        .kegiatan .section-subtitle {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .kegiatan-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 5;
+        }
+
+        .gk-viewport { 
+            overflow: visible; 
+            position: relative; 
+            width: 100%;
+        }
+
+        .gk-track {
+            display: flex;
+            gap: 2rem;
+            will-change: transform;
+        }
+
+        /* Slide Card styling */
+        .gk-slide {
+            flex: 0 0 calc(33.333% - 1.33rem);
+            border-radius: 24px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            transition: var(--transition);
+        }
+
+        .gk-slide-inner {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .gk-slide-image-wrap {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            overflow: hidden;
+        }
+
+        .gk-slide-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .gk-slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(11, 19, 41, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+            backdrop-filter: blur(4px);
+        }
+
+        .gk-zoom-badge {
+            background: white;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 10px 22px;
+            border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .gk-slide:hover .gk-slide-img {
+            transform: scale(1.08);
+        }
+
+        .gk-slide:hover .gk-slide-overlay {
+            opacity: 1;
+        }
+
+        .gk-slide:hover .gk-zoom-badge {
+            transform: translateY(0);
+        }
+
+        .gk-slide-caption {
+            padding: 1.75rem;
+            background: rgba(11, 19, 41, 0.35);
+        }
+
+        .gk-slide-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, var(--cyan) 0%, var(--primary-light) 100%);
+            padding: 4px 12px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .gk-slide-caption h3 {
+            font-size: 1.15rem;
+            font-weight: 750;
+            color: white;
+            margin-bottom: 0.5rem;
+            line-height: 1.35;
+        }
+
+        .gk-slide-caption p {
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.5;
+        }
+
+        /* Arrows styling */
+        .gk-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .gk-arrow:hover {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .gk-arrow.prev { left: -72px; }
+        .gk-arrow.next { right: -72px; }
+
+        .gk-arrow:disabled {
+            opacity: 0.3;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        /* Bullet dots */
+        .gk-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 3rem;
+        }
+
+        .gk-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0;
+        }
+
+        .gk-dot.active {
+            background: var(--cyan);
+            width: 32px;
+            border-radius: 100px;
+        }
+
+        /* Empty state kegiatan */
+        .gk-empty { text-align: center; padding: 4rem 2rem; color: #94a3b8; font-size: 1.05rem; }
+        .gk-empty i { font-size: 2.5rem; margin-bottom: .6rem; display: block; opacity: .5; }
+
+        /* --- Video Profile Section --- */
+        .video-profile {
+            padding: 6.5rem 2rem;
+            background: #f8fafc;
+            position: relative;
+        }
+
+        .video-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 5;
+        }
+
+        .video-mockup {
+            background: #0f172a;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            will-change: transform;
+        }
+
+        .mockup-header {
+            background: #1e293b;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .mockup-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .mockup-dot.red { background: #ef4444; }
+        .mockup-dot.yellow { background: #f59e0b; }
+        .mockup-dot.green { background: #10b981; }
+
+        .mockup-title {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .video-preview-wrapper {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background: black;
+            overflow: hidden;
+        }
+
+        .video-poster {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .video-overlay-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, rgba(30, 60, 114, 0.25) 0%, rgba(11, 19, 41, 0.7) 100%);
+            pointer-events: none;
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 88px;
+            height: 88px;
+            background: linear-gradient(135deg, var(--cyan) 0%, var(--primary-light) 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 157, 165, 0.5);
+            z-index: 10;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding-left: 6px;
+        }
+
+        .play-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(0, 157, 165, 0.4);
+            animation: playPulse 2.2s infinite;
+            z-index: -1;
+        }
+
+        @keyframes playPulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        .play-btn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-preview-wrapper iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 5;
+        }
+
+        .video-caption {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* --- Partners Section --- */
+        .partners { 
+            padding: 5.5rem 2rem; 
+            background: white; 
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .partners .container { 
+            max-width: 1240px; 
+            margin: 0 auto; 
+        }
+
+        .partners-heading {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .partners-accent {
+            width: 8px;
+            height: 48px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--cyan) 100%);
+            border-radius: 4px;
+        }
+
+        .partners-heading h2 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.25;
+        }
+
+        .partners-desc {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 3.5rem;
+            max-width: 900px;
+        }
+
+        /* Wide Partners Image Card */
+        .partners-hero {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 24px;
+            border: 1px solid rgba(30, 60, 114, 0.08);
+            box-shadow: var(--card-shadow);
+            background: white;
+            padding: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .partners-hero:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow-hover);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .partners-hero img {
+            width: 100%;
+            height: auto;
+            max-height: 480px;
+            object-fit: contain;
+            display: block;
+            border-radius: 12px;
+        }
+
+        /* --- News Section --- */
+        .news { 
+            padding: 6.5rem 2rem; 
+            background: #f8fafc; 
+        }
+
+        .news .container { 
+            max-width: 1240px; 
+            margin: 0 auto; 
+        }
+
+        .news-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 2.5rem; 
+            margin-top: 1rem; 
+        }
+
+        .news-card { 
+            background: white; 
+            border-radius: 24px; 
+            overflow: hidden; 
+            box-shadow: var(--card-shadow); 
+            transition: box-shadow 0.3s ease, border-color 0.3s ease; 
+            display: flex;
+            flex-direction: column;
+            text-decoration: none; 
+            color: inherit; 
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            will-change: transform, box-shadow;
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: rgba(30, 60, 114, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .news-image-wrap {
+            position: relative;
+            width: 100%;
+            height: 230px;
+            overflow: hidden;
+        }
+
+        .news-image { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .news-card:hover .news-image {
+            transform: scale(1.08);
+        }
+
+        .news-category {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(30, 60, 114, 0.85);
+            backdrop-filter: blur(8px);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            z-index: 2;
+        }
+
+        .news-content { 
+            padding: 2rem; 
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .news-content h3 {
+            font-size: 1.25rem;
+            font-weight: 750;
+            color: var(--primary);
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+        }
+
+        .news-card:hover .news-content h3 {
+            color: var(--cyan);
+        }
+
+        .news-excerpt {
+            font-size: 0.92rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .news-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1.25rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .news-more {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .news-card:hover .news-more {
+            color: var(--cyan);
+            transform: translateX(4px);
+        }
+
+        .see-all-btn-wrap {
+            text-align: center; 
+            margin-top: 3.5rem;
+        }
+
+        .see-all-btn { 
+            background: transparent; 
+            color: var(--primary); 
+            border: 2px solid var(--primary);
+            padding: 12px 32px; 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .see-all-btn:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 20px rgba(30, 60, 114, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Modal styling overrides */
+        #gk-modal {
+            backdrop-filter: blur(15px);
+        }
+
+        #gk-modal-content {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+
+        #gk-modal-close {
+            transition: var(--transition);
+        }
+
+        #gk-modal-close:hover {
+            background: var(--primary) !important;
+            transform: scale(1.1);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1200px) {
+            .gk-arrow.prev { left: 10px; }
+            .gk-arrow.next { right: 10px; }
+        }
+
+        @media (max-width: 1024px) {
+            .reasons-grid { grid-template-columns: repeat(2, 1fr); }
+            .gk-slide { flex: 0 0 calc(50% - 1rem); }
+            .news-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
         @media (max-width: 768px) {
-            .cta-button { padding: 0.6rem 1rem; font-size: 0.95rem; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .hero-content p { font-size: 1.1rem; }
+            .hero-stats { padding: 1.25rem 2rem; gap: 1.5rem; }
+            .stat-num { font-size: 1.8rem; }
+            .section-title { font-size: 2rem; }
+            .video-profile { padding: 4.5rem 1rem; }
+            .kegiatan { padding: 4.5rem 1rem; }
+            .reasons { padding: 4.5rem 1rem; }
+            .news { padding: 4.5rem 1rem; }
         }
 
-        .news { padding: 5rem 2rem; background: #f8f9fa; }
-        .news .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        .news .section-title { color: #1e3c72; font-size: 1.5rem; font-weight: 700; }
-        .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
-        .news-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.1); opacity: 0; transform: translateY(30px); transition: 0.3s; display: block; text-decoration: none; color: inherit; }
-        .news-card.animate { opacity: 1; transform: translateY(0); transition: 0.8s ease-out; }
-        .news-image { width: 100%; height: 200px; object-fit: cover; }
-        .news-content { padding: 1.5rem; }
-
-        .see-all-btn { display: inline-block; background: #1e3c72; color: #fff; padding: 0.6rem 1.1rem; border-radius: 18px; text-decoration: none; font-weight:700; box-shadow: 0 8px 20px rgba(30,60,114,0.12); }
-        .see-all-btn:hover { opacity: 0.95; transform: translateY(-2px); }
-
-        @media (max-width: 900px) {
-            nav { border-top: 1px solid #e6e9ef; }
-            .nav-container { min-height: 56px; }
-            .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
-            .nav-toggle { margin-left: auto; }
-            .nav-menu {
+        @media (max-width: 640px) {
+            .reasons-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 1.25rem;
+                padding: 10px 1rem 25px 1rem;
+                margin-top: 1rem;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .reasons-grid::-webkit-scrollbar {
                 display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: #ffffff;
-                border-bottom: 1px solid #eee;
-                box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
-                padding: 0.75rem 1rem 1rem;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 8px;
-                z-index: 1200;
             }
-            nav.nav-open .nav-menu { display: flex; }
-            .nav-links { flex-direction: column; align-items: stretch; width: 100%; }
-            .nav-links a { padding: 0.85rem 0.75rem; font-size: 0.9rem; border-radius: 8px; }
-            .nav-links a:hover { background: #f4f7fb; }
-            .nav-auth { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
-            .login-btn, .register-btn { padding: 0.55rem 0.9rem !important; font-size: 0.85rem !important; }
-            .dropdown-content {
-                position: static;
-                transform: none;
-                min-width: 0;
-                box-shadow: none;
-                background: #f6f8fb;
-                border-radius: 10px;
-                margin: 6px 0 0;
+            .reason-card {
+                flex: 0 0 85%;
+                scroll-snap-align: center;
+                opacity: 1 !important;
+                transform: none !important;
             }
-            .dropdown-content a { color: #1e3c72 !important; padding: 10px 14px; }
-            .dropdown:hover .dropdown-content { display: none; }
-            .dropdown.open > .dropdown-content { display: block; }
-        }
-
-        @media (max-width: 768px) {
-            .top-bar, .header-contact { display: none; }
-            .news-grid { grid-template-columns: 1fr; }
-            .hero-content h1 { font-size: 2rem; }
-        }
-
-        /* Footer */
-        .site-footer { background: #1e3c72; color: #ffffff; padding: 2.5rem 2rem 1rem; }
-        .site-footer .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        .site-footer .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: start; }
-        .site-footer .footer-title { font-size: 1.05rem; font-weight: 800; letter-spacing: 0.2px; margin-bottom: 0.75rem; }
-        .site-footer .footer-text { color: rgba(255,255,255,0.9); font-size: 0.95rem; line-height: 1.7; }
-        .site-footer .footer-contact { display: grid; gap: 0.5rem; }
-        .site-footer .footer-contact a,
-        .site-footer .footer-contact .footer-item { color: rgba(255,255,255,0.92); text-decoration: none; display: inline-flex; align-items: flex-start; gap: 0.6rem; font-size: 0.95rem; line-height: 1.5; }
-        .site-footer .footer-contact a:hover { color: #ffffff; text-decoration: underline; }
-        .site-footer .footer-contact i { margin-top: 2px; width: 18px; text-align: center; opacity: 0.95; }
-        .site-footer .footer-bottom { border-top: 1px solid rgba(255,255,255,0.16); margin-top: 1.75rem; padding-top: 1rem; display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; font-size: 0.9rem; color: rgba(255,255,255,0.85); }
-        @media (max-width: 768px) {
-            .site-footer { padding: 2.25rem 1.25rem 1rem; }
-            .site-footer .container { padding: 0 1rem; }
-            .site-footer .footer-grid { grid-template-columns: 1fr; }
+            .gk-viewport {
+                padding: 10px 1rem 20px 1rem;
+            }
+            .gk-slide {
+                flex: 0 0 280px;
+                max-width: 82vw;
+            }
+            .gk-slide-image-wrap {
+                height: 240px;
+            }
+            .news-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                gap: 1.25rem;
+                padding: 10px 1rem 25px 1rem;
+                margin-top: 1.5rem;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .news-grid::-webkit-scrollbar {
+                display: none;
+            }
+            .news-card {
+                flex: 0 0 85%;
+                scroll-snap-align: center;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-stats { display: none; }
+            .gk-arrow { display: none !important; }
         }
     </style>
 </head>
@@ -325,180 +1104,112 @@
 
 <?php echo $__env->make('partials.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
+<!-- Hero Section -->
 <section class="hero">
     <div class="carousel-container">
         <?php $__currentLoopData = $carouselData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
            <div class="carousel-slide <?php echo e($index == 0 ? 'active' : ''); ?>" 
                style="background-image: url('<?php echo e(asset(isset($item['image']) && $item['image'] ? $item['image'] : 'storage/image/default-hero.jpg')); ?>')">
-        </div>
+           </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
+    
     <div class="hero-content">
-        <h1>Masa Depan Cerah Dimulai Dari Sini</h1>
-        <p>Kuliah Cepat Kerja di Politeknik LP3I Kampus Karawang</p>
+        <div class="hero-badge animate-hero">
+            <i class="fas fa-graduation-cap"></i>
+            <span>PMB LP3I Karawang TA 2026/2027</span>
+        </div>
+        <h1 class="animate-hero">Masa Depan <span class="gradient-text">Cerah &amp; Pasti</span> <br>Dimulai Dari Sini</h1>
+        <p class="animate-hero">Kuliah Cepat Kerja di Politeknik LP3I Kampus Karawang. Kurikulum Terarah, Lulus Langsung Penempatan.</p>
         
+        <div class="hero-actions animate-hero">
+            <a href="<?php echo e(route('mahasiswa.create')); ?>" class="btn-primary-glow">
+                Daftar Sekarang <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="https://wa.me/6285117704112" target="_blank" class="btn-secondary-glass">
+                <i class="fab fa-whatsapp"></i> Hubungi Konselor
+            </a>
+        </div>
+
+        <div class="hero-stats animate-hero">
+            <div class="stat-item">
+                <span class="stat-num">95%</span>
+                <span class="stat-label">Lulusan Kerja</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-num">300+</span>
+                <span class="stat-label">Mitra DUDI</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-num">4</span>
+                <span class="stat-label">Sertifikasi BNSP</span>
+            </div>
+        </div>
     </div>
 </section>
 
+<!-- Reasons Section -->
 <section class="reasons" id="alasan">
+    <!-- Ambient Glow Background Blobs -->
+    <div class="bg-glow-container">
+        <div class="glow-blob glow-blob-1"></div>
+        <div class="glow-blob glow-blob-2"></div>
+    </div>
+
     <div class="container">
-        <h2 class="section-title">Mengapa Memilih LP3I Karawang?</h2>
+        <div class="section-header">
+            <span class="section-label">Mengapa Kami?</span>
+            <h2 class="section-title">Mengapa Memilih <span>LP3I Karawang?</span></h2>
+            <p class="section-subtitle">Keunggulan utama kami untuk mempersiapkan Anda siap kerja dan unggul di dunia industri secara nyata.</p>
+        </div>
+
         <div class="reasons-grid">
             <div class="reason-card">
-                <i class="fas fa-rocket"></i>
+                <div class="reason-card-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
                 <h4>Kuliah Bisa Cepat Kerja</h4>
-                <p>Memiliki kerjasama dengan perusahaan serta memiliki kurikulum yang sesuai dengan kebutuhan dunia kerja.</p>
+                <p>Memiliki kerjasama erat dengan ratusan perusahaan serta kurikulum aplikatif sesuai kebutuhan dunia kerja.</p>
             </div>
             <div class="reason-card">
-                <i class="fas fa-award"></i>
+                <div class="reason-card-icon">
+                    <i class="fas fa-award"></i>
+                </div>
                 <h4>Sertifikasi Kompetensi</h4>
-                <p>Mahasiswa Politeknik LP3I memiliki 4 sertifikasi kompetensi dari Badan Nasional Sertifikasi Profesi (BNSP) dan International Test Center</p>
+                <p>Mahasiswa dibekali 4 sertifikasi kompetensi resmi dari Badan Nasional Sertifikasi Profesi (BNSP) &amp; ITC.</p>
             </div>
             <div class="reason-card">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <h4>Dosen Profesional</h4>
-                <p>Dosen Politeknik LP3I memiliki sertifikasi dosen dari 
-                    Kemendikbud dan Dosen praktisi yang berpengalaman di bidang industri.</p>
+                <div class="reason-card-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h4>Dosen Praktisi Profesional</h4>
+                <p>Belajar langsung dari dosen tersertifikasi Kemendikbud serta praktisi senior yang berpengalaman di industri.</p>
             </div>
             <div class="reason-card">
-                <i class="fas fa-briefcase"></i>
+                <div class="reason-card-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
                 <h4>Pusat Karir &amp; Magang</h4>
-                <p>Mahasiswa mengikuti proses kuliah kerja industri dan penempatan kerja di industri dan dunia kerja</p>
+                <p>Melalui proses magang kerja industri intensif serta penempatan kerja berkelanjutan di industri nasional.</p>
             </div>
         </div>
-    <!-- ═══════════════════════════════════════════════════════════════
-         🎯 KEGIATAN SHOWCASE — Glide.js-Inspired Slider Carousel
-         Fetches data dynamically from /carousel-kegiatan endpoint
-         ═══════════════════════════════════════════════════════════════ -->
-    <style>
-    /* ── Glide-style Kegiatan Carousel ── */
-    .glide-kegiatan { position: relative; padding: 3rem 0 2rem; background: #f8f9fc; overflow: hidden; }
-    .glide-kegiatan .gk-header { text-align: center; margin-bottom: 2.2rem; }
-    .glide-kegiatan .gk-label {
-        display: inline-flex; align-items: center; gap: 6px;
-        background: linear-gradient(135deg, #1e3c72, #2a5298); color: #fff;
-        font-size: .7rem; font-weight: 700; padding: 5px 14px; border-radius: 99px;
-        text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: .6rem;
-    }
-    .glide-kegiatan .gk-label i { font-size: .65rem; }
-    .glide-kegiatan .gk-title {
-        font-size: 2rem; font-weight: 800; color: #1e3c72; margin: 0; line-height: 1.25;
-    }
-    .glide-kegiatan .gk-subtitle {
-        color: #64748b; font-size: .95rem; margin-top: .35rem; font-weight: 400;
-    }
+    </div>
+</section>
 
-    /* ── Track / Viewport ── */
-    .gk-viewport { overflow: hidden; margin: 0 auto; max-width: 1200px; position: relative; }
-    .gk-track {
-        display: flex; transition: transform .45s cubic-bezier(.25,.8,.25,1); will-change: transform;
-        gap: 24px; /* gap between cards */
-    }
+<!-- Kegiatan Section (Dark Mode Showcase) -->
+<section class="kegiatan" id="kegiatan-showcase">
+    <!-- Ambient Glow Background Blobs -->
+    <div class="bg-glow-container">
+        <div class="glow-blob glow-blob-3"></div>
+    </div>
 
-    /* ── Slide card ── */
-    .gk-slide {
-        flex: 0 0 calc(33.333% - 16px); /* 3 visible */
-        border-radius: 16px; overflow: hidden; position: relative;
-        background: #fff; box-shadow: 0 4px 24px rgba(30,60,114,.08);
-        transition: transform .35s ease, box-shadow .35s ease, opacity .35s ease;
-        cursor: grab; user-select: none; opacity: .55; transform: scale(.92);
-    }
-    .gk-slide.is-active {
-        opacity: 1; transform: scale(1);
-        box-shadow: 0 12px 40px rgba(30,60,114,.15);
-    }
-    .gk-slide:hover { box-shadow: 0 16px 48px rgba(30,60,114,.18); }
-    .gk-slide img {
-        width: 100%;
-        height: 320px;
-        max-width: 350px;
-        max-height: 420px;
-        aspect-ratio: 1080/1350;
-        object-fit: cover;
-        display: block;
-        margin: 0 auto;
-        border-radius: 12px;
-        transition: transform .4s ease;
-    }
-    .gk-slide:hover img { transform: scale(1.04); }
-    .gk-slide-caption {
-        padding: 1rem 1.2rem 1.2rem; background: #fff;
-    }
-    .gk-slide-caption h3 {
-        font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 .25rem;
-        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .gk-slide-caption .gk-slide-tag {
-        display: inline-block; font-size: .7rem; font-weight: 600;
-        color: #fff; background: linear-gradient(135deg, #1e3c72, #2a5298);
-        padding: 2px 10px; border-radius: 99px; text-transform: uppercase; letter-spacing: .5px;
-    }
-
-    /* ── Arrows ── */
-    .gk-arrow {
-        position: absolute; top: 50%; z-index: 10; width: 48px; height: 48px;
-        border-radius: 50%; border: none; cursor: pointer;
-        background: #fff; color: #1e3c72; font-size: 1.1rem;
-        box-shadow: 0 4px 16px rgba(30,60,114,.12);
-        display: flex; align-items: center; justify-content: center;
-        transition: all .25s ease; transform: translateY(-50%);
-    }
-    .gk-arrow:hover { background: #1e3c72; color: #fff; box-shadow: 0 8px 24px rgba(30,60,114,.2); transform: translateY(-50%) scale(1.08); }
-    .gk-arrow:active { transform: translateY(-50%) scale(.96); }
-    .gk-arrow.prev { left: max(1rem, calc((100% - 1200px)/2 - 60px)); }
-    .gk-arrow.next { right: max(1rem, calc((100% - 1200px)/2 - 60px)); }
-    .gk-arrow:disabled { opacity: .3; cursor: default; pointer-events: none; }
-
-    /* ── Bullet dots ── */
-    .gk-dots { display: flex; justify-content: center; gap: 8px; margin-top: 2rem; }
-    .gk-dot {
-        width: 10px; height: 10px; border-radius: 50%; border: none; padding: 0;
-        background: #cbd5e1; cursor: pointer; transition: all .3s ease;
-    }
-    .gk-dot.active {
-        background: linear-gradient(135deg, #1e3c72, #2a5298);
-        width: 28px; border-radius: 99px;
-    }
-    .gk-dot:hover { background: #94a3b8; }
-    .gk-dot.active:hover { background: linear-gradient(135deg, #1e3c72, #2a5298); }
-
-    /* ── Empty state ── */
-    .gk-empty { text-align: center; padding: 4rem 2rem; color: #94a3b8; font-size: 1rem; }
-    .gk-empty i { font-size: 2.5rem; margin-bottom: .6rem; display: block; opacity: .5; }
-
-    /* ── Responsive ── */
-    @media (max-width: 1024px) {
-        .gk-slide { flex: 0 0 calc(50% - 12px); }
-    }
-    @media (max-width: 640px) {
-        .glide-kegiatan { padding: 2rem 0 1.5rem; }
-        .gk-slide { flex: 0 0 220px; max-width: 350px; }
-        .gk-slide img { height: 320px; max-width: 350px; max-height: 420px; aspect-ratio: 1080/1350; }
-                @media (max-width: 1200px) {
-                    .gk-slide { flex: 0 0 180px; }
-                    .gk-slide img { height: 180px; }
-                }
-                @media (max-width: 900px) {
-                    .gk-slide { flex: 0 0 140px; }
-                    .gk-slide img { height: 140px; }
-                }
-                @media (max-width: 600px) {
-                    .gk-slide { flex: 0 0 80vw; max-width: 90vw; }
-                    .gk-slide img { height: 110px; max-width: 90vw; }
-                }
-        .gk-arrow { width: 40px; height: 40px; font-size: .95rem; }
-        .gk-arrow.prev { left: .5rem; }
-        .gk-arrow.next { right: .5rem; }
-        .glide-kegiatan .gk-title { font-size: 1.4rem; }
-        .gk-track { gap: 14px; }
-    }
-    </style>
-
-    <div class="glide-kegiatan" id="kegiatan-showcase">
-        <div class="gk-header">
-            <div class="gk-label promo-badge" style="background:linear-gradient(90deg,#1e3c72,#009da5);color:#fff;"><i class="fas fa-bolt"></i> AYO DAFTAR</div>
-            <h2 class="gk-title" style="font-size:2.2rem;color:#1e3c72;font-weight:900;letter-spacing:1px;">Gabung &amp; Rasakan Pengalaman Berbeda!</h2>
-            <p class="gk-subtitle" style="font-size:1.1rem;color:#1e3c72;font-weight:600;">Inilah momen-momen terbaik, prestasi, dan suasana seru di LP3I Karawang yang siap menginspirasi kamu untuk berkembang!</p>
+    <div class="kegiatan-container">
+        <div class="section-header">
+            <span class="section-label">Aktivitas Seru</span>
+            <h2 class="section-title">Gabung &amp; Rasakan <span>Pengalaman Berbeda!</span></h2>
+            <p class="section-subtitle">Momen terbaik, prestasi membanggakan, dan atmosfer belajar seru di LP3I Karawang yang menanti kamu!</p>
         </div>
 
         <div class="gk-viewport" id="gk-viewport">
@@ -507,17 +1218,17 @@
             </div>
         </div>
 
-        <!-- Modal untuk tampilan besar carousel kegiatan -->
-        <div id="gk-modal" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(30,60,114,0.92);align-items:center;justify-content:center;">
-            <div id="gk-modal-content" style="background:#fff;border-radius:18px;max-width:95vw;max-height:90vh;padding:0;box-shadow:0 8px 40px rgba(30,60,114,0.25);position:relative;display:flex;flex-direction:column;align-items:center;">
-                <button id="gk-modal-close" style="position:absolute;top:12px;right:18px;background:rgba(30,60,114,0.9);color:#fff;border:none;border-radius:50%;width:38px;height:38px;font-size:1.5rem;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;"><i class="fas fa-times"></i></button>
-                <img id="gk-modal-img" src="" alt="" style="max-width:90vw;max-height:60vh;border-radius:12px;margin:32px 0 12px 0;box-shadow:0 2px 16px rgba(30,60,114,0.10);">
-                <div style="padding:0 2vw 32px 2vw;text-align:center;max-width:700px;">
-                    <div style="display:flex;justify-content:center;align-items:center;margin-bottom:10px;">
-                        <span id="gk-modal-badge" class="promo-badge" style="background:linear-gradient(90deg,#1e3c72,#009da5);color:#fff;padding:6px 18px;font-size:.85rem;font-weight:800;border-radius:99px;letter-spacing:1px;box-shadow:0 2px 8px rgba(30,60,114,0.08);">Highlight</span>
+        <!-- Modal untuk detail kegiatan -->
+        <div id="gk-modal" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(11,19,41,0.92);align-items:center;justify-content:center;">
+            <div id="gk-modal-content" style="background:#fff;border-radius:24px;max-width:95vw;max-height:90vh;padding:0;box-shadow:0 15px 50px rgba(0,0,0,0.3);position:relative;display:flex;flex-direction:column;align-items:center;overflow:hidden;">
+                <button id="gk-modal-close" style="position:absolute;top:15px;right:20px;background:rgba(30,60,114,0.9);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.3rem;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;"><i class="fas fa-times"></i></button>
+                <img id="gk-modal-img" src="" alt="" style="max-width:100%;max-height:55vh;object-fit:cover;border-bottom:1px solid #f1f5f9;">
+                <div style="padding:2rem;text-align:center;max-width:750px;">
+                    <div style="display:flex;justify-content:center;align-items:center;margin-bottom:12px;">
+                        <span id="gk-modal-badge" style="background:linear-gradient(90deg,#009da5,#1e3c72);color:#fff;padding:5px 16px;font-size:.78rem;font-weight:800;border-radius:99px;letter-spacing:1px;text-transform:uppercase;">Highlight</span>
                     </div>
-                    <h3 id="gk-modal-title" style="font-size:1.15rem;color:#1e3c72;font-weight:800;margin:10px 0 12px 0;line-height:1.3;"></h3>
-                    <div id="gk-modal-caption" style="font-size:.95rem;color:#1e3c72;font-weight:500;line-height:1.5;text-align:center;"></div>
+                    <h3 id="gk-modal-title" style="font-size:1.3rem;color:#1e3c72;font-weight:800;margin-bottom:10px;line-height:1.35;"></h3>
+                    <div id="gk-modal-caption" style="font-size:.95rem;color:#475569;font-weight:500;line-height:1.6;text-align:center;"></div>
                 </div>
             </div>
         </div>
@@ -527,12 +1238,244 @@
 
         <div class="gk-dots" id="gk-dots"></div>
     </div>
+</section>
 
-    <script>
+<!-- Video Profile Section -->
+<section class="video-profile" id="profil-video">
+    <div class="video-container">
+        <div class="section-header">
+            <span class="section-label">Tur Kampus</span>
+            <h2 class="section-title">Kenali Kami Lebih Dekat</h2>
+            <p class="section-subtitle">Saksikan sekilas perjalanan, fasilitas modern, dan suasana belajar dinamis di Politeknik LP3I Karawang.</p>
+        </div>
+
+        <div class="video-mockup">
+            <div class="mockup-header">
+                <div class="mockup-dot red"></div>
+                <div class="mockup-dot yellow"></div>
+                <div class="mockup-dot green"></div>
+                <div class="mockup-title"><i class="fab fa-youtube"></i> LP3I Karawang Profile Video</div>
+            </div>
+            <div class="video-preview-wrapper" id="video-preview-wrapper">
+                <!-- Glowing Thumbnail Preview -->
+                <img src="<?php echo e(asset('storage/image/gedung.jpeg')); ?>" class="video-poster" alt="LP3I Karawang Campus Tour Thumbnail">
+                <div class="video-overlay-glow"></div>
+                <button class="play-btn" id="play-video-btn" aria-label="Play video">
+                    <i class="fas fa-play"></i>
+                    <span class="play-pulse"></span>
+                </button>
+            </div>
+        </div>
+        <div class="video-caption">Tonton video profil singkat LP3I Kampus Karawang.</div>
+    </div>
+</section>
+
+<!-- Partners Section -->
+<section class="partners" id="partners">
+    <div class="container">
+        <div class="partners-heading">
+            <div class="partners-accent"></div>
+            <h2>Mitra Perusahaan &amp; Dunia Industri<br>Menerima Lulusan Kami</h2>
+        </div>
+        <p class="partners-desc">Politeknik LP3I telah menjalin kemitraan erat dengan Dunia Usaha dan Dunia Industri (DUDI) baik instansi pemerintah, BUMN, maupun swasta multinasional untuk mempermudah magang dan penempatan kerja lulusan kami.</p>
+
+        <!-- Large Partners Showcase Card -->
+        <div class="partners-hero">
+            <img src="<?php echo e(asset('storage/image/apiliasi.png')); ?>" alt="Mitra Perusahaan LP3I Karawang">
+        </div>
+    </div>
+</section>
+
+<!-- News Section -->
+<section class="news">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-label">Update Terkini</span>
+            <h2 class="section-title">Berita &amp; Artikel <span>Terbaru</span></h2>
+            <p class="section-subtitle">Temukan informasi seputar akademik, prestasi mahasiswa, karir, dan tips dunia kerja di blog kami.</p>
+        </div>
+
+        <div class="news-grid">
+            <?php $__currentLoopData = $newsData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php
+                    $newsImage = null;
+                    if (!empty($news['image']) && file_exists(public_path($news['image']))) {
+                        $newsImage = asset($news['image']);
+                    } elseif (!empty($news['image']) && file_exists(public_path('storage/' . ltrim($news['image'], '/')))) {
+                        $newsImage = asset('storage/' . ltrim($news['image'], '/'));
+                    } elseif (!empty($news['image_path']) && file_exists(public_path($news['image_path']))) {
+                        $newsImage = asset($news['image_path']);
+                    } elseif (!empty($news['image_path']) && file_exists(public_path('storage/' . ltrim($news['image_path'], '/')))) {
+                        $newsImage = asset('storage/' . ltrim($news['image_path'], '/'));
+                    }
+                    
+                    if (!$newsImage) {
+                        $newsImage = asset('storage/image/landingPage1.png');
+                    }
+                
+                    $newsUrl = $news['link'] ?? (isset($news['slug']) ? url('/news/' . $news['slug']) : (isset($news['id']) ? url('/news/' . $news['id']) : '#'));
+                ?>
+
+                <a href="<?php echo e($newsUrl); ?>" class="news-card" aria-label="<?php echo e($news['title'] ?? 'Berita'); ?>">
+                    <div class="news-image-wrap">
+                        <span class="news-category"><?php echo e($news['category'] ?? 'Artikel'); ?></span>
+                        <img src="<?php echo e($newsImage); ?>" class="news-image" alt="<?php echo e($news['title'] ?? 'Berita'); ?>">
+                    </div>
+                    <div class="news-content">
+                        <h3><?php echo e($news['title'] ?? ''); ?></h3>
+                        <p class="news-excerpt"><?php echo e(Str::limit($news['excerpt'] ?? '', 95)); ?></p>
+                        <div class="news-footer">
+                            <span style="font-size:0.8rem;color:var(--text-muted);"><i class="far fa-calendar-alt"></i> <?php echo e(isset($news['created_at']) ? \Carbon\Carbon::parse($news['created_at'])->translatedFormat('d M Y') : 'Baru'); ?></span>
+                            <span class="news-more">Baca Selengkapnya <i class="fas fa-chevron-right" style="font-size:0.75rem;"></i></span>
+                        </div>
+                    </div>
+                </a>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </div>
+        
+        <div class="see-all-btn-wrap">
+            <a href="<?php echo e(url('/news')); ?>" class="see-all-btn">
+                Lihat Semua Berita <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<?php echo $__env->make('layouts.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+
+<!-- GSAP Core & ScrollTrigger CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+    // Header Scroll Event
+    window.addEventListener('scroll', function() {
+        const nav = document.getElementById('mainNav');
+        if (nav) {
+            if (window.scrollY > 60) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }
+    });
+
+    // YouTube lazy load play button handler
+    const playBtn = document.getElementById('play-video-btn');
+    if (playBtn) {
+        playBtn.addEventListener('click', function() {
+            const wrapper = document.getElementById('video-preview-wrapper');
+            wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/2dmy9PbQpz0?autoplay=1" title="Video profil LP3I Karawang" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        });
+    }
+
+    // GSAP Animation setup
+    document.addEventListener('DOMContentLoaded', function() {
+        // Register ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Hero Content Entrance Animation
+        gsap.from('.animate-hero', {
+            y: 40,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.15,
+            ease: 'power4.out',
+            delay: 0.2
+        });
+
+        // 2. Hero Slider logic using Ken Burns effect
+        const slides = gsap.utils.toArray('.carousel-slide');
+        if (slides.length > 0) {
+            let current = 0;
+            
+            // Set initial state
+            gsap.set(slides, { opacity: 0, scale: 1.12 });
+            gsap.set(slides[0], { opacity: 1, scale: 1.02 });
+            
+            // Trigger slow Ken Burns zoom on first slide
+            gsap.to(slides[0], { scale: 1.06, duration: 6, ease: 'sine.out' });
+            
+            function nextSlide() {
+                let next = (current + 1) % slides.length;
+                let tl = gsap.timeline();
+                
+                // Fade out current and reset scale
+                tl.to(slides[current], { opacity: 0, scale: 1.12, duration: 1.5, ease: 'power2.inOut' });
+                
+                // Fade in next and scale down (Ken Burns effect)
+                tl.fromTo(slides[next], 
+                    { opacity: 0, scale: 1.16 }, 
+                    { opacity: 1, scale: 1.02, duration: 1.5, ease: 'power2.inOut' }, 
+                    0
+                );
+                
+                // Slow continuous zoom on active
+                gsap.to(slides[next], { scale: 1.06, duration: 6, ease: 'sine.out', delay: 1.2 });
+                current = next;
+            }
+            setInterval(nextSlide, 5000);
+        }
+
+        // 3. Reasons Cards Entrance Animation (ScrollTrigger)
+        gsap.from('.reason-card', {
+            scrollTrigger: {
+                trigger: '.reasons',
+                start: 'top 80%',
+                toggleActions: 'play none none none'
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.12,
+            ease: 'power2.out'
+        });
+
+        // 4. Video Profile Mockup Entrance Animation
+        gsap.from('.video-mockup', {
+            scrollTrigger: {
+                trigger: '.video-profile',
+                start: 'top 80%',
+                toggleActions: 'play none none none'
+            },
+            scale: 0.95,
+            y: 40,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out'
+        });
+
+        // 5. Partners Grid Card Entrance Animation
+        gsap.from('.partners-hero', {
+            scrollTrigger: {
+                trigger: '.partners',
+                start: 'top 85%',
+                toggleActions: 'play none none none'
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out'
+        });
+
+        // 6. News Cards Entrance Animation
+        gsap.from('.news-card', {
+            scrollTrigger: {
+                trigger: '.news',
+                start: 'top 80%',
+                toggleActions: 'play none none none'
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power2.out'
+        });
+    });
+
+    // Activities Carousel logic (Glide.js styled, custom slider)
     (function(){
-        /* ── Config ── */
-        const AUTOPLAY   = 4500;
-        const PEEK       = 0;        /* no extra peek – gap handles spacing */
+        const AUTOPLAY   = 5000;
         const track      = document.getElementById('gk-track');
         const viewport   = document.getElementById('gk-viewport');
         const dotsWrap   = document.getElementById('gk-dots');
@@ -542,7 +1485,6 @@
 
         let items = [], dots = [], idx = 0, perView = 3, timer = null, dragging = false, startX = 0, startLeft = 0;
 
-        /* ── Helpers ── */
         function getPerView(){
             const w = window.innerWidth;
             if (w <= 640) return 1;
@@ -552,15 +1494,25 @@
 
         function slideWidth(){
             if (!items.length) return 0;
-            return items[0].offsetWidth + parseFloat(getComputedStyle(track).gap || 24);
+            return items[0].offsetWidth + parseFloat(getComputedStyle(track).gap || 32);
         }
 
         function maxIdx(){ return Math.max(0, items.length - perView); }
 
         function moveTo(i, smooth = true){
             idx = Math.max(0, Math.min(i, maxIdx()));
-            track.style.transition = smooth ? 'transform .45s cubic-bezier(.25,.8,.25,1)' : 'none';
-            track.style.transform = `translateX(-${idx * slideWidth()}px)`;
+            const targetX = -idx * slideWidth();
+            
+            if (smooth) {
+                gsap.to(track, {
+                    x: targetX,
+                    duration: 0.6,
+                    ease: 'power2.out',
+                    overwrite: 'auto'
+                });
+            } else {
+                gsap.set(track, { x: targetX });
+            }
             updateActive();
             updateDots();
             updateArrows();
@@ -568,7 +1520,9 @@
 
         function updateActive(){
             items.forEach((el, i) => {
-                el.classList.toggle('is-active', i >= idx && i < idx + perView);
+                const isActive = (i >= idx && i < idx + perView);
+                el.style.opacity = isActive ? '1' : '0.4';
+                el.style.transform = isActive ? 'scale(1)' : 'scale(0.95)';
             });
         }
 
@@ -577,7 +1531,6 @@
             nextBtn.disabled = idx >= maxIdx();
         }
 
-        /* ── Dots ── */
         function buildDots(){
             dotsWrap.innerHTML = '';
             dots = [];
@@ -591,11 +1544,11 @@
                 dots.push(d);
             }
         }
+
         function updateDots(){
             dots.forEach((d, i) => d.classList.toggle('active', i === idx));
         }
 
-        /* ── Build slides ── */
         function build(data){
             const active = data.filter(d => d.status === 'active' && d.image_path);
             if (!active.length){ emptyEl.innerHTML = '<i class="fas fa-images"></i>Belum ada kegiatan.'; return; }
@@ -604,21 +1557,27 @@
 
             active.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'gk-slide is-active';
-                card.innerHTML = `
-                    <img src="/${item.image_path}" alt="${item.title || 'Kegiatan'}" loading="lazy" draggable="false" class="gk-slide-img">
-                    <div class="gk-slide-caption">
-                        <span class="gk-slide-tag promo-badge" style="background:linear-gradient(90deg,#1e3c72,#009da5);color:#fff;">Highlight</span>
-                        <h3 style="font-size:1.1rem;color:#1e3c72;font-weight:700;">${item.title || 'Momen Spesial LP3I'}</h3>
-                        <span style="display:block;font-size:.85rem;color:#1e3c72;font-weight:500;">${item.caption || 'Ayo jadi bagian dari cerita sukses ini!'}</span>
-                    </div>`;
-                // Tambah event klik untuk modal
+                card.className = 'gk-slide';
                 card.style.cursor = 'pointer';
+                card.innerHTML = `
+                    <div class="gk-slide-inner">
+                        <div class="gk-slide-image-wrap">
+                            <img src="/${item.image_path}" alt="${item.title || 'Kegiatan'}" loading="lazy" draggable="false" class="gk-slide-img">
+                            <div class="gk-slide-overlay">
+                                <span class="gk-zoom-badge"><i class="fas fa-expand-alt"></i> Detail</span>
+                            </div>
+                        </div>
+                        <div class="gk-slide-caption">
+                            <span class="gk-slide-tag"><i class="fas fa-sparkles"></i> Highlight</span>
+                            <h3>${item.title || 'Momen Spesial LP3I'}</h3>
+                            <p>${item.caption || 'Ayo jadi bagian dari cerita sukses ini!'}</p>
+                        </div>
+                    </div>`;
+
                 card.addEventListener('click', function() {
                     document.getElementById('gk-modal-img').src = `/${item.image_path}`;
                     document.getElementById('gk-modal-img').alt = item.title || 'Kegiatan';
                     document.getElementById('gk-modal-title').textContent = item.title || 'Momen Spesial LP3I';
-                    // Rapikan deskripsi: jika ada baris baru, ganti jadi <br>
                     let caption = item.caption || 'Ayo jadi bagian dari cerita sukses ini!';
                     caption = caption.replace(/\n/g, '<br>');
                     document.getElementById('gk-modal-caption').innerHTML = caption;
@@ -627,43 +1586,49 @@
                 track.appendChild(card);
                 items.push(card);
             });
-        // Modal close event
-        document.addEventListener('DOMContentLoaded', function() {
-            var modal = document.getElementById('gk-modal');
-            var closeBtn = document.getElementById('gk-modal-close');
-            var modalContent = document.getElementById('gk-modal-content');
+
+            // Modal events setup
+            const modal = document.getElementById('gk-modal');
+            const closeBtn = document.getElementById('gk-modal-close');
             function closeModal() {
                 modal.style.display = 'none';
             }
-            if (closeBtn) {
-                closeBtn.onclick = closeModal;
-            }
-            // Tutup modal jika klik di luar modal-content
+            if (closeBtn) closeBtn.onclick = closeModal;
             if (modal) {
                 modal.addEventListener('mousedown', function(e) {
-                    // Pastikan klik di luar modal-content
-                    if (e.target === modal) {
-                        closeModal();
-                    }
+                    if (e.target === modal) closeModal();
                 });
             }
-            // Tutup modal dengan tombol ESC
             document.addEventListener('keydown', function(e) {
-                if (modal.style.display === 'flex' && (e.key === 'Escape' || e.keyCode === 27)) {
+                if (modal && modal.style.display === 'flex' && (e.key === 'Escape' || e.keyCode === 27)) {
                     closeModal();
                 }
             });
-        });
 
             perView = getPerView();
             prevBtn.style.display = '';
             nextBtn.style.display = '';
             buildDots();
             moveTo(0, false);
-            startAuto();
+            
+            // GSAP slide-in cards on scroll for Kegiatan Showcase
+            gsap.from('.gk-slide', {
+                scrollTrigger: {
+                    trigger: '#kegiatan-showcase',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: 'power2.out',
+                onComplete: () => {
+                    startAuto();
+                }
+            });
         }
 
-        /* ── Autoplay ── */
         function startAuto(){
             stopAuto();
             timer = setInterval(() => {
@@ -674,18 +1639,33 @@
         function stopAuto(){ clearInterval(timer); }
         function resetAuto(){ stopAuto(); startAuto(); }
 
-        /* ── Events ── */
         prevBtn.addEventListener('click', () => { moveTo(idx - 1); resetAuto(); });
         nextBtn.addEventListener('click', () => { moveTo(idx + 1); resetAuto(); });
 
-        /* Drag / swipe */
-        function pointerDown(x){ dragging = true; startX = x; startLeft = idx * slideWidth(); track.style.transition = 'none'; track.style.cursor = 'grabbing'; }
-        function pointerMove(x){ if (!dragging) return; const dx = x - startX; track.style.transform = `translateX(${-startLeft + dx}px)`; }
+        /* Drag / swipe mechanics using GSAP */
+        function pointerDown(x){ 
+            dragging = true; 
+            startX = x; 
+            startLeft = -idx * slideWidth(); 
+            gsap.killTweensOf(track);
+            track.style.cursor = 'grabbing'; 
+            stopAuto();
+        }
+        function pointerMove(x){ 
+            if (!dragging) return; 
+            const dx = x - startX; 
+            gsap.set(track, { x: startLeft + dx }); 
+        }
         function pointerUp(x){
-            if (!dragging) return; dragging = false; track.style.cursor = '';
+            if (!dragging) return; 
+            dragging = false; 
+            track.style.cursor = '';
             const dx = x - startX;
-            if (Math.abs(dx) > 50) { dx < 0 ? moveTo(idx + 1) : moveTo(idx - 1); }
-            else moveTo(idx);
+            if (Math.abs(dx) > 55) { 
+                dx < 0 ? moveTo(idx + 1) : moveTo(idx - 1); 
+            } else { 
+                moveTo(idx); 
+            }
             resetAuto();
         }
         track.addEventListener('mousedown',  e => { e.preventDefault(); pointerDown(e.clientX); });
@@ -695,7 +1675,7 @@
         track.addEventListener('touchmove',  e => pointerMove(e.touches[0].clientX), { passive: true });
         track.addEventListener('touchend',   e => pointerUp(e.changedTouches[0].clientX), { passive: true });
 
-        /* Keyboard */
+        /* Keyboard Navigation */
         document.addEventListener('keydown', e => {
             const rect = viewport.getBoundingClientRect();
             if (rect.bottom < 0 || rect.top > window.innerHeight) return;
@@ -703,124 +1683,33 @@
             if (e.key === 'ArrowRight'){ moveTo(idx + 1); resetAuto(); }
         });
 
-        /* Pause on hover */
         const root = document.getElementById('kegiatan-showcase');
-        root.addEventListener('mouseenter', stopAuto);
-        root.addEventListener('mouseleave', () => { if (items.length) startAuto(); });
+        if (root) {
+            root.addEventListener('mouseenter', stopAuto);
+            root.addEventListener('mouseleave', () => { if (items.length) startAuto(); });
+        }
 
-        /* Resize */
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => { perView = getPerView(); buildDots(); moveTo(idx, false); }, 150);
+            resizeTimer = setTimeout(() => { 
+                perView = getPerView(); 
+                buildDots(); 
+                moveTo(idx, false); 
+            }, 150);
         });
 
-        /* ── Fetch ── */
+        // Fetch Data from Endpoint
         fetch('/carousel-kegiatan')
             .then(r => r.json())
-            .then(j => { if (j.success) build(j.data); else emptyEl.innerHTML = '<i class="fas fa-images"></i>Gagal memuat.'; })
-            .catch(() => { emptyEl.innerHTML = '<i class="fas fa-images"></i>Gagal memuat kegiatan.'; });
+            .then(j => { 
+                if (j.success) build(j.data); 
+                else emptyEl.innerHTML = '<i class="fas fa-images"></i>Gagal memuat kegiatan.'; 
+            })
+            .catch(() => { 
+                emptyEl.innerHTML = '<i class="fas fa-images"></i>Gagal memuat kegiatan.'; 
+            });
     })();
-    </script>
-    <!-- ═══ END Kegiatan Showcase ═══ -->
-        <div class="video-block">
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/2dmy9PbQpz0" title="Video profil LP3I Karawang" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <div class="video-caption">Tonton video profil singkat LP3I Karawang.</div>
-        </div>
-    </div>
-</section>
-<!-- Kerjasama Perusahaan -->
-<section class="partners" id="partners">
-    <div class="container">
-        <div class="heading">
-            <div class="accent"></div>
-            <h2>Mitra Perusahaan<br>
-            Menerima Lulusan Kami!</h2>
-        </div>
-        <p class="lead">Politeknik LP3I telah melakukan kerjasama untuk pelaksanaan Tri Darma Perguruan Tinggi dengan Dunia Usaha dan Dunia Industri (DUDI) baik dari perusahaan swasta dan pemerintah dengan level wilayah Provinsi, Nasional dan Internasional.</p>
-
-            <div class="partners-hero">
-                
-                <img src="<?php echo e(asset('storage/image/apiliasi.png')); ?>" alt="Kerjasama Perusahaan">
-            </div>
-    </div>
-</section>
-
-<section class="news">
-    <div class="container">
-        <h2 class="section-title">Berita Terkini</h2>
-        <div class="news-grid">
-            <?php $__currentLoopData = $newsData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php
-                    $newsImage = null;
-                    // prefer explicit image path
-                    if (!empty($news['image']) && file_exists(public_path($news['image']))) {
-                        $newsImage = asset($news['image']);
-                    } elseif (!empty($news['image']) && file_exists(public_path('storage/' . ltrim($news['image'], '/')))) {
-                        $newsImage = asset('storage/' . ltrim($news['image'], '/'));
-                    } elseif (!empty($news['image_path']) && file_exists(public_path($news['image_path']))) {
-                        $newsImage = asset($news['image_path']);
-                    } elseif (!empty($news['image_path']) && file_exists(public_path('storage/' . ltrim($news['image_path'], '/')))) {
-                        $newsImage = asset('storage/' . ltrim($news['image_path'], '/'));
-                    }
-                    // fallback to an existing image in public/storage/image
-                    if (!$newsImage) {
-                        $newsImage = asset('storage/image/landingPage1.png');
-                    }
-                
-                    $newsUrl = $news['link'] ?? (isset($news['slug']) ? url('/news/' . $news['slug']) : (isset($news['id']) ? url('/news/' . $news['id']) : '#'));
-                ?>
-
-                <a href="<?php echo e($newsUrl); ?>" class="news-card" aria-label="<?php echo e($news['title'] ?? 'Berita'); ?>">
-                    <img src="<?php echo e($newsImage); ?>" class="news-image" alt="<?php echo e($news['title'] ?? 'Berita'); ?>">
-                    <div class="news-content">
-                    <span class="news-category"><?php echo e($news['category'] ?? ''); ?></span>
-                    <h3><?php echo e($news['title'] ?? ''); ?></h3>
-                    <p class="news-excerpt"><?php echo e(Str::limit($news['excerpt'] ?? '', 100)); ?></p>
-                    </div>
-                </a>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </div>
-        <div style="text-align:center; margin-top:1.75rem;">
-            <a href="<?php echo e(url('/news')); ?>" class="see-all-btn">Lihat Semua Berita </a>
-        </div>
-    </div>
-</section>
-
-    <?php echo $__env->make('layouts.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
-
-<script>
-    // Animasi Scroll Header
-    window.addEventListener('scroll', function() {
-        const nav = document.getElementById('mainNav');
-        if (window.scrollY > 60) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-    });
-
-    // Carousel Logic
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    function nextSlide() {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }
-    setInterval(nextSlide, 5000);
-
-    // Animasi muncul saat scroll (Intersection Observer)
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-            }
-        });
-    });
-    document.querySelectorAll('.news-card').forEach((card) => observer.observe(card));
 </script>
 </body>
 </html><?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/index.blade.php ENDPATH**/ ?>

@@ -4,8 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Edit Biodata - LP3I Karawang</title>
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="<?php echo e(asset('images/logos/Logo_LP3I.png')); ?>" type="image/png">
+  
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --primary: #004269;
@@ -27,19 +32,6 @@
       box-shadow: 0 0 0 3px rgba(0, 157, 165, 0.1);
       outline: none;
     }
-    /* Custom File Upload Styling */
-    input[type="file"]::file-selector-button {
-      background-color: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      margin-right: 1rem;
-      transition: all 0.2s;
-    }
-    input[type="file"]::file-selector-button:hover {
-      background-color: #e2e8f0;
-    }
     .sidebar-link-active {
       background-color: rgba(0, 66, 105, 0.08);
       color: var(--primary);
@@ -56,45 +48,19 @@
   <div class="max-w-6xl mx-auto p-4 md:p-6 lg:p-8 mt-12">
     <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 items-start">
       
-      <aside class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xl shadow-slate-200/50 sticky top-6">
-        <div class="flex items-center gap-4 mb-8">
-          <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-primary">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 11c2.761 0 5-2.239 5-5S14.761 1 12 1 7 3.239 7 6s2.239 5 5 5zM3 21a9 9 0 0118 0"/></svg>
-          </div>
-          <div class="overflow-hidden">
-            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Pendaftar</p>
-            <p class="font-bold truncate text-slate-700"><?php echo e(Auth::user()->name ?? 'Pendaftar'); ?></p>
-          </div>
-        </div>
+      <!-- Sidebar -->
+      <?php echo $__env->make('partials.sidebar_pendaftar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
-        <nav class="space-y-1.5">
-          <a href="<?php echo e(route('pendaftar.dashboard')); ?>" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 transition-all">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1   1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-            <span class="text-sm font-medium">Dashboard</span>
-          </a>
-          <a href="<?php echo e(route('pendaftar.biodata.show')); ?>" class="flex items-center gap-3 px-4 py-3 rounded-xl sidebar-link-active transition-all">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            <span class="text-sm font-medium">Biodata</span>
-          </a>
-
-          <div class="pt-4 pb-2 px-4">
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Pengaturan Akun</p>
-          </div>
-          <a href="<?php echo e(route('pendaftar.akun.email')); ?>" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 text-sm transition-all">Email</a>
-          <a href="<?php echo e(route('pendaftar.akun.password')); ?>" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 text-sm transition-all">Password</a>
-          <a href="<?php echo e(route('pendaftar.akun.phone')); ?>" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 text-sm transition-all">No. Handphone</a>
-        </nav>
-      </aside>
-
+      <!-- Main Form -->
       <main>
         <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
           
-          <div class="p-6 md:p-8 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="p-6 md:p-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 class="text-2xl font-bold text-slate-800">Ubah Biodata</h2>
-              <p class="text-sm text-slate-500 mt-1">Pastikan informasi yang Anda masukkan sudah benar.</p>
+              <p class="text-sm text-slate-500 mt-1">Pastikan informasi yang Anda masukkan sudah sesuai data resmi.</p>
             </div>
-            <div class="inline-flex items-center px-4 py-2 bg-slate-50 rounded-lg border border-slate-200">
+            <div class="inline-flex items-center px-4 py-2 bg-slate-50 rounded-lg border border-slate-200 self-start sm:self-auto">
               <span class="text-xs font-semibold text-slate-400 mr-2 uppercase">Nomor NIPD:</span>
               <span class="text-sm font-bold text-primary"><?php echo e($pendaftar->nipd ?? '-'); ?></span>
             </div>
@@ -112,7 +78,7 @@
               <div class="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-100 text-amber-800">
                 <div class="flex items-center gap-2 font-bold mb-2">
                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-                  <span>Ada kesalahan pengisian:</span>
+                  <span>Ada kesalahan pengisian form:</span>
                 </div>
                 <ul class="list-disc pl-8 text-sm space-y-1">
                   <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $err): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> <li><?php echo e($err); ?></li> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -123,36 +89,41 @@
             <form action="<?php echo e(route('pendaftar.biodata.update')); ?>" method="POST" enctype="multipart/form-data">
               <?php echo csrf_field(); ?>
 
-              <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2">Informasi Pribadi</h3>
+              <!-- Section 1 -->
+              <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2 flex items-center gap-2">
+                <i class="fas fa-user text-primary"></i> Informasi Pribadi
+              </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label>
-                  <input type="text" name="nama_mhs" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('nama_mhs', $pendaftar->nama_mhs ?? '')); ?>">
+                  <input type="text" name="nama_mhs" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: Joko Susilo" value="<?php echo e(old('nama_mhs', $pendaftar->nama_mhs ?? '')); ?>">
                 </div>
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Email Aktif</label>
-                  <input type="email" name="email" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('email', $pendaftar->email ?? '')); ?>">
+                  <input type="email" name="email" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="contoh@domain.com" value="<?php echo e(old('email', $pendaftar->email ?? '')); ?>">
+                  <p class="mt-1.5 text-[11px] text-slate-400">Digunakan untuk menerima notifikasi status kelulusan pendaftaran.</p>
                 </div>
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Tempat Lahir</label>
-                  <input type="text" name="tempat_lahir" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('tempat_lahir', $pendaftar->tempat_lahir ?? '')); ?>">
+                  <input type="text" name="tempat_lahir" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: Karawang" value="<?php echo e(old('tempat_lahir', $pendaftar->tempat_lahir ?? '')); ?>">
                 </div>
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">No. Handphone (WhatsApp)</label>
-                  <input type="text" name="no_hp" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('no_hp', $pendaftar->no_hp ?? '')); ?>">
+                  <input type="text" name="no_hp" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: 08123456789" value="<?php echo e(old('no_hp', $pendaftar->no_hp ?? '')); ?>">
+                  <p class="mt-1.5 text-[11px] text-slate-400">Pastikan nomor ini aktif dan terhubung ke WhatsApp Anda.</p>
                 </div>
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Jenis Kelamin</label>
-                  <select name="jenis_kelamin" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom">
-                    <option value="">-- Pilih --</option>
+                  <select name="jenis_kelamin" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom bg-white">
+                    <option value="">-- Pilih Jenis Kelamin --</option>
                     <option value="Laki-laki" <?php echo e((old('jenis_kelamin', $pendaftar->jenis_kelamin ?? '') == 'Laki-laki') ? 'selected' : ''); ?>>Laki-laki</option>
                     <option value="Perempuan" <?php echo e((old('jenis_kelamin', $pendaftar->jenis_kelamin ?? '') == 'Perempuan') ? 'selected' : ''); ?>>Perempuan</option>
                   </select>
                 </div>
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Agama</label>
-                  <select name="agama" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom">
-                    <option value="">-- Pilih --</option>
+                  <select name="agama" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom bg-white">
+                    <option value="">-- Pilih Agama --</option>
                     <option value="Islam" <?php echo e((old('agama', $pendaftar->agama ?? '') == 'Islam') ? 'selected' : ''); ?>>Islam</option>
                     <option value="Kristen" <?php echo e((old('agama', $pendaftar->agama ?? '') == 'Kristen') ? 'selected' : ''); ?>>Kristen</option>
                     <option value="Katolik" <?php echo e((old('agama', $pendaftar->agama ?? '') == 'Katolik') ? 'selected' : ''); ?>>Katolik</option>
@@ -162,122 +133,196 @@
                 </div>
               </div>
 
-              <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2">Informasi Akademik</h3>
+              <!-- Section 2 -->
+              <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2 flex items-center gap-2">
+                <i class="fas fa-graduation-cap text-primary"></i> Informasi Akademik
+              </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                 <div>
-                  <label class="block text-sm font-semibold text-slate-700 mb-2">Program Studi</label>
-                  <select name="id_program_studi" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom">
-                    <option value="">-- Pilih --</option>
+                  <label class="block text-sm font-semibold text-slate-700 mb-2">Program Studi Pilihan</label>
+                  <select name="id_program_studi" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom bg-white">
+                    <option value="">-- Pilih Program Studi --</option>
                     <?php $selectedProdi = old('id_program_studi', $pendaftar->id_program_studi ?? ($pendaftar->id_program_study ?? '')); ?>
-                    <option value="2" <?php echo e(((string)$selectedProdi === '2') ? 'selected' : ''); ?>>Accounting Information System</option>
-                    <option value="1" <?php echo e(((string)$selectedProdi === '1') ? 'selected' : ''); ?>>Application Software Engineering</option>
+                    <option value="1" <?php echo e(((string)$selectedProdi === '1') ? 'selected' : ''); ?>>Accounting Information System</option>
+                    <option value="2" <?php echo e(((string)$selectedProdi === '2') ? 'selected' : ''); ?>>Application Software Engineering</option>
                     <option value="3" <?php echo e(((string)$selectedProdi === '3') ? 'selected' : ''); ?>>Office Administration Automatization</option>
                   </select>
                 </div>
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Jenis Kelas</label>
-                  <select name="jenis_kelas" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom">
+                  <select name="jenis_kelas" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom bg-white">
                     <option value="Regular" <?php echo e((old('jenis_kelas', $pendaftar->jenis_kelas ?? '') == 'Regular') ? 'selected' : ''); ?>>Regular</option>
                     <option value="Karyawan" <?php echo e((old('jenis_kelas', $pendaftar->jenis_kelas ?? '') == 'Karyawan') ? 'selected' : ''); ?>>Karyawan</option>
                   </select>
                 </div>
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Asal Sekolah</label>
-                  <input type="text" name="asal_sekolah" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('asal_sekolah', $pendaftar->asal_sekolah ?? '')); ?>">
+                  <input type="text" name="asal_sekolah" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: SMAN 1 Karawang" value="<?php echo e(old('asal_sekolah', $pendaftar->asal_sekolah ?? '')); ?>">
                 </div>
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Angkatan</label>
                   <input type="text" name="angkatan" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('angkatan', $pendaftar->angkatan ?? '')); ?>" placeholder="Contoh: 2025">
                 </div>
                 <div>
-                  <label class="block text-sm font-semibold text-slate-700 mb-2">Periode</label>
-                  <input type="text" name="periode" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('periode', $pendaftar->periode ?? '')); ?>" placeholder="Contoh: Genap">
+                  <label class="block text-sm font-semibold text-slate-700 mb-2">Periode Kuliah</label>
+                  <input type="text" name="periode" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('periode', $pendaftar->periode ?? '')); ?>" placeholder="Contoh: Ganjil">
                 </div>
                 <div>
-                  <label class="block text-sm font-semibold text-slate-700 mb-2">Tahun Lulus</label>
-                  <input type="number" name="tahun_lulus" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('tahun_lulus', $pendaftar->tahun_lulus ?? '')); ?>">
+                  <label class="block text-sm font-semibold text-slate-700 mb-2">Tahun Kelulusan Sekolah</label>
+                  <input type="number" name="tahun_lulus" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: 2024" value="<?php echo e(old('tahun_lulus', $pendaftar->tahun_lulus ?? '')); ?>">
                 </div>
               </div>
 
-              <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2">Alamat Tinggal</h3>
+              <!-- Section 3 -->
+              <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2 flex items-center gap-2">
+                <i class="fas fa-map-marker-alt text-primary"></i> Alamat Tinggal
+              </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                 <div class="md:col-span-2">
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Alamat Lengkap</label>
-                  <textarea name="alamat" rows="2" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom"><?php echo e(old('alamat', $pendaftar->alamat ?? '')); ?></textarea>
+                  <textarea name="alamat" rows="2" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Masukkan nama jalan, nomor rumah, RT/RW, Dusun..."><?php echo e(old('alamat', $pendaftar->alamat ?? '')); ?></textarea>
                 </div>
                 <div>
-                  <label class="block text-sm font-semibold text-slate-700 mb-2">Domisili</label>
+                  <label class="block text-sm font-semibold text-slate-700 mb-2">Domisili Kota / Kabupaten</label>
                   <input type="text" name="domisili" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('domisili', $pendaftar->domisili ?? '')); ?>" placeholder="Contoh: Karawang">
                 </div>
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Kecamatan</label>
-                  <input type="text" name="kecamatan" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('kecamatan', $pendaftar->kecamatan ?? '')); ?>">
+                  <input type="text" name="kecamatan" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: Telukjambe Timur" value="<?php echo e(old('kecamatan', $pendaftar->kecamatan ?? '')); ?>">
                 </div>
                 <div>
                   <label class="block text-sm font-semibold text-slate-700 mb-2">Desa/Kelurahan</label>
-                  <input type="text" name="desa" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('desa', $pendaftar->desa ?? '')); ?>">
+                  <input type="text" name="desa" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: Sukaluyu" value="<?php echo e(old('desa', $pendaftar->desa ?? '')); ?>">
                 </div>
               </div>
 
-              <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2">Data Wali / Orang Tua</h3>
+              <!-- Section 4 -->
+              <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2 flex items-center gap-2">
+                <i class="fas fa-users text-primary"></i> Data Wali / Orang Tua
+              </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                 <div>
-                  <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Wali</label>
-                  <input type="text" name="nama_wali" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('nama_wali', $pendaftar->nama_wali ?? '')); ?>">
+                  <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Wali / Orang Tua</label>
+                  <input type="text" name="nama_wali" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: Bambang Susilo" value="<?php echo e(old('nama_wali', $pendaftar->nama_wali ?? '')); ?>">
                 </div>
                 <div>
-                  <label class="block text-sm font-semibold text-slate-700 mb-2">Pekerjaan Wali</label>
-                  <input type="text" name="pekerjaan_wali" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('pekerjaan_wali', $pendaftar->pekerjaan_wali ?? '')); ?>">
+                  <label class="block text-sm font-semibold text-slate-700 mb-2">Pekerjaan Wali / Orang Tua</label>
+                  <input type="text" name="pekerjaan_wali" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: Karyawan Swasta" value="<?php echo e(old('pekerjaan_wali', $pendaftar->pekerjaan_wali ?? '')); ?>">
                 </div>
                 <div>
-                  <label class="block text-sm font-semibold text-slate-700 mb-2">WhatsApp Wali</label>
-                  <input type="tel" name="whatsapp_wali" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" value="<?php echo e(old('whatsapp_wali', $pendaftar->whatsapp_wali ?? '')); ?>">
+                  <label class="block text-sm font-semibold text-slate-700 mb-2">WhatsApp Wali / Orang Tua</label>
+                  <input type="tel" name="whatsapp_wali" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: 08123456789" value="<?php echo e(old('whatsapp_wali', $pendaftar->whatsapp_wali ?? '')); ?>">
                 </div>
                 <div>
-                  <label class="block text-sm font-semibold text-slate-700 mb-2">Instagram Anda</label>
-                  <input type="text" name="instagram" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="@username" value="<?php echo e(old('instagram', $pendaftar->instagram ?? '')); ?>">
+                  <label class="block text-sm font-semibold text-slate-700 mb-2">Instagram Pribadi Anda</label>
+                  <input type="text" name="instagram" class="w-full border border-slate-300 rounded-xl px-4 py-2.5 transition-all form-input-custom" placeholder="Contoh: @username_anda" value="<?php echo e(old('instagram', $pendaftar->instagram ?? '')); ?>">
                 </div>
               </div>
 
-              <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2">Dokumen Pendukung (Max 2MB)</h3>
+              <!-- Section 5 -->
+              <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-2 flex items-center gap-2">
+                <i class="fas fa-file-upload text-primary"></i> Dokumen Pendukung (Maksimal Berkas 2MB)
+              </h3>
+              
               <div class="space-y-8">
-                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
-                  <label class="block text-sm font-bold text-slate-700 mb-3">Foto Profil</label>
-                  <div class="flex flex-col md:flex-row items-start gap-6">
-                    <?php if(!empty($pendaftar->photo_url) || !empty($pendaftar->foto)): ?>
-                      <img src="<?php echo e(asset(ltrim($pendaftar->foto ?? $pendaftar->photo_url,'/'))); ?>" alt="Preview" class="w-32 h-40 object-cover rounded-xl border-2 border-white shadow-md">
-                    <?php endif; ?>
-                    <div class="flex-1">
-                      <input type="file" name="photo" class="text-sm text-slate-500 w-full">
-                      <p class="mt-2 text-xs text-slate-400">Gunakan foto formal latar belakang merah/biru.</p>
+                <!-- Profile Photo Picker -->
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200/80">
+                  <label class="block text-sm font-bold text-slate-700 mb-4">Foto Profil</label>
+                  <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                    <div class="relative w-32 h-40 rounded-xl overflow-hidden border-4 border-white shadow-lg bg-slate-100 flex-shrink-0 group">
+                      <?php if(!empty($pendaftar->photo_url) || !empty($pendaftar->foto)): ?>
+                        <img src="<?php echo e(asset(ltrim($pendaftar->foto ?? $pendaftar->photo_url,'/'))); ?>" alt="Preview" class="w-full h-full object-cover">
+                      <?php else: ?>
+                        <div class="w-full h-full flex flex-col items-center justify-center text-slate-300">
+                          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                          <span class="text-[10px] mt-1">Kosong</span>
+                        </div>
+                      <?php endif; ?>
+                    </div>
+                    <div class="flex-1 w-full text-center sm:text-left">
+                      <div class="relative inline-block w-full sm:w-auto">
+                        <input type="file" name="photo" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-20">
+                        <button type="button" class="btn-basic text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-sm inline-flex items-center gap-2">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                          Pilih Foto Baru
+                        </button>
+                      </div>
+                      <p class="mt-3 text-xs text-slate-400 leading-relaxed">Gunakan foto formal (seperti pas foto sekolah) dengan rasio 3:4 dan latar belakang berwarna merah atau biru (maksimal ukuran berkas 2MB).</p>
                     </div>
                   </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div class="p-4 border border-slate-200 rounded-xl">
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">KTP / Kartu Pelajar</label>
-                    <input type="file" name="ktp_file" class="text-sm w-full">
-                    <?php if(!empty($pendaftar->ktp_path)): ?> <p class="mt-2 text-[10px] text-emerald-600 font-bold">✓ Dokumen Tersedia</p> <?php endif; ?>
+                <!-- Dashed Drag-and-Drop styled inputs for files -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  
+                  <!-- File 1: KTP -->
+                  <div class="p-5 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50 hover:bg-slate-100/50 hover:border-slate-300 transition-all flex flex-col items-center text-center relative group">
+                    <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">KTP / Kartu Pelajar</label>
+                    <input type="file" name="ktp_file" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                    <span class="text-[11px] text-slate-400">Klik untuk memilih berkas</span>
+                    <?php if(!empty($pendaftar->ktp_path)): ?>
+                      <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-semibold border border-emerald-200">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        Tersedia
+                      </div>
+                    <?php endif; ?>
                   </div>
-                  <div class="p-4 border border-slate-200 rounded-xl">
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Ijazah Terakhir</label>
-                    <input type="file" name="ijazah_file" class="text-sm w-full">
-                    <?php if(!empty($pendaftar->ijazah_path)): ?> <p class="mt-2 text-[10px] text-emerald-600 font-bold">✓ Dokumen Tersedia</p> <?php endif; ?>
+
+                  <!-- File 2: Ijazah -->
+                  <div class="p-5 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50 hover:bg-slate-100/50 hover:border-slate-300 transition-all flex flex-col items-center text-center relative group">
+                    <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Ijazah Terakhir</label>
+                    <input type="file" name="ijazah_file" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                    <span class="text-[11px] text-slate-400">Klik untuk memilih berkas</span>
+                    <?php if(!empty($pendaftar->ijazah_path)): ?>
+                      <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-semibold border border-emerald-200">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        Tersedia
+                      </div>
+                    <?php endif; ?>
                   </div>
-                  <div class="p-4 border border-slate-200 rounded-xl">
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Akte Kelahiran</label>
-                    <input type="file" name="akte_kelahiran_file" class="text-sm w-full">
-                    <?php if(!empty($pendaftar->akte_kelahiran_path)): ?> <p class="mt-2 text-[10px] text-emerald-600 font-bold">✓ Dokumen Tersedia</p> <?php endif; ?>
+
+                  <!-- File 3: Akte Kelahiran -->
+                  <div class="p-5 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50 hover:bg-slate-100/50 hover:border-slate-300 transition-all flex flex-col items-center text-center relative group">
+                    <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Akte Kelahiran</label>
+                    <input type="file" name="akte_kelahiran_file" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                    <span class="text-[11px] text-slate-400">Klik untuk memilih berkas</span>
+                    <?php if(!empty($pendaftar->akte_kelahiran_path)): ?>
+                      <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-semibold border border-emerald-200">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        Tersedia
+                      </div>
+                    <?php endif; ?>
                   </div>
-                  <div class="p-4 border border-slate-200 rounded-xl">
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Surat Keterangan Kerja</label>
-                    <input type="file" name="surat_sudah_bekerja_file" class="text-sm w-full">
-                    <?php if(!empty($pendaftar->surat_sudah_bekerja_path)): ?> <p class="mt-2 text-[10px] text-emerald-600 font-bold">✓ Dokumen Tersedia</p> <?php endif; ?>
+
+                  <!-- File 4: Surat Keterangan Kerja -->
+                  <div class="p-5 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50 hover:bg-slate-100/50 hover:border-slate-300 transition-all flex flex-col items-center text-center relative group">
+                    <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Surat Keterangan Kerja</label>
+                    <input type="file" name="surat_sudah_bekerja_file" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                    <span class="text-[11px] text-slate-400">Klik untuk memilih berkas</span>
+                    <?php if(!empty($pendaftar->surat_sudah_bekerja_path)): ?>
+                      <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-semibold border border-emerald-200">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        Tersedia
+                      </div>
+                    <?php endif; ?>
                   </div>
+
                 </div>
               </div>
 
+              <!-- Form Actions -->
               <div class="mt-12 pt-8 border-t border-slate-100 flex items-center justify-end gap-4">
                 <a href="<?php echo e(route('pendaftar.biodata.show')); ?>" class="px-6 py-2.5 rounded-xl border border-slate-200 text-slate-500 font-semibold hover:bg-slate-50 transition-all">Batal</a>
                 <button type="submit" class="px-8 py-2.5 rounded-xl bg-custom-gradient text-white font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all">Simpan Perubahan</button>

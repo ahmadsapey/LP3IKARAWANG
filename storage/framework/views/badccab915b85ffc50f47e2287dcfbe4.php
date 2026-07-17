@@ -1,270 +1,324 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="shortcut icon" href="<?php echo e(asset('images/logos/Logo_LP3I.png')); ?>" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Struktur Organisasi - Admin</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
+        :root {
+            --brand-dark: #004269;
+            --brand-accent: #009DA5;
+            --brand-blue: #3b82f6;
+            --brand-success: #10b981;
+            --brand-danger: #ef4444;
+            
+            --bg-gradient: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: rgba(229, 231, 235, 0.8);
+            
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.1);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: #f5f7fa;
-            color: #333;
+            color: var(--text-main);
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
         }
 
+        /* Back Link Button */
+        .back-link {
+            margin-bottom: 1.5rem;
+        }
+
+        .back-link a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--brand-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .back-link a:hover {
+            color: var(--brand-accent);
+            transform: translateX(-4px);
+        }
+
+        /* Page Header Card */
         .page-header {
+            background: linear-gradient(135deg, var(--brand-dark) 0%, #002c47 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem 2.25rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .page-header h1 {
             font-size: 1.8rem;
-            color: #004269;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            letter-spacing: -0.5px;
         }
 
+        /* Buttons styling */
         .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all 0.3s;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            text-decoration: none;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary {
-            background: #004269;
+            background: var(--brand-accent);
             color: white;
         }
 
         .btn-primary:hover {
-            background: #003050;
+            background: #00828a;
+            box-shadow: 0 4px 12px rgba(0, 157, 165, 0.25);
         }
 
         .btn-secondary {
-            background: #6c757d;
+            background: var(--brand-dark);
             color: white;
         }
 
         .btn-secondary:hover {
-            background: #5a6268;
+            background: #003352;
+            box-shadow: 0 4px 12px rgba(0, 66, 105, 0.25);
         }
 
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #c82333;
-        }
-
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-        }
-
-        .btn-warning:hover {
-            background: #e0a800;
-        }
-
+        /* Alert styling */
         .alert {
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1.5rem;
+            background: #d1fae5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+            padding: 1rem 1.5rem;
+            border-radius: 14px;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: var(--shadow-sm);
         }
 
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
+        /* Modern Table Card */
         .table-container {
             background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            overflow-x: auto;
         }
 
         .table {
             width: 100%;
             border-collapse: collapse;
-        }
-
-        .table thead {
-            background: #f8f9fa;
-            border-bottom: 2px solid #dee2e6;
+            text-align: left;
         }
 
         .table th {
-            padding: 1rem;
-            text-align: left;
+            background: #f9fafb;
+            padding: 1.15rem 1.5rem;
+            color: var(--brand-dark);
             font-weight: 600;
-            color: #333;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .table td {
-            padding: 1rem;
-            border-bottom: 1px solid #dee2e6;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+            color: var(--text-main);
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
         }
 
         .table tbody tr:hover {
-            background: #f8f9fa;
+            background: #f9fafb;
         }
 
-        .photo {
-            width: 60px;
-            height: 60px;
-            border-radius: 6px;
+        /* Profile avatar container */
+        .photo-wrapper {
+            width: 54px;
+            height: 54px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f3f4f6;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-wrapper img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
+        .photo-wrapper i {
+            font-size: 1.5rem;
+            color: #9ca3af;
+        }
+
+        /* Status and Posisi Badges */
+        .posisi-badge {
+            display: inline-flex;
+            padding: 0.3rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .posisi-director {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .posisi-secretary {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .posisi-staff {
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            padding: 0.25rem 0.65rem;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Action Buttons */
         .actions {
             display: flex;
             gap: 0.5rem;
         }
 
-        @media (max-width: 900px) {
-            .page-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-            .table-container { overflow-x: auto; }
-            .table { min-width: 720px; }
-        }
-
-        @media (max-width: 640px) {
-            .container { padding: 1.25rem; }
-            .actions { flex-wrap: wrap; }
-        }
-
-        .actions a, .actions button {
-            padding: 0.5rem 0.75rem;
-            font-size: 0.85rem;
-            text-decoration: none;
-            border: none;
-            border-radius: 4px;
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .edit-btn {
-            background: #17a2b8;
+            border: none;
+            transition: var(--transition);
             color: white;
-        }
-
-        .edit-btn:hover {
-            background: #138496;
-        }
-
-        .delete-btn {
-            background: #dc3545;
-            color: white;
-        }
-
-        .delete-btn:hover {
-            background: #c82333;
-        }
-
-        .posisi-badge {
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .posisi-director {
-            background: #d4af37;
-            color: #333;
-        }
-
-        .posisi-secretary {
-            background: #b4a7d6;
-            color: white;
-        }
-
-        .posisi-staff {
-            background: #87ceeb;
-            color: white;
-        }
-
-        .status-active {
-            background: #28a745;
-            color: white;
-            padding: 0.3rem 0.6rem;
-            border-radius: 3px;
-            font-size: 0.85rem;
-        }
-
-        .status-inactive {
-            background: #dc3545;
-            color: white;
-            padding: 0.3rem 0.6rem;
-            border-radius: 3px;
-            font-size: 0.85rem;
-        }
-
-        .back-link {
-            margin-bottom: 1rem;
-        }
-
-        .back-link a {
-            color: #004269;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
-        .back-link a:hover {
-            text-decoration: underline;
+        .action-btn:hover {
+            transform: translateY(-2px);
         }
 
+        .action-btn.edit {
+            background: #eff6ff;
+            color: var(--brand-blue);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .action-btn.edit:hover {
+            background: var(--brand-blue);
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25);
+        }
+
+        .action-btn.delete {
+            background: #fef2f2;
+            color: var(--brand-danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .action-btn.delete:hover {
+            background: var(--brand-danger);
+            color: white;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
+        }
+
+        /* Responsive Breakpoints */
         @media (max-width: 768px) {
             .page-header {
                 flex-direction: column;
-                gap: 1rem;
-                text-align: center;
+                align-items: flex-start;
+                padding: 1.5rem;
             }
-
-            .table {
-                font-size: 0.9rem;
-            }
-
-            .table th, .table td {
-                padding: 0.7rem;
-            }
-
-            .actions {
-                flex-direction: column;
-            }
-
-            .actions a, .actions button {
+            .page-header a {
                 width: 100%;
                 justify-content: center;
+            }
+            .table-container {
+                overflow-x: auto;
             }
         }
     </style>
@@ -272,20 +326,20 @@
 <body>
     <div class="container">
         <div class="back-link">
-            <a href="/admin"><i class="fas fa-arrow-left"></i> Kembali ke Admin</a>
+            <a href="/admin"><i class="fas fa-arrow-left"></i> Kembali ke Dashboard</a>
         </div>
 
         <div class="page-header">
-            <h1><i class="fas fa-sitemap"></i> Kelola Struktur Organisasi</h1>
+            <h1><i class="fas fa-sitemap"></i> Struktur Organisasi</h1>
             <a href="<?php echo e(route('struktur-organisasi.create')); ?>" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Tambah Data
+                <i class="fas fa-plus"></i> Tambah Anggota
             </a>
         </div>
 
         <?php if(session('success')): ?>
-            <div class="alert alert-success">
-                <i class="fas fa-check-circle"></i> <?php echo e(session('success')); ?>
-
+            <div class="alert">
+                <i class="fas fa-check-circle"></i>
+                <span><?php echo e(session('success')); ?></span>
             </div>
         <?php endif; ?>
 
@@ -299,18 +353,20 @@
                         <th>Posisi</th>
                         <th>Urutan</th>
                         <th>Status</th>
-                        <th>Aksi</th>
+                        <th style="width: 120px; text-align: center;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $__empty_1 = true; $__currentLoopData = $strukturs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $struktur): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <tr>
                             <td>
-                                <?php if($struktur->foto): ?>
-                                    <img src="<?php echo e(Storage::url($struktur->foto)); ?>" alt="<?php echo e($struktur->nama); ?>" class="photo">
-                                <?php else: ?>
-                                    <span style="color: #999;">Tidak ada foto</span>
-                                <?php endif; ?>
+                                <div class="photo-wrapper">
+                                    <?php if($struktur->foto): ?>
+                                        <img src="<?php echo e(Storage::url($struktur->foto)); ?>" alt="<?php echo e($struktur->nama); ?>">
+                                    <?php else: ?>
+                                        <i class="fas fa-user"></i>
+                                    <?php endif; ?>
+                                </div>
                             </td>
                             <td><strong><?php echo e($struktur->nama); ?></strong></td>
                             <td><?php echo e($struktur->role); ?></td>
@@ -320,24 +376,23 @@
 
                                 </span>
                             </td>
-                            <td><?php echo e($struktur->urutan); ?></td>
+                            <td><span style="font-weight: 600;"><?php echo e($struktur->urutan); ?></span></td>
                             <td>
-                                <?php if($struktur->is_active): ?>
-                                    <span class="status-active">Aktif</span>
-                                <?php else: ?>
-                                    <span class="status-inactive">Tidak Aktif</span>
-                                <?php endif; ?>
+                                <span class="status-badge <?php echo e($struktur->is_active ? 'active' : 'inactive'); ?>">
+                                    <?php echo e($struktur->is_active ? 'Aktif' : 'Tidak Aktif'); ?>
+
+                                </span>
                             </td>
                             <td>
-                                <div class="actions">
-                                    <a href="<?php echo e(route('struktur-organisasi.edit', $struktur)); ?>" class="edit-btn">
-                                        <i class="fas fa-edit"></i> Edit
+                                <div class="actions" style="justify-content: center;">
+                                    <a href="<?php echo e(route('struktur-organisasi.edit', $struktur)); ?>" class="action-btn edit" title="Edit Anggota">
+                                        <i class="fas fa-edit"></i>
                                     </a>
                                     <form method="POST" action="<?php echo e(route('struktur-organisasi.destroy', $struktur)); ?>" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                         <?php echo csrf_field(); ?>
                                         <?php echo method_field('DELETE'); ?>
-                                        <button type="submit" class="delete-btn">
-                                            <i class="fas fa-trash"></i> Hapus
+                                        <button type="submit" class="action-btn delete" title="Hapus Anggota">
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
                                 </div>
@@ -345,9 +400,12 @@
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <tr>
-                            <td colspan="7" style="text-align: center; padding: 2rem;">
-                                <i class="fas fa-inbox" style="font-size: 2rem; color: #ccc; margin-bottom: 1rem;"></i>
-                                <p>Tidak ada data struktur organisasi. <a href="<?php echo e(route('struktur-organisasi.create')); ?>">Tambah sekarang</a></p>
+                            <td colspan="7" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                                <i class="fas fa-inbox" style="font-size: 2.5rem; color: #cbd5e1; margin-bottom: 1rem; display: block;"></i>
+                                <p>Tidak ada data struktur organisasi.</p>
+                                <a href="<?php echo e(route('struktur-organisasi.create')); ?>" class="btn btn-secondary" style="margin-top: 1rem; font-size: 0.85rem; padding: 0.5rem 1rem;">
+                                    Tambah Sekarang
+                                </a>
                             </td>
                         </tr>
                     <?php endif; ?>

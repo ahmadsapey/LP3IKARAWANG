@@ -56,8 +56,23 @@ class AdminController extends Controller
         $carouselFile = $this->csvPath('carousel');
         $carouselData = $this->readCsv($carouselFile);
 
-        // allow opening 'pendaftar' section directly
-        $active = request()->is('admin/pendaftar') ? 'pendaftar' : 'carousel';
+        // Detect active section from URL path
+        $sectionMap = [
+            'admin/carousel'          => 'carousel',
+            'admin/berita'            => 'news',
+            'admin/carousel-kegiatan' => 'carousel_kegiatan',
+            'admin/pengaturan'        => 'settings',
+            'admin/pendaftar'         => 'pendaftar',
+        ];
+
+        $active = 'carousel'; // default
+        foreach ($sectionMap as $path => $section) {
+            if (request()->is($path)) {
+                $active = $section;
+                break;
+            }
+        }
+
         return view('admin', compact('carouselData', 'active'));
     }
 
@@ -220,6 +235,122 @@ class AdminController extends Controller
                     $regUrl = '';
                     if (!empty($regValue)) $regUrl = preg_match('#^https?://#i', $regValue) ? $regValue : asset(ltrim($regValue, '/'));
                     return response()->json(['success' => $success, 'data' => ['registration_image' => $regValue, 'registration_image_url' => $regUrl]]);
+
+                case 'get_branch_manager_settings':
+                    $settingsFile = $this->csvPath('settings');
+                    $settings = $this->readCsv($settingsFile);
+                    $data = [
+                        'branch_manager_name' => '',
+                        'branch_manager_title' => '',
+                        'branch_manager_role' => '',
+                        'branch_manager_greeting' => '',
+                        'branch_manager_quote' => '',
+                        'branch_manager_content' => '',
+                        'branch_manager_image' => '',
+                        'branch_manager_image_url' => ''
+                    ];
+                    foreach ($settings as $s) {
+                        $key = $s['key'] ?? '';
+                        if (array_key_exists($key, $data)) {
+                            $data[$key] = $s['value'] ?? '';
+                        }
+                    }
+                    if (!empty($data['branch_manager_image'])) {
+                        $p = $data['branch_manager_image'];
+                        $data['branch_manager_image_url'] = preg_match('#^https?://#i', $p) ? $p : asset(ltrim($p, '/'));
+                    }
+                    return response()->json(['success' => true, 'data' => $data]);
+
+                case 'save_branch_manager_settings':
+                    $settingsFile = $this->csvPath('settings');
+                    $settings = $this->readCsv($settingsFile);
+                    $newSettings = $settings;
+
+                    $keys = [
+                        'branch_manager_name' => $request->input('name') ?? '',
+                        'branch_manager_title' => $request->input('title') ?? '',
+                        'branch_manager_role' => $request->input('role') ?? '',
+                        'branch_manager_greeting' => $request->input('greeting') ?? '',
+                        'branch_manager_quote' => $request->input('quote') ?? '',
+                        'branch_manager_content' => $request->input('content') ?? '',
+                    ];
+
+                    $imagePath = '';
+                    if ($request->hasFile('image')) {
+                        $file = $request->file('image');
+                        if ($file->isValid()) {
+                            $uploadDir = $this->uploadDir('leader');
+                            if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+                            $name = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                            $file->move($uploadDir, $name);
+                            $imagePath = 'upload/leader/' . $name;
+                        }
+                    } else if ($request->filled('existing_image')) {
+                        $imagePath = $request->input('existing_image');
+                    }
+
+                    if (!empty($imagePath)) {
+                        $keys['branch_manager_image'] = $imagePath;
+                    }
+
+                    foreach ($keys as $k => $val) {
+                        $found = false;
+                        foreach ($newSettings as $idx => $row) {
+                            if (($row['key'] ?? '') === $k) {
+                                $newSettings[$idx]['value'] = $val;
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            $newSettings[] = ['key' => $k, 'value' => $val];
+                        }
+                    }
+
+                    $success = $this->writeCsv($settingsFile, ['key','value'], $newSettings);
+                    return response()->json(['success' => $success, 'data' => ['image_path' => $imagePath]]);
+
+                case 'get_vision_mission_settings':
+                    $settingsFile = $this->csvPath('settings');
+                    $settings = $this->readCsv($settingsFile);
+                    $data = [
+                        'vision' => '',
+                        'mission' => ''
+                    ];
+                    foreach ($settings as $s) {
+                        $key = $s['key'] ?? '';
+                        if (array_key_exists($key, $data)) {
+                            $data[$key] = $s['value'] ?? '';
+                        }
+                    }
+                    return response()->json(['success' => true, 'data' => $data]);
+
+                case 'save_vision_mission_settings':
+                    $settingsFile = $this->csvPath('settings');
+                    $settings = $this->readCsv($settingsFile);
+                    $newSettings = $settings;
+
+                    $keys = [
+                        'vision' => $request->input('vision') ?? '',
+                        'mission' => $request->input('mission') ?? ''
+                    ];
+
+                    foreach ($keys as $k => $val) {
+                        $found = false;
+                        foreach ($newSettings as $idx => $row) {
+                            if (($row['key'] ?? '') === $k) {
+                                $newSettings[$idx]['value'] = $val;
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            $newSettings[] = ['key' => $k, 'value' => $val];
+                        }
+                    }
+
+                    $success = $this->writeCsv($settingsFile, ['key','value'], $newSettings);
+                    return response()->json(['success' => $success]);
 
                 case 'delete_news':
                     $id = $request->input('id');

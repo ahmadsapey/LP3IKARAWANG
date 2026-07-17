@@ -2,6 +2,7 @@
 <!doctype html>
 <html lang="id">
 <head>
+    <link rel="shortcut icon" href="<?php echo e(asset('images/logos/Logo_LP3I.png')); ?>" type="image/png">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Edit Email</title>
@@ -20,29 +21,7 @@
   <?php echo $__env->make('partials.header_pendaftar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
   <div class="max-w-6xl mx-auto p-6 lg:p-8">
     <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 items-start">
-      <aside class="bg-white rounded-xl border p-5 shadow-sm sticky top-6" >
-        <div class="flex items-center gap-3 mb-4">
-          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 11c2.761 0 5-2.239 5-5S14.761 1 12 1 7 3.239 7 6s2.239 5 5 5zM3 21a9 9 0 0118 0"/></svg>
-          <div>
-            <div class="text-sm text-white/80">Halo</div>
-            <div class="font-semibold text-white"><?php echo e(Auth::user()->name ?? 'Pendaftar'); ?></div>
-          </div>
-        </div>
-
-        <nav class="space-y-2 text-sm">
-          <a class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-50" href="<?php echo e(route('pendaftar.dashboard')); ?>">Dashboard</a>
-          <a class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-50" href="<?php echo e(route('pendaftar.biodata.show')); ?>">Biodata</a>
-          <details class="group">
-            <summary class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/10 cursor-pointer">Akun Saya</summary>
-            <div class="pl-4 mt-2 space-y-1">
-              <a href="<?php echo e(route('pendaftar.akun.email')); ?>" class="block px-3 py-1 rounded hover:bg-white/10">Email</a>
-              <a href="<?php echo e(route('pendaftar.akun.password')); ?>" class="block px-3 py-1 rounded hover:bg-white/10">Password</a>
-              <a href="<?php echo e(route('pendaftar.akun.phone')); ?>" class="block px-3 py-1 rounded hover:bg-white/10">No Handphone</a>
-              <a href="<?php echo e(route('pendaftar.akun.whatsapp')); ?>" class="block px-3 py-1 rounded hover:bg-white/10">No Whats App</a>
-            </div>
-          </details>
-        </nav>
-      </aside>
+      <?php echo $__env->make('partials.sidebar_pendaftar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
       <main>
         <div class="bg-white rounded-xl card-adv p-6">

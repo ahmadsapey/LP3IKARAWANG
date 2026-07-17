@@ -1,23 +1,69 @@
+@php
+    // Read settings from CSV
+    $settingsFile = public_path('data/settings.csv');
+    $settings = [];
+    if (file_exists($settingsFile) && ($handle = fopen($settingsFile, 'r')) !== false) {
+        $header = fgetcsv($handle);
+        while (($row = fgetcsv($handle)) !== false) {
+            if (count($row) === count($header)) {
+                $item = array_combine($header, $row);
+                $settings[$item['key']] = $item['value'];
+            }
+        }
+        fclose($handle);
+    }
+
+    $bmName = !empty($settings['branch_manager_name']) ? $settings['branch_manager_name'] : 'Aceng Ajat, S.T., M.M.';
+    $bmTitle = !empty($settings['branch_manager_title']) ? $settings['branch_manager_title'] : 'Branch Manager';
+    $bmRole = !empty($settings['branch_manager_role']) ? $settings['branch_manager_role'] : 'Kepala Kampus LP3I Karawang';
+    
+    $bmImage = !empty($settings['branch_manager_image']) ? asset($settings['branch_manager_image']) : asset('storage/image/directur.jpg');
+    
+    $bmGreeting = !empty($settings['branch_manager_greeting']) ? nl2br(e($settings['branch_manager_greeting'])) : "Assalamu’alaikum Warahmatullahi Wabarakatuh,<br>Salam Sejahtera bagi kita semua.";
+    
+    $bmQuote = !empty($settings['branch_manager_quote']) ? e($settings['branch_manager_quote']) : "Pendidikan bukan hanya soal deretan teori di atas kertas, melainkan tentang bagaimana kita mempersiapkan diri untuk menjadi solusi di tengah masyarakat.";
+    
+    $bmContent = !empty($settings['branch_manager_content']) ? $settings['branch_manager_content'] : '';
+    if (empty($bmContent)) {
+        $bmContent = '<p data-aos="fade-right" data-aos-delay="500">Selamat datang di <strong>LP3I College Kampus Karawang</strong>. Sebagai bagian dari keluarga besar LP3I, saya merasa bangga dan terhormat dapat menyambut Anda di institusi yang memiliki dedikasi penuh terhadap masa depan generasi muda Indonesia.</p>' .
+                     '<p data-aos="fade-left" data-aos-delay="900">Di LP3I Karawang, kami berkomitmen menyediakan pendidikan vokasi berkualitas yang membekali lulusan dengan keterampilan praktis dan profesionalisme tinggi. Kami terus berinovasi dalam kurikulum dan memperluas jaringan kerja sama industri untuk memastikan setiap mahasiswa memiliki jalur yang jelas menuju kesuksesan.</p>' .
+                     '<p data-aos="fade-up" data-aos-delay="1100">Terima kasih atas kepercayaan Anda memilih LP3I sebagai mitra dalam membangun karier masa depan.</p>';
+    } else {
+        if (!str_contains($bmContent, '<p>') && !str_contains($bmContent, '<P>')) {
+            $paragraphs = explode("\n", $bmContent);
+            $formatted = '';
+            $delay = 500;
+            foreach ($paragraphs as $para) {
+                if (trim($para) !== '') {
+                    $formatted .= '<p data-aos="fade-up" data-aos-delay="' . $delay . '">' . e(trim($para)) . '</p>';
+                    $delay += 200;
+                }
+            }
+            $bmContent = $formatted;
+        }
+    }
+@endphp
 <!doctype html>
 <html lang="id">
 <head>
+    <link rel="shortcut icon" href="{{ asset('images/logos/Logo_LP3I.png') }}" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sambutan - LP3I Karawang</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-                /* Animasi dinamis modern */
-                [data-aos] {
-                    opacity: 0;
-                    transition: 0.8s cubic-bezier(.4,1.4,.6,1);
-                }
-                [data-aos="fade-up"] { transform: translateY(40px); }
-                [data-aos="fade-down"] { transform: translateY(-40px); }
-                [data-aos="fade-left"] { transform: translateX(-40px); }
-                [data-aos="fade-right"] { transform: translateX(40px); }
-                [data-aos="zoom-in"] { transform: scale(0.92); }
-                [data-aos="zoom-out"] { transform: scale(1.08); }
+        /* Animasi dinamis modern */
+        [data-aos] {
+            opacity: 0;
+            transition: 0.8s cubic-bezier(.4,1.4,.6,1);
+        }
+        [data-aos="fade-up"] { transform: translateY(40px); }
+        [data-aos="fade-down"] { transform: translateY(-40px); }
+        [data-aos="fade-left"] { transform: translateX(-40px); }
+        [data-aos="fade-right"] { transform: translateX(40px); }
+        [data-aos="zoom-in"] { transform: scale(0.92); }
+        [data-aos="zoom-out"] { transform: scale(1.08); }
 
                 .appear {
                     opacity: 1;
@@ -218,52 +264,38 @@
 <div class="header-bg"></div>
 
 <main class="main-container">
-
     <section class="profile-section">
         <div class="avatar-wrapper" data-aos="zoom-in" data-aos-delay="100">
             <div class="avatar-box">
-                <img src="{{ asset('storage/image/directur.jpg') }}" alt="Aceng Ajat, S.T., M.M.">
+                <img src="{{ $bmImage }}" alt="{{ $bmName }}">
             </div>
         </div>
         <div class="leader-info">
-            <div class="title-badge" data-aos="fade-right" data-aos-delay="350">Branch Manager</div>
-            <h1 data-aos="fade-left" data-aos-delay="500">Aceng Ajat, S.T., M.M.</h1>
+            <div class="title-badge" data-aos="fade-right" data-aos-delay="350">{{ $bmTitle }}</div>
+            <h1 data-aos="fade-left" data-aos-delay="500">{{ $bmName }}</h1>
         </div>
     </section>
 
 
     <section class="content-card" data-aos="fade-up" data-aos-delay="200">
         <div class="greeting-text" data-aos="fade-down" data-aos-delay="350">
-            Assalamu’alaikum Warahmatullahi Wabarakatuh,<br>
-            Salam Sejahtera bagi kita semua.
+            {!! $bmGreeting !!}
         </div>
         
         <div class="main-text">
-            <p data-aos="fade-right" data-aos-delay="500">
-                Selamat datang di <strong>LP3I College Kampus Karawang</strong>. Sebagai bagian dari keluarga besar LP3I, 
-                saya merasa bangga dan terhormat dapat menyambut Anda di institusi yang memiliki dedikasi penuh terhadap 
-                masa depan generasi muda Indonesia.
-            </p>
+            {!! $bmContent !!}
 
             <div class="highlight-box" data-aos="zoom-in" data-aos-delay="700">
-                "Pendidikan bukan hanya soal deretan teori di atas kertas, melainkan tentang bagaimana kita mempersiapkan diri untuk menjadi solusi di tengah masyarakat."
+                "{!! $bmQuote !!}"
             </div>
-
-            <p data-aos="fade-left" data-aos-delay="900">
-                Di LP3I Karawang, kami berkomitmen menyediakan pendidikan vokasi berkualitas yang membekali lulusan dengan 
-                keterampilan praktis dan profesionalisme tinggi. Kami terus berinovasi dalam kurikulum dan memperluas jaringan 
-                kerja sama industri untuk memastikan setiap mahasiswa memiliki jalur yang jelas menuju kesuksesan.
-            </p>
-
-            <p data-aos="fade-up" data-aos-delay="1100">Terima kasih atas kepercayaan Anda memilih LP3I sebagai mitra dalam membangun karier masa depan.</p>
         </div>
 
         <div class="closing-signature" data-aos="fade-up" data-aos-delay="1300">
             <p>Wassalamu’alaikum Warahmatullahi Wabarakatuh.</p>
             <p>Salam hangat,</p>
             <br>
-            <strong>Aceng Ajat, S.T., M.M.</strong><br>
-            <span>Kepala Kampus LP3I Karawang</span>
+            <strong>{{ $bmName }}</strong><br>
+            <span>{{ $bmRole }}</span>
         </div>
     </section>
 </main>

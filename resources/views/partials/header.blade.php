@@ -9,9 +9,9 @@
     /* Body offset for fixed header */
     body { padding-top: 190px; transition: padding-top 0.25s ease; }
     body.header-compact-body { padding-top: 110px; }
-    @media (max-width: 768px) {
-        body { padding-top: 210px; }
-        body.header-compact-body { padding-top: 120px; }
+    @media (max-width: 900px) {
+        body { padding-top: 130px; }
+        body.header-compact-body { padding-top: 70px; }
     }
 
     /* Layer 1: Top Bar */
@@ -21,14 +21,14 @@
     .topbar a { color: white; text-decoration: none; display:inline-flex; align-items:center; gap:0.5rem; padding:4px 8px; border-radius:6px; transition: all 0.2s ease; }
     .topbar a:hover { background: rgba(255,255,255,0.15); }
     .topbar a i { font-size: 0.95rem; }
-    @media (max-width: 768px) {
-        .topbar .container { flex-direction: column; align-items: flex-start; gap: 8px; font-size: 0.85rem; }
-        .topbar-right { justify-content: flex-start; }
+    @media (max-width: 900px) {
+        .topbar { display: none; }
     }
 
     /* Layer 2: Mid Header (Logo & Contact) */
     .mid-header { background: #213C72; color: white; padding: 15px 0; max-height: 140px; overflow: hidden; transition: all 0.25s ease; }
     .mid-header .container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+    .logo { display: flex; align-items: center; gap: 20px; }
     .logo img { max-height: 55px; width: auto; object-fit: contain; }
     .header-contact { display: flex; gap: 30px; }
     .contact-item { display: flex; align-items: center; gap: 10px; }
@@ -40,9 +40,12 @@
         .header-contact { gap: 20px; }
         .contact-item i { font-size: 1.5rem; }
     }
-    @media (max-width: 768px) {
-        .header-contact { flex-direction: column; gap: 12px; font-size: 0.8rem; }
-        .contact-item i { font-size: 1.3rem; }
+    @media (max-width: 900px) {
+        .header-contact { display: none; }
+        .mid-header { padding: 10px 0; max-height: none; height: auto; }
+        .mid-header .container { justify-content: center; }
+        .logo { display: flex; align-items: center; justify-content: center; gap: 12px; }
+        .logo img { max-height: 35px; }
     }
 
     /* Compact mode when scrolling: keep menu sticky, collapse top layers */
@@ -168,11 +171,43 @@
         50% { box-shadow: 0 6px 25px rgba(0, 66, 105, 0.6); }
     }
 
+    .mobile-only-links { display: none; }
+    .mobile-header-auth { display: none; }
+
     @media (max-width: 900px) {
         nav { border-top: 1px solid #e6e9ef; }
         .nav-container { min-height: 56px; }
         .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
         .nav-toggle { margin-left: auto; }
+        .mobile-header-auth {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: auto;
+        }
+        .mobile-header-auth .login-btn {
+            background: transparent !important;
+            color: #1e3c72 !important;
+            border: 1.5px solid #1e3c72 !important;
+            padding: 0.4rem 0.8rem !important;
+            border-radius: 18px !important;
+            font-size: 0.8rem !important;
+            font-weight: 700 !important;
+            text-decoration: none;
+            line-height: 1.2;
+        }
+        .mobile-header-auth .register-btn {
+            background: #004269 !important;
+            color: white !important;
+            padding: 0.45rem 0.9rem !important;
+            border-radius: 18px !important;
+            font-size: 0.8rem !important;
+            font-weight: 700 !important;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 66, 105, 0.2) !important;
+            animation: none !important;
+            line-height: 1.2;
+        }
         .nav-menu { 
             display: none; 
             position: absolute; 
@@ -182,7 +217,7 @@
             background: #ffffff; 
             border-bottom: 1px solid #eee; 
             box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
-            padding: 0.75rem 1rem 1rem;
+            padding: 0.75rem 1rem 1.5rem;
             flex-direction: column;
             align-items: stretch;
             gap: 8px;
@@ -192,7 +227,7 @@
         .nav-links { flex-direction: column; align-items: stretch; width: 100%; }
         .nav-links a { padding: 0.85rem 0.75rem; font-size: 0.9rem; border-radius: 8px; }
         .nav-links a:hover { background: #f4f7fb; }
-        .nav-auth { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+        .nav-menu .nav-auth { display: none !important; }
         .login-btn, .register-btn { padding: 0.55rem 0.9rem !important; font-size: 0.85rem !important; }
         .dropdown-content { 
             position: static; 
@@ -206,6 +241,34 @@
         .dropdown-content a { color: #1e3c72 !important; padding: 10px 14px; }
         .dropdown:hover .dropdown-content { display: none; }
         .dropdown.open > .dropdown-content { display: block; }
+
+        /* Mobile-only portal and contacts */
+        .mobile-only-links { display: block; margin-top: 15px; margin-bottom: 15px; }
+        .nav-divider { border: 0; border-top: 1px solid rgba(0, 0, 0, 0.08); margin: 12px 0; }
+        .menu-section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: #7f8c8d; letter-spacing: 0.5px; padding-left: 8px; margin-bottom: 8px; }
+        
+        .nav-links-mobile, .nav-links-mobile-contacts { list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 4px; margin-bottom: 0; }
+        .nav-links-mobile a, .nav-links-mobile-contacts a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem 0.75rem;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .nav-links-mobile a:hover, .nav-links-mobile-contacts a:hover {
+            background-color: #f4f7fb;
+            color: #1e3c72;
+        }
+        .nav-links-mobile i, .nav-links-mobile-contacts i {
+            width: 20px;
+            font-size: 0.95rem;
+            color: #009da5;
+        }
     }
 </style>
 
@@ -256,10 +319,18 @@
 
     <nav id="mainNav">
         <div class="nav-container">
+            <!-- Mobile Auth Buttons (visible directly on mobile bar) -->
+            <div class="mobile-header-auth">
+                <a href="{{ route('pendaftar.login') }}" class="login-btn">Login</a>
+                <a href="{{ route('mahasiswa.create') }}" class="register-btn"><i class="fas fa-user-plus"></i> Daftar</a>
+            </div>
+
             <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="primaryNav">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+                <div class="hamburger-icon">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
                 <span class="nav-toggle-label">Menu</span>
             </button>
 
@@ -284,6 +355,26 @@
                     </li>
                     <li><a href="{{ route('penempatan') }}">Pusat Karir</a></li>
                 </ul>
+
+                <!-- Mobile only portal and contacts -->
+                <div class="mobile-only-links">
+                    <hr class="nav-divider">
+                    <div class="menu-section-title">Akses Portal</div>
+                    <ul class="nav-links-mobile">
+                        <li><a href="{{ route('virtual') }}"><i class="fas fa-desktop"></i> Virtual</a></li>
+                        <li><a href="{{ route('student') }}"><i class="fas fa-graduation-cap"></i> E | Student</a></li>
+                        <li><a href="{{ route('akademik') }}"><i class="fas fa-book"></i> E | Akademik</a></li>
+                        <li><a href="{{ route('lecture') }}"><i class="fas fa-chalkboard-teacher"></i> E | Lecture</a></li>
+                        <li><a href=""><i class="fas fa-briefcase"></i> E | Carrier Hub</a></li>
+                    </ul>
+                    <hr class="nav-divider">
+                    <div class="menu-section-title">Hubungi Kami</div>
+                    <ul class="nav-links-mobile-contacts">
+                        <li><a href="tel:0851-1770-4112"><i class="fas fa-phone-alt"></i> 0851-1770-4112</a></li>
+                        <li><a href="mailto:karawang@lp3i.id"><i class="fas fa-envelope"></i> karawang@lp3i.id</a></li>
+                        <li><a href="https://www.instagram.com/lp3ikarawang" target="_blank"><i class="fab fa-instagram"></i> LP3I Karawang</a></li>
+                    </ul>
+                </div>
 
                 <div class="nav-auth">
                     <a href="{{ route('pendaftar.login') }}" class="login-btn">Login</a>
