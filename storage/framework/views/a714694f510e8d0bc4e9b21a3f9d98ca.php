@@ -206,29 +206,29 @@
         </div>
 
         <div class="content">
-            @if ($errors->any())
+            <?php if($errors->any()): ?>
                 <div class="alert alert-error">
                     <i class="fas fa-exclamation-circle"></i>
                     <span>Email tidak ditemukan atau tidak valid.</span>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            @if (session('success'))
+            <?php if(session('success')): ?>
                 <div class="alert alert-success">
                     <i class="fas fa-check-circle"></i>
-                    <span>{{ session('success') }}</span>
+                    <span><?php echo e(session('success')); ?></span>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            @if (session('error'))
+            <?php if(session('error')): ?>
                 <div class="alert alert-error">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span>{{ session('error') }}</span>
+                    <span><?php echo e(session('error')); ?></span>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            <form action="{{ route('pendaftar.send-reset-code') }}" method="POST">
-                @csrf
+            <form action="<?php echo e(route('pendaftar.send-reset-code')); ?>" method="POST">
+                <?php echo csrf_field(); ?>
                 <div class="form-group">
                     <label for="email">Alamat Email</label>
                     <div class="input-icon-wrap">
@@ -238,7 +238,7 @@
                             id="email" 
                             name="email" 
                             placeholder="nama@email.com"
-                            value="{{ old('email') }}"
+                            value="<?php echo e(old('email')); ?>"
                             required
                         >
                     </div>
@@ -248,7 +248,7 @@
                     <button type="submit" class="btn-primary">
                         Kirim Kode Reset <i class="fas fa-paper-plane"></i>
                     </button>
-                    <a href="{{ route('pendaftar.login') }}" class="btn btn-secondary">
+                    <a href="<?php echo e(route('pendaftar.login')); ?>" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Kembali ke Login
                     </a>
                 </div>
@@ -260,4 +260,4 @@
         </div>
     </div>
 </body>
-</html>
+</html><?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/pendaftar/forgot_password.blade.php ENDPATH**/ ?>

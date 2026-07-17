@@ -51,8 +51,8 @@ class Mahasiswa extends Model
         $programKey = '';
         if (is_int($program)) {
             $programKey = match ($program) {
-                1 => 'ASE',
-                2 => 'AIS',
+                1 => 'AIS',
+                2 => 'ASE',
                 3 => 'OAA',
                 default => '',
             };
@@ -61,8 +61,8 @@ class Mahasiswa extends Model
             if (ctype_digit($trim)) {
                 $n = (int) $trim;
                 $programKey = match ($n) {
-                    1 => 'ASE',
-                    2 => 'AIS',
+                    1 => 'AIS',
+                    2 => 'ASE',
                     3 => 'OAA',
                     default => '',
                 };
@@ -102,8 +102,14 @@ class Mahasiswa extends Model
             if (!empty($attrs['email'])) {
                 $q->orWhere('email', $attrs['email']);
             }
+
             if (!empty($attrs['no_tlp'])) {
-                $q->orWhere('no_tlp', $attrs['no_tlp']);
+                $q->orWhere(function($q2) use ($attrs) {
+                    $q2->where('no_tlp', $attrs['no_tlp']);
+                    if (!empty($attrs['nama_mhs'])) {
+                        $q2->where('nama_mhs', $attrs['nama_mhs']);
+                    }
+                });
             }
         });
 

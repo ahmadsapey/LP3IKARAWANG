@@ -291,6 +291,7 @@ class PendaftarDashboardController extends Controller
             'id_program_study' => 'nullable|integer|in:1,2,3',
             'asal_sekolah' => 'nullable|string|max:255',
             'alamat' => 'nullable|string|max:1000',
+            'domisili' => 'nullable|string|max:255',
             'kecamatan' => 'nullable|string|max:255',
             'desa' => 'nullable|string|max:255',
             'kode_pos' => 'nullable|string|max:20',
@@ -308,7 +309,7 @@ class PendaftarDashboardController extends Controller
         ]);
 
         // assign allowed fields, but only if the corresponding DB column exists
-        $fields = ['nama_mhs','tempat_lahir','angkatan','periode','no_hp','email','jenis_kelas','id_program_studi','id_program_study','asal_sekolah','alamat','kecamatan','desa','kode_pos','jenis_kelamin','agama','tahun_lulus','instagram','nama_wali','telp_wali','whatsapp_wali','pekerjaan_wali'];
+        $fields = ['nama_mhs','tempat_lahir','angkatan','periode','no_hp','email','jenis_kelas','id_program_studi','id_program_study','asal_sekolah','alamat','domisili','kecamatan','desa','kode_pos','jenis_kelamin','agama','tahun_lulus','instagram','nama_wali','telp_wali','whatsapp_wali','pekerjaan_wali'];
         foreach ($fields as $f) {
             if (array_key_exists($f, $v)) {
                 if (Schema::hasColumn('mahasiswa', $f)) {

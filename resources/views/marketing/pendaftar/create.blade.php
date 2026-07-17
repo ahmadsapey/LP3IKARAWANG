@@ -54,8 +54,8 @@
           <label>Program Study</label>
           <select class="form-control" name="id_program_studi">
             <option value="">-- Pilih --</option>
-            <option value="2">AIS — Accounting Information System</option>
-            <option value="1">ASE — Application Software Engineering</option>
+            <option value="1">AIS — Accounting Information System</option>
+            <option value="2">ASE — Application Software Engineering</option>
             <option value="3">OAA — Office Administration Automatization</option>
           </select>
         </div>

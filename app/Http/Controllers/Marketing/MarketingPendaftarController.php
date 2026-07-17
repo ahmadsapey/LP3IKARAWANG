@@ -25,8 +25,8 @@ class MarketingPendaftarController extends Controller
 
         $code = strtoupper($trim);
         return match ($code) {
-            'ASE' => 1,
-            'AIS' => 2,
+            'AIS' => 1,
+            'ASE' => 2,
             'OAA' => 3,
             default => null,
         };
@@ -35,8 +35,8 @@ class MarketingPendaftarController extends Controller
     private function programCodeFromId(?int $id): string
     {
         return match ((int) $id) {
-            1 => 'ASE',
-            2 => 'AIS',
+            1 => 'AIS',
+            2 => 'ASE',
             3 => 'OAA',
             default => '',
         };

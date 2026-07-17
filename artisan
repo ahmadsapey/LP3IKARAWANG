@@ -18,7 +18,11 @@ $status = $app->handleCommand(new ArgvInput);
 exit($status);
 
 //buat akun
-// php create_users.php
-// User admin berhasil dibuat:
+// D:\Lp3i\LP3IKARAWANG>php create_users.php
+// User Admin berhasil dibuat:
 // Email: admin@gmail.com
+// Password: 123456
+
+// User Marketing berhasil dibuat:
+// Email: marketing@gmail.com
 // Password: 123456

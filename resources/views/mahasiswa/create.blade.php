@@ -595,8 +595,8 @@
                     <label class="form-label">Bidang Keahlian</label>
                     <select name="id_program_studi" class="form-select">
                       <option value="">--Pilih--</option>
-                      <option value="2" {{ (string) old('id_program_studi') === '2' ? 'selected' : '' }}>Accounting Information System</option>
-                      <option value="1" {{ (string) old('id_program_studi') === '1' ? 'selected' : '' }}>Application Software Engineering</option>
+                      <option value="1" {{ (string) old('id_program_studi') === '1' ? 'selected' : '' }}>Accounting Information System</option>
+                      <option value="2" {{ (string) old('id_program_studi') === '2' ? 'selected' : '' }}>Application Software Engineering</option>
                       <option value="3" {{ (string) old('id_program_studi') === '3' ? 'selected' : '' }}>Office Administration Automatization</option>
                     </select>
                   </div>

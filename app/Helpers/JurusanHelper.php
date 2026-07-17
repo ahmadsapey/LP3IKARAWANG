@@ -7,8 +7,8 @@ class JurusanHelper
     private static function codeFromProgramId(int $id): ?string
     {
         return match ($id) {
-            1 => 'ASE',
-            2 => 'AIS',
+            1 => 'AIS',
+            2 => 'ASE',
             3 => 'OAA',
             default => null,
         };

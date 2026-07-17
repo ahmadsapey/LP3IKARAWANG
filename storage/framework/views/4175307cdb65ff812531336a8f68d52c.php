@@ -113,6 +113,7 @@
                     ['label'=>'Agama','value'=>$pendaftar->agama ?? '-'],
                     ['label'=>'Jenis Kelamin','value'=>$pendaftar->jenis_kelamin ?? '-'],
                     ['label'=>'Alamat','value'=>$pendaftar->alamat ?? '-'],
+                    ['label'=>'Domisili','value'=>$pendaftar->domisili ?? '-'],
                     ['label'=>'Kecamatan','value'=>$pendaftar->kecamatan ?? '-'],
                     ['label'=>'Desa','value'=>$pendaftar->desa ?? '-'],
                     ['label'=>'Kode Pos','value'=>$pendaftar->kode_pos ?? '-'],
