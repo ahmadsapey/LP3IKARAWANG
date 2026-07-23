@@ -16,7 +16,7 @@ RUN apk add --no-cache \
     supervisor \
     netcat-openbsd
 
-# Install PHP extensions
+# Install PHP extensionsasas
 RUN docker-php-ext-install \
     pdo \
     pdo_mysql \
