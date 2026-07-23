@@ -1,76 +1,44 @@
-# Stage 1: Build stage dengan PHP dan Node.js
-FROM php:8.2-fpm-alpine
+FROM php:8.2-fpm
 
-# Install dependencies
-RUN apk add --no-cache \
-    curl \
+# Set working directory
+WORKDIR /var/www/html
+
+# Install system dependencies and Node.js
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     zip \
     unzip \
     git \
-    npm \
-    nodejs \
-    build-base \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    oniguruma-dev \
+    curl \
+    libonig-dev \
+    libxml2-dev \
     libzip-dev \
-    supervisor \
-    netcat-openbsd
-
-# Configure & Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install \
-    pdo \
-    pdo_mysql \
-    mbstring \
-    exif \
-    pcntl \
-    bcmath \
-    gd \
-    zip
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
-WORKDIR /app
-
-# Copy composer files
-COPY composer.json composer.lock* ./
-
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-scripts
-
-# Copy package files
-COPY package.json package-lock.json* ./
-
-# Install Node dependencies
-RUN npm ci
-
-# Copy application files
+# Copy existing application directory contents
 COPY . .
 
-# Run Laravel post-install commands
-RUN composer run-script post-autoload-dump
+# Install PHP dependencies (using --no-scripts to prevent issues if .env is missing)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
-# Build frontend assets
-RUN npm run build
+# Install Node dependencies and build assets for production
+RUN npm install && npm run build
 
-# Create storage directories and set permissions
-RUN mkdir -p storage/logs bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache public
+# Set permissions for storage and bootstrap cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Copy entrypoint script
-COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+# Expose port 9000 for PHP-FPM
+EXPOSE 9000
 
-# Expose port
-EXPOSE 8000
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD php -r "exit(file_exists('/app/public/index.php') ? 0 : 1);"
-
-# Run entrypoint
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# Start PHP-FPM
+CMD ["php-fpm"]
