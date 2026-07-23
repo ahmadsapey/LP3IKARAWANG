@@ -13,11 +13,14 @@ RUN apk add --no-cache \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
+    oniguruma-dev \
+    libzip-dev \
     supervisor \
     netcat-openbsd
 
-# Install PHP extensionsasas
-RUN docker-php-ext-install \
+# Configure & Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install \
     pdo \
     pdo_mysql \
     mbstring \
