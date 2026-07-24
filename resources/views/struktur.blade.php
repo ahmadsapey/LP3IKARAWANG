@@ -12,7 +12,7 @@
         :root{--basic:#004269;--adv:#40826D;--muted:#6b7280}
         html { font-family: 'Poppins', sans-serif; }
         * { box-sizing: border-box; margin:0; padding:0 }
-        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #0f172a; background: linear-gradient(180deg,var(--basic) 0%, rgba(0,66,105,0.06) 28%, #f6f9fc 100%) }
+        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #0f172a; background: linear-gradient(180deg,var(--basic) 0%, rgba(0,66,105,0.06) 28%, #f6f9fc 100%); overflow-x: hidden; }
 
         /* Header & Nav (copied from index for consistency) */
         header { width: 100%; z-index: 1000; position: relative; }
@@ -126,22 +126,22 @@
         }
 
         /* Page layout */
-        .page { max-width:1100px; margin:110px auto; padding:0 1rem }
-        .structure-title{ text-align:center; margin:32px 0 12px }
-        .structure-title h1{ font-family:'Poppins',sans-serif; font-size:28px; font-weight:700; line-height:1.05; color:#fafafa; text-transform:uppercase }
-        .structure-title .lp3i-blue{ color:#004269; display:block }
-        .banner { display:block; border-radius:12px; overflow:hidden; box-shadow:0 12px 36px rgba(2,6,23,0.06) }
-        .banner img { width:100%; height:auto; object-fit:contain; display:block }
+        .page { max-width: 1120px; margin: 72px auto 40px; padding: 0 clamp(0.75rem, 2vw, 1.5rem); }
+        .structure-title{ text-align:center; margin: 20px 0 10px; }
+        .structure-title h1{ font-family:'Poppins',sans-serif; font-size: clamp(1.35rem, 2.4vw, 1.9rem); font-weight:700; line-height:1.15; color:#fafafa; text-transform:uppercase; letter-spacing:0.02em; }
+        .structure-title .lp3i-blue{ color:#004269; display:block; margin-top:0.3rem; }
+        .banner { display:block; border-radius:14px; overflow:hidden; box-shadow:0 12px 36px rgba(2,6,23,0.06); margin: 0 auto 1rem; max-width: 100%; }
+        .banner img { width:100%; height:auto; max-height:360px; object-fit:contain; display:block; }
 
-        .center-card{display:flex;flex-direction:column;align-items:center;gap:1rem;margin-top:20px}
-        .center-card-sub{display:flex;flex-direction:column;align-items:flex-end;gap:1rem;margin-top:60px;padding-right:1rem}
-        .person-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 12px 36px rgba(2,6,23,0.06);width:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;position:relative;z-index:2;text-align:center}
-        .person-card.subordinate{width:240px;min-height:160px;padding:14px}
-        .person-card img{width:140px;height:140px;object-fit:cover;border-radius:8px;display:block;margin:0 0 12px}
-        .person-card h3{margin:0;font-size:1rem;color:var(--basic);line-height:1.2;width:100%;text-align:center;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
-        .person-card .role{font-size:.85rem;color:var(--muted);margin-top:6px}
+        .center-card{display:flex;flex-direction:column;align-items:center;gap:1rem;margin-top:1rem}
+        .center-card-sub{display:flex;flex-direction:column;align-items:flex-end;gap:1rem;margin-top:2rem;padding-right:0.5rem}
+        .person-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 12px 36px rgba(2,6,23,0.06);width:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:220px;position:relative;z-index:2;text-align:center}
+        .person-card.subordinate{width:200px;min-height:140px;padding:13px}
+        .person-card img{width:110px;height:110px;object-fit:cover;border-radius:8px;display:block;margin:0 0 10px}
+        .person-card h3{margin:0;font-size:0.95rem;color:var(--basic);line-height:1.2;width:100%;text-align:center;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
+        .person-card .role{font-size:.8rem;color:var(--muted);margin-top:6px}
 
-        .grid { display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:2rem }
+        .grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin-top:1.5rem; align-items:start; }
         .grid .person-card{width:100%}
 
         /* Organization connectors */
@@ -153,7 +153,14 @@
         /* SVG overlay will draw connectors precisely between photos (JS) */
         /* remove pseudo-element connectors in favor of SVG lines for accuracy */
 
-        @media(max-width:720px){.banner img{height:200px}.grid{grid-template-columns:1fr}}
+        @media(max-width:720px){
+            .page { margin: 60px auto 24px; padding: 0 0.75rem; }
+            .structure-title { margin: 16px 0 8px; }
+            .banner img { height:auto; max-height:220px; }
+            .grid { grid-template-columns:1fr; gap:0.9rem; }
+            .person-card, .person-card.subordinate { width: 100%; max-width: 280px; min-height:auto; }
+            .center-card-sub { align-items:center; padding-right:0; }
+        }
         /* ensure SVG lines are drawn behind cards so connectors don't cover them */
         #org-lines{pointer-events:none;z-index:0}
     </style>

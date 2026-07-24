@@ -421,8 +421,8 @@
     <section class="hero-history">
         <img src="{{ asset('storage/image/gedung.jpeg') }}" class="hero-bg" alt="Gedung LP3I">
         <div class="hero-content">
-            <h1 class="animate-hero">Jejak Langkah</h1>
-            <p class="animate-hero">Membangun masa depan melalui pendidikan vokasi yang relevan dan adaptif sejak hari pertama.</p>
+            <h1 class="animate-hero">Sejarah LP3I College</h1>
+            <p class="animate-hero">Kampus Karawang hadir dari thun 2012  sebagai jawaban atas kebutuhan.</p>
         </div>
     </section>
 
@@ -435,7 +435,7 @@
                     LP3I College Kampus Karawang hadir sebagai jawaban atas tantangan dunia industri yang terus berkembang pesat di wilayah Jawa Barat. Berdiri dengan visi menghadirkan pendidikan vokasi yang relevan, kami menjembatani jarak antara dunia pendidikan dan kebutuhan nyata perusahaan.
                 </p>
                 <p>
-                    Perjalanan kami dimulai dengan program studi unggulan dan fokus pada <strong>keterampilan praktis</strong>. Kami percaya, bukan sekadar teori yang penting, namun bagaimana setiap mahasiswa memiliki kompetensi yang diakui secara profesional dan siap kerja.
+                    Perjalanan kami dimulai dengan program studi unggulan dan fokus pada <strong>keterampilan praktis</strong>. Kami percaya, bukan sekadar teori yang penting, namun bagaimana setiap peserta didik memiliki kompetensi yang diakui secara profesional dan siap kerja.
                 </p>
             </div>
             <div class="story-image">

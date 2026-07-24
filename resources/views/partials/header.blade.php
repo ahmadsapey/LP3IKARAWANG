@@ -277,9 +277,9 @@
         <div class="container">
             <div class="topbar-left"><a href="{{ route('virtual') }}">Virtual</a></div>
             <div class="topbar-right">
-                <a href="{{ route('student') }}">E | Student</a>
-                <a href="{{ route('akademik') }}">E | Akademik</a>
-                <a href="{{ route('lecture') }}">E | Lecture</a>
+                <a href="https://student.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer">E | Student</a>
+                <a href="https://academic.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer">E | Akademik</a>
+                <a href="https://lecturer.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer">E | Lecture</a>
                 <a href="">E | Carrier Hub</a>
             </div>
         </div>
@@ -362,17 +362,17 @@
                     <div class="menu-section-title">Akses Portal</div>
                     <ul class="nav-links-mobile">
                         <li><a href="{{ route('virtual') }}"><i class="fas fa-desktop"></i> Virtual</a></li>
-                        <li><a href="{{ route('student') }}"><i class="fas fa-graduation-cap"></i> E | Student</a></li>
-                        <li><a href="{{ route('akademik') }}"><i class="fas fa-book"></i> E | Akademik</a></li>
-                        <li><a href="{{ route('lecture') }}"><i class="fas fa-chalkboard-teacher"></i> E | Lecture</a></li>
+                        <li><a href="https://student.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer"><i class="fas fa-graduation-cap"></i> E | Student</a></li>
+                        <li><a href="https://academic.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer"><i class="fas fa-book"></i> E | Akademik</a></li>
+                        <li><a href="https://lecturer.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer"><i class="fas fa-chalkboard-teacher"></i> E | Lecture</a></li>
                         <li><a href=""><i class="fas fa-briefcase"></i> E | Carrier Hub</a></li>
                     </ul>
                     <hr class="nav-divider">
                     <div class="menu-section-title">Hubungi Kami</div>
                     <ul class="nav-links-mobile-contacts">
                         <li><a href="tel:0851-1770-4112"><i class="fas fa-phone-alt"></i> 0851-1770-4112</a></li>
-                        <li><a href="mailto:karawang@lp3i.id"><i class="fas fa-envelope"></i> karawang@lp3i.id</a></li>
-                        <li><a href="https://www.instagram.com/lp3ikarawang" target="_blank"><i class="fab fa-instagram"></i> LP3I Karawang</a></li>
+                        <li><a href="mailto:college@lp3iglobal.com"><i class="fas fa-envelope"></i>college@lp3iglobal.com</a></li>
+                        <li><a href="https://www.instagram.com/lp3i.karawang?igsh=MWxidG42NmpreWg1Ng==" target="_blank"><i class="fab fa-instagram"></i> LP3I Karawang</a></li>
                     </ul>
                 </div>
 
