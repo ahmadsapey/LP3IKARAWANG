@@ -43,13 +43,7 @@
               <div class="rounded-lg overflow-hidden shadow-sm">
                 <div class="w-full h-64 bg-gradient-to-br from-slate-50 to-white flex items-center justify-center border">
                   @if(!empty($pendaftar->photo_url) || !empty($pendaftar->foto))
-                    @php
-                        $fotoUrl = $pendaftar->foto ?? $pendaftar->photo_url;
-                        if (!empty($fotoUrl) && !preg_match('#^https?://#i', $fotoUrl)) {
-                            $fotoUrl = str_starts_with($fotoUrl, '/') ? $fotoUrl : '/' . ltrim($fotoUrl, '/');
-                        }
-                    @endphp
-                    <img src="{{ $fotoUrl }}" alt="Foto Profil" class="w-full h-64 object-cover" />
+                    <img src="{{ asset(ltrim($pendaftar->foto ?? $pendaftar->photo_url,'/')) }}" alt="Foto Profil" class="w-full h-64 object-cover" />
                   @else
                     <div class="text-center text-slate-400">Belum ada foto profil</div>
                   @endif

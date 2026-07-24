@@ -286,7 +286,7 @@
                     <label><i class="fas fa-image"></i> Gambar Saat Ini</label>
                     @if($penempatan->image_path)
                         <div class="current-photo">
-                            <img src="{{ asset(str_replace('storage/','',$penempatan->image_path)) }}" alt="preview">
+                            <img src="{{ \App\Helpers\StoragePathHelper::url($penempatan->image_path) }}" alt="preview">
                         </div>
                     @else
                         <p style="color: var(--text-muted); font-size: 0.9rem; font-style: italic; padding-left: 0.25rem;">Tidak ada gambar.</p>

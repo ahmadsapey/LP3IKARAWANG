@@ -186,7 +186,7 @@
                 @if ($strukturs['director'])
                 <div class="center-card">
                     <div class="person-card director">
-                        <img src="{{ $strukturs['director']->foto ? Storage::url($strukturs['director']->foto) : asset('storage/image/directur.jpg') }}" alt="{{ $strukturs['director']->nama }}">
+                        <img src="{{ $strukturs['director']->foto ? \App\Helpers\StoragePathHelper::url($strukturs['director']->foto) : asset('storage/image/directur.jpg') }}" alt="{{ $strukturs['director']->nama }}">
                         <h3>{{ $strukturs['director']->nama }}</h3>
                         <div class="role">{{ $strukturs['director']->role }}</div>
                     </div>
@@ -212,7 +212,7 @@
                 @if ($strukturs['secretary'])
                 <div class="center-card-sub">
                     <div class="person-card subordinate">
-                        <img src="{{ $strukturs['secretary']->foto ? Storage::url($strukturs['secretary']->foto) : asset('storage/image/Pemimpin.jpg') }}" alt="{{ $strukturs['secretary']->nama }}">
+                        <img src="{{ $strukturs['secretary']->foto ? \App\Helpers\StoragePathHelper::url($strukturs['secretary']->foto) : asset('storage/image/Pemimpin.jpg') }}" alt="{{ $strukturs['secretary']->nama }}">
                         <h3>{{ $strukturs['secretary']->nama }}</h3>
                         <div class="role">{{ $strukturs['secretary']->role }}</div>
                     </div>
@@ -241,7 +241,7 @@
                     @foreach ($strukturs['heads'] as $head)
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
                         <div class="person-card">
-                            <img src="{{ $head->foto ? Storage::url($head->foto) : asset('storage/image/Pemimpin.jpg') }}" alt="{{ $head->nama }}">
+                            <img src="{{ $head->foto ? \App\Helpers\StoragePathHelper::url($head->foto) : asset('storage/image/Pemimpin.jpg') }}" alt="{{ $head->nama }}">
                             <h3>{{ $head->nama }}</h3>
                             <div class="role">{{ $head->role }}</div>
                         </div>
@@ -253,7 +253,7 @@
                         @if ($children->count() > 0)
                             @foreach ($children as $sub)
                             <div class="person-card" style="border: 2px solid rgba(64,130,109,0.15); padding: 16px; min-height: auto;">
-                                <img src="{{ $sub->foto ? Storage::url($sub->foto) : asset('storage/image/Pemimpin.jpg') }}" alt="{{ $sub->nama }}" style="width: 120px; height: 120px;">
+                                <img src="{{ $sub->foto ? \App\Helpers\StoragePathHelper::url($sub->foto) : asset('storage/image/Pemimpin.jpg') }}" alt="{{ $sub->nama }}" style="width: 120px; height: 120px;">
                                 <h3 style="font-size: 0.95rem;">{{ $sub->nama }}</h3>
                                 <div class="role" style="font-size: 0.85rem;">{{ $sub->role }}</div>
                             </div>
@@ -278,7 +278,7 @@
                 <div style="margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
                     @foreach ($orphans as $staff)
                     <div class="person-card" style="border: 2px solid rgba(64,130,109,0.15); width: 260px;">
-                        <img src="{{ $staff->foto ? Storage::url($staff->foto) : asset('storage/image/Pemimpin.jpg') }}" alt="{{ $staff->nama }}">
+                        <img src="{{ $staff->foto ? \App\Helpers\StoragePathHelper::url($staff->foto) : asset('storage/image/Pemimpin.jpg') }}" alt="{{ $staff->nama }}">
                         <h3>{{ $staff->nama }}</h3>
                         <div class="role">{{ $staff->role }}</div>
                     </div>

@@ -231,13 +231,7 @@
                   <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                     <div class="relative w-32 h-40 rounded-xl overflow-hidden border-4 border-white shadow-lg bg-slate-100 flex-shrink-0 group">
                       @if(!empty($pendaftar->photo_url) || !empty($pendaftar->foto))
-                        @php
-                            $fotoUrl = $pendaftar->foto ?? $pendaftar->photo_url;
-                            if (!empty($fotoUrl) && !preg_match('#^https?://#i', $fotoUrl)) {
-                                $fotoUrl = str_starts_with($fotoUrl, '/') ? $fotoUrl : '/' . ltrim($fotoUrl, '/');
-                            }
-                        @endphp
-                        <img src="{{ $fotoUrl }}" alt="Preview" class="w-full h-full object-cover">
+                        <img src="{{ asset(ltrim($pendaftar->foto ?? $pendaftar->photo_url,'/')) }}" alt="Preview" class="w-full h-full object-cover">
                       @else
                         <div class="w-full h-full flex flex-col items-center justify-center text-slate-300">
                           <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>

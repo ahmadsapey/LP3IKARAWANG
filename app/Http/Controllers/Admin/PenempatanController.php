@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\StoragePathHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Penempatan;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class PenempatanController extends Controller
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('penempatan','public');
-            $data['image_path'] = 'storage/' . $path;
+            $data['image_path'] = $path;
         }
 
         Penempatan::create($data);
@@ -59,7 +60,7 @@ class PenempatanController extends Controller
                 Storage::disk('public')->delete($old);
             }
             $path = $request->file('image')->store('penempatan','public');
-            $data['image_path'] = 'storage/' . $path;
+            $data['image_path'] = $path;
         }
 
         $penempatan->update($data);
@@ -94,7 +95,7 @@ class PenempatanController extends Controller
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('penempatan','public');
-            $data['image_path'] = 'storage/' . $path;
+            $data['image_path'] = $path;
         }
 
         $item = Penempatan::create($data);
@@ -116,7 +117,7 @@ class PenempatanController extends Controller
                 Storage::disk('public')->delete($old);
             }
             $path = $request->file('image')->store('penempatan','public');
-            $data['image_path'] = 'storage/' . $path;
+            $data['image_path'] = $path;
         }
 
         $penempatan->update($data);

@@ -366,7 +366,7 @@
                     <label><i class="fas fa-image"></i> Foto Profil Saat Ini</label>
                     @if ($strukturOrganisasi->foto)
                         <div class="current-photo">
-                            <img src="{{ Storage::url($strukturOrganisasi->foto) }}" alt="{{ $strukturOrganisasi->nama }}">
+                            <img src="{{ \App\Helpers\StoragePathHelper::url($strukturOrganisasi->foto) }}" alt="{{ $strukturOrganisasi->nama }}">
                         </div>
                     @else
                         <p style="color: var(--text-muted); font-size: 0.9rem; font-style: italic; padding-left: 0.25rem;">Tidak ada foto profil.</p>

@@ -344,33 +344,50 @@ class PendaftarDashboardController extends Controller
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
             $name = 'pendaftar_' . ($pendaftar->id ?? 'unknown') . '_' . time() . '.' . $file->getClientOriginalExtension();
-
-            $targetDir = public_path('image');
-            if (!is_dir($targetDir)) {
-                @mkdir($targetDir, 0755, true);
-            }
-
+            // Save uploaded photos into the existing `public/image` storage folder so files are visible
+            // (there are already site images under storage/app/public/image)
             try {
-                $file->move($targetDir, $name);
-                $path = 'image/' . $name;
+                $path = $file->storeAs('public/image', $name);
             } catch (\Exception $e) {
-                Log::warning('Failed to move uploaded file to public/image, trying storage fallback', ['error' => $e->getMessage(), 'user_id' => $user->id ?? null]);
+                // if storeAs fails for any reason, attempt a direct move to the storage folder
+                Log::warning('storeAs failed, attempting move', ['error' => $e->getMessage(), 'user_id' => $user->id ?? null]);
+                $targetDir = storage_path('app/public/image');
+                if (!is_dir($targetDir)) {
+                    @mkdir($targetDir, 0755, true);
+                }
                 try {
-                    $path = $file->storeAs('public/image', $name);
+                    $file->move($targetDir, $name);
+                    $path = 'public/image/' . $name;
                 } catch (\Exception $e2) {
-                    Log::error('Failed to save uploaded file', ['error' => $e2->getMessage()]);
+                    Log::error('Failed to move uploaded file to storage folder', ['error' => $e2->getMessage()]);
                     $path = null;
                 }
             }
 
-            // generate public URL: use /image/... for files stored directly in public/image
-            $publicUrl = $path ? (str_starts_with($path, 'image/') ? '/' . $path : Storage::url($path)) : '/image/' . $name;
+            // Ensure file actually exists under storage/app when possible; if not, attempt move fallback
+            if (!empty($path)) {
+                $physical = storage_path('app/' . ltrim($path, '/'));
+                if (!file_exists($physical)) {
+                    // try moving directly as a fallback
+                    $targetDir = storage_path('app/public/image');
+                    if (!is_dir($targetDir)) {
+                        @mkdir($targetDir, 0755, true);
+                    }
+                    try {
+                        $file->move($targetDir, $name);
+                        $path = 'public/image/' . $name;
+                    } catch (\Exception $e) {
+                        Log::warning('Fallback move failed', ['error' => $e->getMessage(), 'user_id' => $user->id ?? null]);
+                    }
+                }
+            }
 
+            // generate public URL (/storage/...)
+            $publicUrl = $path ? Storage::url($path) : '/storage/image/' . $name;
             // Save photo URL into DB column `foto`
             if (Schema::hasColumn('mahasiswa', 'foto')) {
                 $pendaftar->foto = $publicUrl;
             }
-
             // Log for debugging: stored path and public URL
             Log::info('Uploaded pendafatar photo', ['user_id' => $user->id ?? null, 'mahasiswa_id' => $pendaftar->id ?? null, 'path' => $path, 'publicUrl' => $publicUrl]);
         }

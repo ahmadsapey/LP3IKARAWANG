@@ -362,7 +362,7 @@
                             <td>
                                 <div class="photo-wrapper">
                                     @if ($struktur->foto)
-                                        <img src="{{ Storage::url($struktur->foto) }}" alt="{{ $struktur->nama }}">
+                                        <img src="{{ \App\Helpers\StoragePathHelper::url($struktur->foto) }}" alt="{{ $struktur->nama }}">
                                     @else
                                         <i class="fas fa-user"></i>
                                     @endif

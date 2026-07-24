@@ -303,7 +303,7 @@
                             <td>
                                 <div class="photo-wrapper">
                                     @if($it->image_path)
-                                        <img src="{{ asset(str_replace('storage/','',$it->image_path)) }}" alt="{{ $it->title }}">
+                                        <img src="{{ \App\Helpers\StoragePathHelper::url($it->image_path) }}" alt="{{ $it->title }}">
                                     @else
                                         <i class="fas fa-briefcase"></i>
                                     @endif
