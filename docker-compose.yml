@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: laravel-app
     restart: unless-stopped
-    working_dir: /app
+    working_dir: /var/www/html
     environment:
       - DB_HOST=mysql
       - DB_PORT=3306
@@ -18,9 +18,9 @@ services:
       - SESSION_DRIVER=redis
       - QUEUE_CONNECTION=redis
     volumes:
-      - ./:/app
-      - /app/vendor
-      - /app/node_modules
+      - ./:/var/www/html
+      - /var/www/html/vendor
+      - /var/www/html/node_modules
     ports:
       - "8000:8000"
     depends_on:

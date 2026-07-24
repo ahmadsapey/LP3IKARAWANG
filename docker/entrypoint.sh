@@ -21,7 +21,7 @@ php artisan migrate --force || true
 
 # Create storage link
 echo "Creating storage link..."
-rm -f public/storage
+rm -rf public/storage
 php artisan storage:link || ln -s ../storage/app/public public/storage
 
 # Cache optimization

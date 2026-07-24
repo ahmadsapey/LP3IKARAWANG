@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
+    netcat-openbsd \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
@@ -24,7 +25,10 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy existing application directory contents
+# Copy entrypoint script and application files
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 COPY . .
 
 # Install PHP dependencies (using --no-scripts to prevent issues if .env is missing)

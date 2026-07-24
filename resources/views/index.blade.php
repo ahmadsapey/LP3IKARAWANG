@@ -1119,7 +1119,7 @@
             <i class="fas fa-graduation-cap"></i>
             <span>PMB LP3I Karawang TA 2026/2027</span>
         </div>
-        <h1 class="animate-hero">awali karir<span class="gradient-text">profesionalmu &amp; Pasti</span> <br>Dimulai Dari Sini</h1>
+        <h1 class="animate-hero">Awali karir<span class="gradient-text"> Profesionalmu &amp; Pasti</span> <br>Dimulai Dari Sini</h1>
         <p class="animate-hero">LP3I Karawang Hadir Sebagai Lembaga Pendidikan Vokasi Yang Akan Membantu Kalian Meraih Karier Profesional Menuju Impian Masa Depan Yang Cerah!.</p>
         
         <div class="hero-actions animate-hero">

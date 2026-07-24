@@ -314,7 +314,7 @@
             display: inline-block;
             color: var(--cyan);
             font-weight: 800;
-            font-size: 0.78rem;
+            font-size: 0.99rem;
             letter-spacing: 2.5px;
             text-transform: uppercase;
             margin-bottom: 0.6rem;
@@ -1119,14 +1119,14 @@
             <i class="fas fa-graduation-cap"></i>
             <span>PMB LP3I Karawang TA 2026/2027</span>
         </div>
-        <h1 class="animate-hero">Masa Depan <span class="gradient-text">Cerah &amp; Pasti</span> <br>Dimulai Dari Sini</h1>
-        <p class="animate-hero">Kuliah Cepat Kerja di Politeknik LP3I Kampus Karawang. Kurikulum Terarah, Lulus Langsung Penempatan.</p>
+        <h1 class="animate-hero">Awali karir<span class="gradient-text"> Profesionalmu &amp; Pasti</span> <br>Dimulai Dari Sini</h1>
+        <p class="animate-hero">LP3I Karawang Hadir Sebagai Lembaga Pendidikan Vokasi Yang Akan Membantu Kalian Meraih Karier Profesional Menuju Impian Masa Depan Yang Cerah!.</p>
         
         <div class="hero-actions animate-hero">
             <a href="<?php echo e(route('mahasiswa.create')); ?>" class="btn-primary-glow">
                 Daftar Sekarang <i class="fas fa-arrow-right"></i>
             </a>
-            <a href="https://wa.me/6285117704112" target="_blank" class="btn-secondary-glass">
+            <a href="https://api.whatsapp.com/send?phone=6285117704112" target="_blank" rel="noopener noreferrer" class="btn-secondary-glass">
                 <i class="fab fa-whatsapp"></i> Hubungi Konselor
             </a>
         </div>
@@ -1160,9 +1160,9 @@
 
     <div class="container">
         <div class="section-header">
-            <span class="section-label">Mengapa Kami?</span>
+            <span class="section-label">4 Alasan</span>
             <h2 class="section-title">Mengapa Memilih <span>LP3I Karawang?</span></h2>
-            <p class="section-subtitle">Keunggulan utama kami untuk mempersiapkan Anda siap kerja dan unggul di dunia industri secara nyata.</p>
+            <p class="section-subtitle">Keunggulan utama kami untuk mempersiapkan peserta didik memiliki standar kompetensi siap kerja dan unggul di dunia industri secara relevan.</p>
         </div>
 
         <div class="reasons-grid">
@@ -1170,29 +1170,29 @@
                 <div class="reason-card-icon">
                     <i class="fas fa-rocket"></i>
                 </div>
-                <h4>Kuliah Bisa Cepat Kerja</h4>
-                <p>Memiliki kerjasama erat dengan ratusan perusahaan serta kurikulum aplikatif sesuai kebutuhan dunia kerja.</p>
+                <h4>Kurikulum link and match</h4>
+                <p>Pendidikan yang berbasis keahlian dan keterampilan praktis disesuaikan dengan kebutuhan industri.</p>
             </div>
             <div class="reason-card">
                 <div class="reason-card-icon">
                     <i class="fas fa-award"></i>
                 </div>
                 <h4>Sertifikasi Kompetensi</h4>
-                <p>Mahasiswa dibekali 4 sertifikasi kompetensi resmi dari Badan Nasional Sertifikasi Profesi (BNSP) &amp; ITC.</p>
+                <p>Peserta didik dibekali 4 sertifikasi kompetensi resmi nasional dan internasional (BNSP & ITC).</p>
             </div>
             <div class="reason-card">
                 <div class="reason-card-icon">
                     <i class="fas fa-chalkboard-teacher"></i>
                 </div>
-                <h4>Dosen Praktisi Profesional</h4>
-                <p>Belajar langsung dari dosen tersertifikasi Kemendikbud serta praktisi senior yang berpengalaman di industri.</p>
+                <h4>Tenaga Pengajar Praktisi</h4>
+                <p>Sebagian besar tenaga pengajar LP3I Karawang berasal dari industri sesuai bidangnya.</p>
             </div>
             <div class="reason-card">
                 <div class="reason-card-icon">
                     <i class="fas fa-briefcase"></i>
                 </div>
-                <h4>Pusat Karir &amp; Magang</h4>
-                <p>Melalui proses magang kerja industri intensif serta penempatan kerja berkelanjutan di industri nasional.</p>
+                <h4>Layanan Penempatan Kerja</h4>
+                <p>Peserta didik yang memiliki kualifikasi dan kompetensi yang sudah ditetapkan oleh LP3I Karawang akan mendapat layanan penempatan kerja dari CnP.</p>
             </div>
         </div>
     </div>
@@ -1244,9 +1244,9 @@
 <section class="video-profile" id="profil-video">
     <div class="video-container">
         <div class="section-header">
-            <span class="section-label">Tur Kampus</span>
+            <span class="section-label">Mari bergabung</span>
             <h2 class="section-title">Kenali Kami Lebih Dekat</h2>
-            <p class="section-subtitle">Saksikan sekilas perjalanan, fasilitas modern, dan suasana belajar dinamis di Politeknik LP3I Karawang.</p>
+            
         </div>
 
         <div class="video-mockup">
@@ -1277,7 +1277,7 @@
             <div class="partners-accent"></div>
             <h2>Mitra Perusahaan &amp; Dunia Industri<br>Menerima Lulusan Kami</h2>
         </div>
-        <p class="partners-desc">Politeknik LP3I telah menjalin kemitraan erat dengan Dunia Usaha dan Dunia Industri (DUDI) baik instansi pemerintah, BUMN, maupun swasta multinasional untuk mempermudah magang dan penempatan kerja lulusan kami.</p>
+        <p class="partners-desc">LP3I Karawang telah menjalin kemitraan erat dengan dunia usaha dan dunia industri berskala nasional dan multinasional untuk mempermudah penempatan kerja lulusan kami.</p>
 
         <!-- Large Partners Showcase Card -->
         <div class="partners-hero">

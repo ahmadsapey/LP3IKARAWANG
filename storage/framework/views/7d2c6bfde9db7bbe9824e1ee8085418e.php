@@ -31,7 +31,7 @@
       <div class="footer-title">Hubungi Kami</div>
       <div class="footer-contact-item">
         <i class="fas fa-phone-alt"></i> 
-        <a href="https://wa.me/6285117704112" target="_blank">0851-1770-4112</a>
+        <a href="https://api.whatsapp.com/send?phone=6285117704112" target="_blank" rel="noopener noreferrer">0851-1770-4112</a>
       </div>
       <div class="footer-contact-item">
         <i class="fas fa-envelope"></i> 
