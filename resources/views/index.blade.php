@@ -1126,7 +1126,7 @@
             <a href="{{ route('mahasiswa.create') }}" class="btn-primary-glow">
                 Daftar Sekarang <i class="fas fa-arrow-right"></i>
             </a>
-            <a href="https://wa.me/6285117704112" target="_blank" class="btn-secondary-glass">
+            <a href="https://api.whatsapp.com/send?phone=6285117704112" target="_blank" rel="noopener noreferrer" class="btn-secondary-glass">
                 <i class="fab fa-whatsapp"></i> Hubungi Konselor
             </a>
         </div>
