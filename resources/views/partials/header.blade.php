@@ -313,6 +313,13 @@
                         <span>Follow Instagram</span>
                     </a>
                 </div>
+                <div class="contact-item">
+                    <i class="fab fa-tiktok"></i>
+                    <a href="https://linktr.ee/lp3i.karawang" target="_blank" class="contact-text" style="text-decoration: none; color: inherit;">
+                        <strong>LP3I Karawang</strong>
+                        <span>Follow TikTok</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -373,6 +380,7 @@
                         <li><a href="tel:0851-1770-4112"><i class="fas fa-phone-alt"></i> 0851-1770-4112</a></li>
                         <li><a href="mailto:college@lp3iglobal.com"><i class="fas fa-envelope"></i>college@lp3iglobal.com</a></li>
                         <li><a href="https://www.instagram.com/lp3i.karawang?igsh=MWxidG42NmpreWg1Ng==" target="_blank"><i class="fab fa-instagram"></i> LP3I Karawang</a></li>
+                        <li><a href="https://www.tiktok.com/@lp3i.karawang?is_from_webapp=1&sender_device=pc" target="_blank"><i class="fab fa-tiktok"></i> TikTok LP3I Karawang</a></li>
                     </ul>
                 </div>
 
