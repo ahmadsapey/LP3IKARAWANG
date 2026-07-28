@@ -3,8 +3,8 @@
     <div class="lp3i-footer-col logo-col">
       <div class="footer-logo-wrap">
            <div class="footer-logo-images">
-                 <img src="{{ asset('storage/image/LOGO_LP3I.png') }}" alt="LP3I Karawang">
-                 <img src="{{ asset('storage/image/global.png') }}" alt="Global">
+                 <img src="<?php echo e(asset('storage/image/LOGO_LP3I.png')); ?>" alt="LP3I Karawang">
+                 <img src="<?php echo e(asset('storage/image/global.png')); ?>" alt="Global">
            </div>
            <div class="footer-logo-slogan">Kampus Vokasi Dengan Penempatan Kerja.</div>
        </div>
@@ -13,19 +13,19 @@
       <div class="footer-title">Telusuri</div>
       <ul class="footer-nav-list">
         <li><a href="/">Home</a></li>
-        <li><a href="{{ route('sambutan') }}">Profil</a></li>
-        <li><a href="{{ route('ais') }}">Akademik</a></li>
-        <li><a href="{{ route('penempatan') }}">Pusat Karir</a></li>
+        <li><a href="<?php echo e(route('sambutan')); ?>">Profil</a></li>
+        <li><a href="<?php echo e(route('ais')); ?>">Akademik</a></li>
+        <li><a href="<?php echo e(route('penempatan')); ?>">Pusat Karir</a></li>
       </ul>
     </div>
     <div class="lp3i-footer-col nav-col">
       <div class="footer-title">Layanan Digital</div>
       <ul class="footer-nav-list">
-        <li><a href="{{ route('student') }}">E | Student</a></li>
-        <li><a href="{{ route('akademik') }}">E | Akademik</a></li>
-        <li><a href="{{ route('lecture') }}">E | Lecture</a></li>
-        <li><a href="{{ route('lecture') }}">E | Carrier Hub</a></li>
-        <li><a href="{{ route('lecture') }}">E | Brosur</a></li>
+        <li><a href="<?php echo e(route('student')); ?>">E | Student</a></li>
+        <li><a href="<?php echo e(route('akademik')); ?>">E | Akademik</a></li>
+        <li><a href="<?php echo e(route('lecture')); ?>">E | Lecture</a></li>
+        <li><a href="<?php echo e(route('lecture')); ?>">E | Carrier Hub</a></li>
+        <li><a href="<?php echo e(route('lecture')); ?>">E | Brosur</a></li>
       </ul>
     </div>
     <div class="lp3i-footer-col address-col">
@@ -54,7 +54,7 @@
   </div>
   <div class="lp3i-footer-bottom">
     <div class="lp3i-footer-copyright">
-      <span>&copy; {{ date('Y') }} LP3I College. All rights reserved.</span>
+      <span>&copy; <?php echo e(date('Y')); ?> LP3I College. All rights reserved.</span>
     </div>
   </div>
 </footer>
@@ -219,3 +219,4 @@
   }
 }
 </style>
+<?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/layouts/footer.blade.php ENDPATH**/ ?>

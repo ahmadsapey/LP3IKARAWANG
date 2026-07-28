@@ -275,7 +275,7 @@
 <header>
     <div class="topbar">
         <div class="container">
-            <div class="topbar-left"><a href="{{ route('virtual') }}">Virtual</a></div>
+            <div class="topbar-left"><a href="<?php echo e(route('virtual')); ?>">Virtual</a></div>
             <div class="topbar-right">
                 <a href="https://student.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer">E | Student</a>
                 <a href="https://academic.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer">E | Akademik</a>
@@ -289,8 +289,8 @@
     <div class="mid-header">
         <div class="container">
             <div class="logo">
-                <img src="{{ asset('storage/image/LOGO_LP3I.png') }}" alt="LP3I Karawang">
-                <img src="{{ asset('storage/image/global.png') }}" alt="Global">
+                <img src="<?php echo e(asset('storage/image/LOGO_LP3I.png')); ?>" alt="LP3I Karawang">
+                <img src="<?php echo e(asset('storage/image/global.png')); ?>" alt="Global">
             </div>
             <div class="header-contact">
                 <div class="contact-item">
@@ -329,8 +329,8 @@
         <div class="nav-container">
             <!-- Mobile Auth Buttons (visible directly on mobile bar) -->
             <div class="mobile-header-auth">
-                <a href="{{ route('pendaftar.login') }}" class="login-btn">Login</a>
-                <a href="{{ route('mahasiswa.create') }}" class="register-btn"><i class="fas fa-user-plus"></i> Daftar</a>
+                <a href="<?php echo e(route('pendaftar.login')); ?>" class="login-btn">Login</a>
+                <a href="<?php echo e(route('mahasiswa.create')); ?>" class="register-btn"><i class="fas fa-user-plus"></i> Daftar</a>
             </div>
 
             <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="primaryNav">
@@ -344,24 +344,24 @@
 
             <div class="nav-menu">
                 <ul class="nav-links" id="primaryNav">
-                    <li><a href="{{ url('/') }}">Home</a></li>
+                    <li><a href="<?php echo e(url('/')); ?>">Home</a></li>
                     <li class="dropdown">
-                        <a href="{{ route('sambutan') }}">Profil</a>
+                        <a href="<?php echo e(route('sambutan')); ?>">Profil</a>
                         <div class="dropdown-content">
-                            <a href="{{ route('sambutan') }}">Sambutan</a>
-                            <a href="{{ route('sejarah') }}">Sejarah & Visi Misi</a>
-                            <a href="{{ route('struktur') }}">Struktur Organisasi</a>
+                            <a href="<?php echo e(route('sambutan')); ?>">Sambutan</a>
+                            <a href="<?php echo e(route('sejarah')); ?>">Sejarah & Visi Misi</a>
+                            <a href="<?php echo e(route('struktur')); ?>">Struktur Organisasi</a>
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a href="{{ route('ais') }}">Akademik</a>
+                        <a href="<?php echo e(route('ais')); ?>">Akademik</a>
                         <div class="dropdown-content">
-                            <a href="{{ route('ais') }}" class="akademik-item"><span class="ak-prefix">AIS</span><span class="ak-prefix">Accounting Information System</span></a>
-                            <a href="{{ route('ase') }}" class="akademik-item"><span class="ak-prefix">ASE</span><span class="ak-prefix">Application Software Engineering</span></a>
-                            <a href="{{ route('oaa') }}" class="akademik-item"><span class="ak-prefix">OAA</span><span class="ak-prefix">Office Administration</span></a>
+                            <a href="<?php echo e(route('ais')); ?>" class="akademik-item"><span class="ak-prefix">AIS</span><span class="ak-prefix">Accounting Information System</span></a>
+                            <a href="<?php echo e(route('ase')); ?>" class="akademik-item"><span class="ak-prefix">ASE</span><span class="ak-prefix">Application Software Engineering</span></a>
+                            <a href="<?php echo e(route('oaa')); ?>" class="akademik-item"><span class="ak-prefix">OAA</span><span class="ak-prefix">Office Administration</span></a>
                         </div>
                     </li>
-                    <li><a href="{{ route('penempatan') }}">Pusat Karir</a></li>
+                    <li><a href="<?php echo e(route('penempatan')); ?>">Pusat Karir</a></li>
                 </ul>
 
                 <!-- Mobile only portal and contacts -->
@@ -369,7 +369,7 @@
                     <hr class="nav-divider">
                     <div class="menu-section-title">Akses Portal</div>
                     <ul class="nav-links-mobile">
-                        <li><a href="{{ route('virtual') }}"><i class="fas fa-desktop"></i> Virtual</a></li>
+                        <li><a href="<?php echo e(route('virtual')); ?>"><i class="fas fa-desktop"></i> Virtual</a></li>
                         <li><a href="https://student.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer"><i class="fas fa-graduation-cap"></i> E | Student</a></li>
                         <li><a href="https://academic.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer"><i class="fas fa-book"></i> E | Akademik</a></li>
                         <li><a href="https://lecturer.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer"><i class="fas fa-chalkboard-teacher"></i> E | Lecture</a></li>
@@ -387,8 +387,8 @@
                 </div>
 
                 <div class="nav-auth">
-                    <a href="{{ route('pendaftar.login') }}" class="login-btn">Login</a>
-                    <a href="{{ route('mahasiswa.create') }}" class="register-btn"><i class="fas fa-user-plus"></i> Daftar Sekarang</a>
+                    <a href="<?php echo e(route('pendaftar.login')); ?>" class="login-btn">Login</a>
+                    <a href="<?php echo e(route('mahasiswa.create')); ?>" class="register-btn"><i class="fas fa-user-plus"></i> Daftar Sekarang</a>
                 </div>
             </div>
         </div>
@@ -444,3 +444,4 @@
         window.addEventListener('scroll', onScroll);
     })();
 </script>
+<?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/partials/header.blade.php ENDPATH**/ ?>

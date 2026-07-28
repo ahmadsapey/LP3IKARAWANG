@@ -1,7 +1,7 @@
-@php
+<?php
     $carouselData = isset($carouselData) ? $carouselData : (isset($carousel) ? $carousel : []);
     $newsData = isset($newsData) ? $newsData : [];
-@endphp
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -10,7 +10,7 @@
     <title>LP3I Karawang - Politeknik LP3I Kampus Karawang</title>
     
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/logos/Logo_LP3I.png') }}" type="image/png">
+    <link rel="shortcut icon" href="<?php echo e(asset('images/logos/Logo_LP3I.png')); ?>" type="image/png">
     
     <!-- Fonts & Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -1495,16 +1495,16 @@
 </head>
 <body>
 
-@include('partials.header')
+<?php echo $__env->make('partials.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
 <!-- Hero Section -->
 <section class="hero">
     <div class="carousel-container">
-        @foreach($carouselData as $index => $item)
-           <div class="carousel-slide {{ $index == 0 ? 'active' : '' }}" 
-               style="background-image: url('{{ asset(isset($item['image']) && $item['image'] ? $item['image'] : 'storage/image/default-hero.jpg') }}')">
+        <?php $__currentLoopData = $carouselData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+           <div class="carousel-slide <?php echo e($index == 0 ? 'active' : ''); ?>" 
+               style="background-image: url('<?php echo e(asset(isset($item['image']) && $item['image'] ? $item['image'] : 'storage/image/default-hero.jpg')); ?>')">
            </div>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
     
     <div class="hero-content">
@@ -1520,7 +1520,7 @@
         <p class="animate-hero">LP3I Karawang hadir sebagai lembaga pendidikan vokasi yang akan membantu kalian meraih karier profesional menuju impian masa depan yang cerah.</p>
         
         <div class="hero-actions animate-hero">
-            <a href="{{ route('mahasiswa.create') }}" class="btn-primary-glow">
+            <a href="<?php echo e(route('mahasiswa.create')); ?>" class="btn-primary-glow">
                 Daftar Sekarang <i class="fas fa-arrow-right"></i>
             </a>
             <a href="https://api.whatsapp.com/send?phone=6285117704112" target="_blank" rel="noopener noreferrer" class="btn-secondary-glass">
@@ -1643,7 +1643,7 @@
         <div class="section-header">
             <span class="section-label">Mari bergabung</span>
             <h2 class="section-title">Kenali Kami Lebih Dekat</h2>
-            {{-- <p class="section-subtitle">Saksikan sekilas perjalanan, fasilitas modern, dan suasana belajar dinamis di Politeknik LP3I Karawang.</p> --}}
+            
         </div>
 
         <div class="video-mockup">
@@ -1655,7 +1655,7 @@
             </div>
             <div class="video-preview-wrapper" id="video-preview-wrapper">
                 <!-- Glowing Thumbnail Preview -->
-                <img src="{{ asset('storage/image/gedung.jpeg') }}" class="video-poster" alt="LP3I Karawang Campus Tour Thumbnail">
+                <img src="<?php echo e(asset('storage/image/gedung.jpeg')); ?>" class="video-poster" alt="LP3I Karawang Campus Tour Thumbnail">
                 <div class="video-overlay-glow"></div>
                 <button class="play-btn" id="play-video-btn" aria-label="Play video">
                     <i class="fas fa-play"></i>
@@ -1663,7 +1663,7 @@
                 </button>
             </div>
         </div>
-        {{-- <div class="video-caption">Tonton video profil singkat LP3I Kampus Karawang.</div> --}}
+        
     </div>
 </section>
 
@@ -1728,10 +1728,10 @@
     <!-- Sisi Kanan: Gambar Gambar/Aset -->
     <div class="study-image-group">
       <div class="study-image-wrap">
-        <img src="{{ asset('storage/image/AIS2.JPG') }}" alt="AIS LP3I Karawang" class="study-image">
+        <img src="<?php echo e(asset('storage/image/AIS2.JPG')); ?>" alt="AIS LP3I Karawang" class="study-image">
       </div>
       <div class="study-image-wrap secondary-image">
-        <img src="{{ asset('storage/image/AIS.JPG') }}" alt="AIS Program LP3I Karawang" class="study-image">
+        <img src="<?php echo e(asset('storage/image/AIS.JPG')); ?>" alt="AIS Program LP3I Karawang" class="study-image">
       </div>
     </div>
 
@@ -1764,17 +1764,17 @@
         <div class="partners-marquee" aria-hidden="false">
             <div class="marquee-anim" aria-hidden="false">
                 <div class="marquee-track" aria-hidden="true">
-                    <img src="{{ asset('storage/image/01.png') }}" alt="Partner 1">
-                    <img src="{{ asset('storage/image/02.png') }}" alt="Partner 2">
-                    <img src="{{ asset('storage/image/03.png') }}" alt="Partner 3">
-                    <img src="{{ asset('storage/image/04.png') }}" alt="Partner 4">
+                    <img src="<?php echo e(asset('storage/image/01.png')); ?>" alt="Partner 1">
+                    <img src="<?php echo e(asset('storage/image/02.png')); ?>" alt="Partner 2">
+                    <img src="<?php echo e(asset('storage/image/03.png')); ?>" alt="Partner 3">
+                    <img src="<?php echo e(asset('storage/image/04.png')); ?>" alt="Partner 4">
                 </div>
                 <!-- duplicate for seamless loop -->
                 <div class="marquee-track" aria-hidden="true">
-                    <img src="{{ asset('storage/image/01.png') }}" alt="Partner 1">
-                    <img src="{{ asset('storage/image/02.png') }}" alt="Partner 2">
-                    <img src="{{ asset('storage/image/03.png') }}" alt="Partner 3">
-                    <img src="{{ asset('storage/image/04.png') }}" alt="Partner 4">
+                    <img src="<?php echo e(asset('storage/image/01.png')); ?>" alt="Partner 1">
+                    <img src="<?php echo e(asset('storage/image/02.png')); ?>" alt="Partner 2">
+                    <img src="<?php echo e(asset('storage/image/03.png')); ?>" alt="Partner 3">
+                    <img src="<?php echo e(asset('storage/image/04.png')); ?>" alt="Partner 4">
                 </div>
             </div>
         </div>
@@ -1791,8 +1791,8 @@
         </div>
 
         <div class="news-grid">
-            @foreach($newsData as $news)
-                @php
+            <?php $__currentLoopData = $newsData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php
                     $newsImage = null;
                     if (!empty($news['image']) && file_exists(public_path($news['image']))) {
                         $newsImage = asset($news['image']);
@@ -1809,34 +1809,34 @@
                     }
                 
                     $newsUrl = $news['link'] ?? (isset($news['slug']) ? url('/news/' . $news['slug']) : (isset($news['id']) ? url('/news/' . $news['id']) : '#'));
-                @endphp
+                ?>
 
-                <a href="{{ $newsUrl }}" class="news-card" aria-label="{{ $news['title'] ?? 'Berita' }}">
+                <a href="<?php echo e($newsUrl); ?>" class="news-card" aria-label="<?php echo e($news['title'] ?? 'Berita'); ?>">
                     <div class="news-image-wrap">
-                        <span class="news-category">{{ $news['category'] ?? 'Artikel' }}</span>
-                        <img src="{{ $newsImage }}" class="news-image" alt="{{ $news['title'] ?? 'Berita' }}">
+                        <span class="news-category"><?php echo e($news['category'] ?? 'Artikel'); ?></span>
+                        <img src="<?php echo e($newsImage); ?>" class="news-image" alt="<?php echo e($news['title'] ?? 'Berita'); ?>">
                     </div>
                     <div class="news-content">
-                        <h3>{{ $news['title'] ?? '' }}</h3>
-                        <p class="news-excerpt">{{ Str::limit($news['excerpt'] ?? '', 95) }}</p>
+                        <h3><?php echo e($news['title'] ?? ''); ?></h3>
+                        <p class="news-excerpt"><?php echo e(Str::limit($news['excerpt'] ?? '', 95)); ?></p>
                         <div class="news-footer">
-                            <span style="font-size:0.8rem;color:var(--text-muted);"><i class="far fa-calendar-alt"></i> {{ isset($news['created_at']) ? \Carbon\Carbon::parse($news['created_at'])->translatedFormat('d M Y') : 'Baru' }}</span>
+                            <span style="font-size:0.8rem;color:var(--text-muted);"><i class="far fa-calendar-alt"></i> <?php echo e(isset($news['created_at']) ? \Carbon\Carbon::parse($news['created_at'])->translatedFormat('d M Y') : 'Baru'); ?></span>
                             <span class="news-more">Baca Selengkapnya <i class="fas fa-chevron-right" style="font-size:0.75rem;"></i></span>
                         </div>
                     </div>
                 </a>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
         
         <div class="see-all-btn-wrap">
-            <a href="{{ url('/news') }}" class="see-all-btn">
+            <a href="<?php echo e(url('/news')); ?>" class="see-all-btn">
                 Lihat Semua Berita <i class="fas fa-arrow-right"></i>
             </a>
         </div>
     </div>
 </section>
 
-@include('layouts.footer')
+<?php echo $__env->make('layouts.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
 <!-- GSAP Core & ScrollTrigger CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -2211,10 +2211,10 @@
 document.addEventListener('DOMContentLoaded', function(){
     try {
         const images = [
-            "{{ asset('storage/image/01.png') }}",
-            "{{ asset('storage/image/02.png') }}",
-            "{{ asset('storage/image/03.png') }}",
-            "{{ asset('storage/image/04.png') }}"
+            "<?php echo e(asset('storage/image/01.png')); ?>",
+            "<?php echo e(asset('storage/image/02.png')); ?>",
+            "<?php echo e(asset('storage/image/03.png')); ?>",
+            "<?php echo e(asset('storage/image/04.png')); ?>"
         ];
         const colossal = document.getElementById('colossal-image');
         const thumbs = Array.from(document.querySelectorAll('.partners-thumb'));
@@ -2275,4 +2275,4 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 </body>
-</html>
+</html><?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/index.blade.php ENDPATH**/ ?>
