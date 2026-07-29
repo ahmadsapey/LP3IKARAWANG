@@ -56,16 +56,38 @@
         }
 
         .wrap { 
-            max-width: 1200px; 
+            max-width: 1280px; 
             margin: -40px auto 80px; 
-            padding: 0 1.5rem; 
+            padding: 0 clamp(1rem, 3vw, 2rem); 
+        }
+
+        .content-intro {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 66, 105, 0.08);
+            border-radius: 18px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px rgba(2, 6, 23, 0.04);
+        }
+
+        .content-intro h2 {
+            color: var(--brand-dark);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .content-intro p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin: 0;
         }
 
         /* Grid Layout */
         .grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
-            gap: 2rem; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 1.5rem; 
         }
 
         /* Card Design */
@@ -262,6 +284,10 @@
     </section>
 
     <div class="wrap">
+        <div class="content-intro">
+            <h2>Galeri Penempatan Kerja</h2>
+            <p>Berikut dokumentasi bukti penempatan kerja alumni LP3I Karawang yang telah berkembang di dunia industri.</p>
+        </div>
         <div class="grid">
             @if(empty($images) || count($images) === 0)
                 <div class="empty-state">

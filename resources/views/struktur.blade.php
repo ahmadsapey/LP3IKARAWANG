@@ -126,12 +126,42 @@
         }
 
         /* Page layout */
-        .page { max-width: 1120px; margin: 72px auto 40px; padding: 0 clamp(0.75rem, 2vw, 1.5rem); }
+        .page { max-width: 1160px; margin: 72px auto 40px; padding: 0 clamp(1rem, 3vw, 2rem); }
         .structure-title{ text-align:center; margin: 20px 0 10px; }
         .structure-title h1{ font-family:'Poppins',sans-serif; font-size: clamp(1.35rem, 2.4vw, 1.9rem); font-weight:700; line-height:1.15; color:#fafafa; text-transform:uppercase; letter-spacing:0.02em; }
         .structure-title .lp3i-blue{ color:#004269; display:block; margin-top:0.3rem; }
-        .banner { display:block; border-radius:14px; overflow:hidden; box-shadow:0 12px 36px rgba(2,6,23,0.06); margin: 0 auto 1rem; max-width: 100%; }
-        .banner img { width:100%; height:auto; max-height:360px; object-fit:contain; display:block; }
+        .structure-intro {
+            text-align:center;
+            max-width: 760px;
+            margin: 0 auto 1.25rem;
+            padding: 0 0.5rem;
+        }
+        .structure-intro p {
+            color: #334155;
+            font-size: 0.96rem;
+            line-height: 1.7;
+        }
+        .banner {
+            display:block;
+            border-radius:18px;
+            overflow:hidden;
+            box-shadow:0 14px 40px rgba(2,6,23,0.08);
+            margin: 0 auto 1.4rem;
+            max-width: min(1400px, 100%);
+            width: 100%;
+            padding: 1.25rem;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+        }
+        .banner img {
+            width:100%;
+            height:auto;
+            max-height:520px;
+            object-fit:contain;
+            display:block;
+            border-radius:12px;
+            margin: 0 auto;
+        }
 
         .center-card{display:flex;flex-direction:column;align-items:center;gap:1rem;margin-top:1rem}
         .center-card-sub{display:flex;flex-direction:column;align-items:flex-end;gap:1rem;margin-top:2rem;padding-right:0.5rem}
@@ -141,7 +171,7 @@
         .person-card h3{margin:0;font-size:0.95rem;color:var(--basic);line-height:1.2;width:100%;text-align:center;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
         .person-card .role{font-size:.8rem;color:var(--muted);margin-top:6px}
 
-        .grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin-top:1.5rem; align-items:start; }
+        .grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem;margin-top:2.5rem;margin-left:2rem;margin-right:2rem;align-items:start; }
         .grid .person-card{width:100%}
 
         /* Organization connectors */
@@ -156,7 +186,8 @@
         @media(max-width:720px){
             .page { margin: 60px auto 24px; padding: 0 0.75rem; }
             .structure-title { margin: 16px 0 8px; }
-            .banner img { height:auto; max-height:220px; }
+            .banner { padding:0.8rem; border-radius:6px; }
+            .banner img { height:auto; max-height:260px; object-fit:contain; }
             .grid { grid-template-columns:1fr; gap:0.9rem; }
             .person-card, .person-card.subordinate { width: 100%; max-width: 280px; min-height:auto; }
             .center-card-sub { align-items:center; padding-right:0; }
@@ -174,7 +205,10 @@
             <h1>STRUKTUR ORGANISASI PERGURUAN TINGGI
                 <span class="lp3i-blue">Lp3i College Karawang</span>
             </h1>
-        </div><br><br>
+        </div>
+        <div class="structure-intro">
+            <p>Berikut gambaran susunan organisasi LP3I College Karawang beserta pimpinan dan unit kerja yang mendukung kegiatan kampus.</p>
+        </div>
         <div class="banner"><img src="{{ asset('storage/image/Map_Organisasi.png') }}" alt="Peta Organisasi"></div>
 
         <!-- org tree will render below -->
@@ -237,7 +271,7 @@
 
                 {{-- Heads grid: render up to 4 heads and place their members beneath each head (no connector lines) --}}
                 @if (!empty($strukturs['heads']) && $strukturs['heads']->count() > 0)
-                <div class="grid">
+                <div class="grid" style="margin-left: 3.5rem; margin-right: 3.5rem; margin-top: 3rem; gap: 2.5rem;">
                     @foreach ($strukturs['heads'] as $head)
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
                         <div class="person-card">
