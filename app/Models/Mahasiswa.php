@@ -41,7 +41,7 @@ class Mahasiswa extends Model
     {
         // Use branch_code but replace the leading year portion with the current year (2-digit)
         // so NIPD reflects the actual year automatically.
-        $branchCfg = config('nipd.branch_code', '240781');
+        $branchCfg = config('nipd.branch_code', '260781');
         $currentYearTwo = date('y');
         // if branch code is at least 2 chars, replace its first two chars with current year two-digit
         $branch = strlen($branchCfg) >= 2 ? ($currentYearTwo . substr($branchCfg, 2)) : $branchCfg;

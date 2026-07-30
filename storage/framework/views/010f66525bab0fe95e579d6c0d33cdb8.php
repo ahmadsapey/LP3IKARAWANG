@@ -14,7 +14,7 @@
         * { box-sizing: border-box; margin:0; padding:0 }
         body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #0f172a; background: linear-gradient(180deg,var(--basic) 0%, rgba(0,66,105,0.06) 28%, #f6f9fc 100%); overflow-x: hidden; }
 
-        /* Header & Nav (copied from index for consistency) */
+        /* Header & Nav */
         header { width: 100%; z-index: 1000; position: relative; }
 
         .topbar { background: #009da5; color: white; padding: 6px 0; font-size: 0.95rem; font-weight: 600; }
@@ -122,8 +122,6 @@
             50% { box-shadow: 0 6px 25px rgba(0, 66, 105, 0.6); }
         }
         @media (max-width: 768px) { .header-contact { display: none; } }
-            box-shadow: none !important;
-        }
 
         /* Page layout */
         .page { max-width: 1160px; margin: 72px auto 40px; padding: 0 clamp(1rem, 3vw, 2rem); }
@@ -180,29 +178,88 @@
         .center-card .person-card.director { background:#fff }
 
         .org-tree .grid { position: relative; margin-top: 32px }
-        /* SVG overlay will draw connectors precisely between photos (JS) */
-        /* remove pseudo-element connectors in favor of SVG lines for accuracy */
 
+        /* --- PENYESUAIAN KHUSUS TAMPILAN MOBILE --- */
         @media(max-width:720px){
-            .page { margin: 60px auto 24px; padding: 0 0.75rem; }
+            .page { margin: 40px auto 20px; padding: 0 0.8rem; }
             .structure-title { margin: 16px 0 8px; }
-            .banner { padding:0.8rem; border-radius:6px; }
-            .banner img { height:auto; max-height:260px; object-fit:contain; }
-            .grid { grid-template-columns:1fr; gap:0.9rem; }
-            .person-card, .person-card.subordinate { width: 100%; max-width: 280px; min-height:auto; }
-            .center-card-sub { align-items:center; padding-right:0; }
+            .banner { padding: 0.6rem; border-radius: 8px; }
+            .banner img { height: auto; max-height: 220px; object-fit: contain; }
+            
+            /* Grid per kepala/departemen diubah stack vertikal */
+            .grid { 
+                grid-template-columns: 1fr !important; 
+                margin-left: 0 !important; 
+                margin-right: 0 !important; 
+                margin-top: 1.5rem !important; 
+                gap: 1.25rem !important; 
+            }
+
+            /* Container pembungkus Kepala + Bawahan per grup */
+            .grid > div {
+                background: rgba(255, 255, 255, 0.6);
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                padding: 12px;
+                gap: 0.75rem !important;
+            }
+
+            /* Ubah kartu ke layout Horizontal (Foto Kiri, Teks Kanan) */
+            .person-card, 
+            .person-card.subordinate { 
+                width: 100% !important; 
+                max-width: 100% !important; 
+                min-height: auto !important; 
+                flex-direction: row !important; 
+                align-items: center !important; 
+                justify-content: flex-start !important;
+                text-align: left !important;
+                padding: 10px 14px !important;
+                gap: 12px !important;
+            }
+
+            /* Ukuran foto ringkas & proporsional di HP */
+            .person-card img,
+            .person-card.subordinate img { 
+                width: 60px !important; 
+                height: 60px !important; 
+                min-width: 60px !important;
+                margin: 0 !important;
+                border-radius: 8px;
+            }
+
+            /* Teks rapat ke kiri */
+            .person-card h3 { 
+                text-align: left !important; 
+                font-size: 0.9rem !important; 
+            }
+
+            .person-card .role { 
+                font-size: 0.78rem !important; 
+                margin-top: 2px !important; 
+            }
+
+            .center-card-sub { 
+                align-items: center; 
+                padding-right: 0; 
+                margin-top: 1rem;
+            }
+
+            /* Sembunyikan garis konektor SVG di HP agar bersih */
+            #org-lines {
+                display: none !important;
+            }
         }
-        /* ensure SVG lines are drawn behind cards so connectors don't cover them */
+
         #org-lines{pointer-events:none;z-index:0}
     </style>
 </head>
-    <body>
+<body>
     <?php echo $__env->make('partials.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
-
 
     <div class="page">
         <div class="structure-title">
-            <h1>STRUKTUR ORGANISASI PERGURUAN TINGGI
+            <h1>Struktur Organisasi 
                 <span class="lp3i-blue">Lp3i College Karawang</span>
             </h1>
         </div>
@@ -212,119 +269,134 @@
         <div class="banner"><img src="<?php echo e(asset('storage/image/Map_Organisasi.png')); ?>" alt="Peta Organisasi"></div>
 
         <!-- org tree will render below -->
-            <div class="org-tree">
-                <?php
-                    $strukturs = \App\Http\Controllers\StrukturOrganisasiController::getOrgData();
-                ?>
+        <div class="org-tree">
+            <?php
+                $strukturs = \App\Http\Controllers\StrukturOrganisasiController::getOrgData();
+            ?>
 
-                <?php if($strukturs['director']): ?>
-                <div class="center-card">
-                    <div class="person-card director">
-                        <img src="<?php echo e($strukturs['director']->foto ? \App\Helpers\StoragePathHelper::url($strukturs['director']->foto) : asset('storage/image/directur.jpg')); ?>" alt="<?php echo e($strukturs['director']->nama); ?>">
+            <?php if($strukturs['director']): ?>
+            <div class="center-card">
+                <div class="person-card director">
+                    <img src="<?php echo e($strukturs['director']->foto ? \App\Helpers\StoragePathHelper::url($strukturs['director']->foto) : asset('storage/image/directur.jpg')); ?>" alt="<?php echo e($strukturs['director']->nama); ?>">
+                    <div>
                         <h3><?php echo e($strukturs['director']->nama); ?></h3>
                         <div class="role"><?php echo e($strukturs['director']->role); ?></div>
                     </div>
-                    
-                    <?php
-                        $subordinatesDirector = $strukturs['staffByParent']->get($strukturs['director']->id) ?? collect();
-                    ?>
-                    
-                    <?php if($subordinatesDirector->count() > 0): ?>
-                    <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center;">
-                        <?php $__currentLoopData = $subordinatesDirector; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sub): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="person-card subordinate">
-                            <img src="<?php echo e($sub->foto ? Storage::url($sub->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($sub->nama); ?>" style="width: 100px; height: 100px;">
-                            <h3 style="font-size: 0.9rem;"><?php echo e($sub->nama); ?></h3>
-                            <div class="role" style="font-size: 0.8rem;"><?php echo e($sub->role); ?></div>
+                </div>
+                
+                <?php
+                    $subordinatesDirector = $strukturs['staffByParent']->get($strukturs['director']->id) ?? collect();
+                ?>
+                
+                <?php if($subordinatesDirector->count() > 0): ?>
+                <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; width: 100%;">
+                    <?php $__currentLoopData = $subordinatesDirector; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sub): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="person-card subordinate">
+                        <img src="<?php echo e($sub->foto ? Storage::url($sub->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($sub->nama); ?>">
+                        <div>
+                            <h3><?php echo e($sub->nama); ?></h3>
+                            <div class="role"><?php echo e($sub->role); ?></div>
                         </div>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
-                    <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
                 <?php endif; ?>
+            </div>
+            <?php endif; ?>
 
-                <?php if($strukturs['secretary']): ?>
-                <div class="center-card-sub">
-                    <div class="person-card subordinate">
-                        <img src="<?php echo e($strukturs['secretary']->foto ? \App\Helpers\StoragePathHelper::url($strukturs['secretary']->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($strukturs['secretary']->nama); ?>">
+            <?php if($strukturs['secretary']): ?>
+            <div class="center-card-sub">
+                <div class="person-card subordinate">
+                    <img src="<?php echo e($strukturs['secretary']->foto ? \App\Helpers\StoragePathHelper::url($strukturs['secretary']->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($strukturs['secretary']->nama); ?>">
+                    <div>
                         <h3><?php echo e($strukturs['secretary']->nama); ?></h3>
                         <div class="role"><?php echo e($strukturs['secretary']->role); ?></div>
                     </div>
-                    
-                    <?php
-                        $subordinatesSecretary = $strukturs['staffByParent']->get($strukturs['secretary']->id) ?? collect();
-                    ?>
-                    
-                    <?php if($subordinatesSecretary->count() > 0): ?>
-                    <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: flex-end;">
-                        <?php $__currentLoopData = $subordinatesSecretary; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sub): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="person-card subordinate">
-                            <img src="<?php echo e($sub->foto ? Storage::url($sub->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($sub->nama); ?>" style="width: 100px; height: 100px;">
-                            <h3 style="font-size: 0.9rem;"><?php echo e($sub->nama); ?></h3>
-                            <div class="role" style="font-size: 0.8rem;"><?php echo e($sub->role); ?></div>
+                </div>
+                
+                <?php
+                    $subordinatesSecretary = $strukturs['staffByParent']->get($strukturs['secretary']->id) ?? collect();
+                ?>
+                
+                <?php if($subordinatesSecretary->count() > 0): ?>
+                <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: flex-end; width: 100%;">
+                    <?php $__currentLoopData = $subordinatesSecretary; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sub): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="person-card subordinate">
+                        <img src="<?php echo e($sub->foto ? Storage::url($sub->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($sub->nama); ?>">
+                        <div>
+                            <h3><?php echo e($sub->nama); ?></h3>
+                            <div class="role"><?php echo e($sub->role); ?></div>
                         </div>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
-                    <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
                 <?php endif; ?>
+            </div>
+            <?php endif; ?>
 
-                
-                <?php if(!empty($strukturs['heads']) && $strukturs['heads']->count() > 0): ?>
-                <div class="grid" style="margin-left: 3.5rem; margin-right: 3.5rem; margin-top: 3rem; gap: 2.5rem;">
-                    <?php $__currentLoopData = $strukturs['heads']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $head): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <div class="person-card">
-                            <img src="<?php echo e($head->foto ? \App\Helpers\StoragePathHelper::url($head->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($head->nama); ?>">
+            
+            <?php if(!empty($strukturs['heads']) && $strukturs['heads']->count() > 0): ?>
+            <div class="grid">
+                <?php $__currentLoopData = $strukturs['heads']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $head): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="person-card">
+                        <img src="<?php echo e($head->foto ? \App\Helpers\StoragePathHelper::url($head->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($head->nama); ?>">
+                        <div>
                             <h3><?php echo e($head->nama); ?></h3>
                             <div class="role"><?php echo e($head->role); ?></div>
                         </div>
-                        
-                        <?php
-                            $children = $strukturs['staffByParent']->get($head->id) ?? collect();
-                        ?>
-                        
-                        <?php if($children->count() > 0): ?>
-                            <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sub): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="person-card" style="border: 2px solid rgba(64,130,109,0.15); padding: 16px; min-height: auto;">
-                                <img src="<?php echo e($sub->foto ? \App\Helpers\StoragePathHelper::url($sub->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($sub->nama); ?>" style="width: 120px; height: 120px;">
-                                <h3 style="font-size: 0.95rem;"><?php echo e($sub->nama); ?></h3>
-                                <div class="role" style="font-size: 0.85rem;"><?php echo e($sub->role); ?></div>
-                            </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        <?php endif; ?>
                     </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    
+                    <?php
+                        $children = $strukturs['staffByParent']->get($head->id) ?? collect();
+                    ?>
+                    
+                    <?php if($children->count() > 0): ?>
+                        <?php $__currentLoopData = $children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sub): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="person-card subordinate" style="border: 1px solid rgba(64,130,109,0.2);">
+                            <img src="<?php echo e($sub->foto ? \App\Helpers\StoragePathHelper::url($sub->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($sub->nama); ?>">
+                            <div>
+                                <h3><?php echo e($sub->nama); ?></h3>
+                                <div class="role"><?php echo e($sub->role); ?></div>
+                            </div>
+                        </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php endif; ?>
                 </div>
-                <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+            <?php endif; ?>
 
-                
-                <?php
-                    $headIds = collect($strukturs['heads'] ?? [])->pluck('id')->all();
-                    $orphans = $strukturs['staff']->filter(function($s) use ($headIds, $strukturs){
-                        $hasParent = $strukturs['staffByParent']->contains(function($collection, $parentId) use ($s){
-                            return $collection->contains('id', $s->id);
-                        });
-                        return !$s->parent_id && !in_array($s->id, $headIds) && !$hasParent;
+            
+            <?php
+                $headIds = collect($strukturs['heads'] ?? [])->pluck('id')->all();
+                $orphans = $strukturs['staff']->filter(function($s) use ($headIds, $strukturs){
+                    $hasParent = $strukturs['staffByParent']->contains(function($collection, $parentId) use ($s){
+                        return $collection->contains('id', $s->id);
                     });
-                ?>
-                <?php if($orphans->count() > 0): ?>
-                <div style="margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
-                    <?php $__currentLoopData = $orphans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="person-card" style="border: 2px solid rgba(64,130,109,0.15); width: 260px;">
-                        <img src="<?php echo e($staff->foto ? \App\Helpers\StoragePathHelper::url($staff->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($staff->nama); ?>">
+                    return !$s->parent_id && !in_array($s->id, $headIds) && !$hasParent;
+                });
+            ?>
+            <?php if($orphans->count() > 0): ?>
+            <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; width: 100%;">
+                <?php $__currentLoopData = $orphans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $staff): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="person-card subordinate" style="border: 1px solid rgba(64,130,109,0.2);">
+                    <img src="<?php echo e($staff->foto ? \App\Helpers\StoragePathHelper::url($staff->foto) : asset('storage/image/Pemimpin.jpg')); ?>" alt="<?php echo e($staff->nama); ?>">
+                    <div>
                         <h3><?php echo e($staff->nama); ?></h3>
                         <div class="role"><?php echo e($staff->role); ?></div>
                     </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
-                <?php endif; ?>
-
-                <!-- SVG overlay for connector lines (Director to 4 Heads only) -->
-                <svg id="org-lines" style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0"></svg>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
+            <?php endif; ?>
 
-                
+            <!-- SVG overlay for connector lines (Desktop only) -->
+            <svg id="org-lines" style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:0"></svg>
+        </div>
+
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // mobile menu toggle
@@ -357,6 +429,8 @@
         // Draw precise connector lines: Director to 4 Heads + Corporate Secretary
         function drawOrgLines() {
             try {
+                if (window.innerWidth <= 720) return; // Skip drawing on mobile screens
+
                 const container = document.querySelector('.org-tree');
                 const svg = document.getElementById('org-lines');
                 if (!container || !svg) return;
@@ -376,18 +450,16 @@
                 const dX = (dRect.left + dRect.right) / 2 - contRect.left;
                 const directorBottomY = dRect.bottom - contRect.top;
 
-                // Find first-level person cards in grid (heads only, not subordinates)
+                // Find first-level person cards in grid (heads only)
                 const gridContainer = container.querySelector('.grid');
                 if (!gridContainer) return;
 
-                // Get only direct children divs that contain heads
                 const headDivs = Array.from(gridContainer.children).filter(child => {
                     return child.style.display === 'flex' && child.style.flexDirection === 'column';
                 });
 
                 if (headDivs.length === 0) return;
 
-                // Get first person-card from each column (that's the head)
                 const headCards = headDivs.map(div => {
                     const card = div.querySelector('.person-card');
                     if (card) {
@@ -401,9 +473,7 @@
 
                 const firstX = headCards[0].x;
                 const lastX = headCards[headCards.length - 1].x;
-                const bendX = (firstX + lastX) / 2;
 
-                // Calculate Y position for horizontal line (above heads)
                 const avgTopGrid = headCards.reduce((sum, h) => sum + h.top, 0) / headCards.length;
                 const horizY = Math.max(directorBottomY + 20, avgTopGrid - 40);
 
@@ -448,9 +518,7 @@
                     const sRect = secretaryBox.getBoundingClientRect();
                     const sX = (sRect.left + sRect.right) / 2 - contRect.left;
                     const sTop = sRect.top - contRect.top;
-                    const sMiddleY = (sRect.top + sRect.bottom) / 2 - contRect.top;
 
-                    // Dashed horizontal from director to secretary (at director level)
                     const dashedH = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                     dashedH.setAttribute('x1', dX);
                     dashedH.setAttribute('y1', directorBottomY + 10);
@@ -462,7 +530,6 @@
                     dashedH.setAttribute('stroke-linecap', 'round');
                     svg.appendChild(dashedH);
 
-                    // Dashed vertical to secretary
                     const dashedV = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                     dashedV.setAttribute('x1', sX);
                     dashedV.setAttribute('y1', directorBottomY + 10);
@@ -485,5 +552,4 @@
     </script>
     <?php echo $__env->make('layouts.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 </body>
-</html>
-<?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/struktur.blade.php ENDPATH**/ ?>
+</html><?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/struktur.blade.php ENDPATH**/ ?>

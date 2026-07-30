@@ -2,7 +2,7 @@
 
 return [
     // Branch & city code (6 digits) — LP3I Karawang default
-    'branch_code' => env('NIPD_BRANCH_CODE', '240781'),
+    'branch_code' => env('NIPD_BRANCH_CODE', '260781'),
 
     // Department/program codes (3 digits each)
     'program_codes' => [

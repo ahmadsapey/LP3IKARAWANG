@@ -14,19 +14,64 @@
         body.header-compact-body { padding-top: 70px; }
     }
 
-    /* Layer 1: Top Bar */
-    .topbar { background: #009da5; color: white; padding: 8px 0; font-size: 0.95rem; font-weight: 600; max-height: 80px; overflow: hidden; transition: all 0.25s ease; }
+    /* Layer 1: Top Bar (FIXED Z-INDEX & OVERFLOW) */
+    .topbar { 
+        background: #009da5; 
+        color: white; 
+        padding: 8px 0; 
+        font-size: 0.95rem; 
+        font-weight: 600; 
+        max-height: 80px; 
+        overflow: visible !important; 
+        transition: all 0.25s ease; 
+        position: relative;
+        z-index: 1300; 
+    }
     .topbar .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display:flex; justify-content:space-between; align-items:center; gap:1rem; }
     .topbar-left, .topbar-right { display:flex; align-items:center; gap:1rem; }
     .topbar a { color: white; text-decoration: none; display:inline-flex; align-items:center; gap:0.5rem; padding:4px 8px; border-radius:6px; transition: all 0.2s ease; }
     .topbar a:hover { background: rgba(255,255,255,0.15); }
     .topbar a i { font-size: 0.95rem; }
+
+    /* FIXED DROPDOWN E-BROSUR TOPBAR */
+    .footer-brosur-dropdown { position: relative; display: inline-flex; align-items: center; }
+    .footer-brosur-toggle { color: white; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; padding: 4px 8px; border-radius: 6px; transition: all 0.2s ease; cursor: pointer; }
+    .footer-brosur-toggle:hover { background: rgba(255,255,255,0.15); }
+    .footer-brosur-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 180px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+        display: none;
+        overflow: hidden;
+        z-index: 9999 !important;
+        white-space: nowrap;
+    }
+    .footer-brosur-dropdown:hover .footer-brosur-menu,
+    .footer-brosur-dropdown.open .footer-brosur-menu { 
+        display: block !important; 
+    }
+    .footer-brosur-menu a {
+        display: block;
+        width: 100%;
+        color: #1e3c72;
+        padding: 10px 14px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .footer-brosur-menu a:hover { background: #f4f7fb; color: #009da5; }
+
     @media (max-width: 900px) {
         .topbar { display: none; }
     }
 
     /* Layer 2: Mid Header (Logo & Contact) */
-    .mid-header { background: #213C72; color: white; padding: 15px 0; max-height: 140px; overflow: hidden; transition: all 0.25s ease; }
+    .mid-header { background: #213C72; color: white; padding: 15px 0; max-height: 140px; overflow: hidden; transition: all 0.25s ease; position: relative; z-index: 1100; }
     .mid-header .container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
     .logo { display: flex; align-items: center; gap: 20px; }
     .logo img { max-height: 55px; width: auto; object-fit: contain; }
@@ -48,7 +93,7 @@
         .logo img { max-height: 35px; }
     }
 
-    /* Compact mode when scrolling: keep menu sticky, collapse top layers */
+    /* Compact mode when scrolling */
     header.header-compact .topbar,
     header.header-compact .mid-header {
         max-height: 0;
@@ -66,7 +111,7 @@
         position: relative; 
         transition: all 0.3s ease;
         box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        z-index: 1200;
+        z-index: 1000; /* Lower z-index so topbar dropdown goes above it */
     }
     nav.scrolled { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
     .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; position: relative; }
@@ -106,7 +151,7 @@
         width: 70%;
     }
 
-    /* Dropdown */
+    /* Main Nav Dropdown */
     .dropdown { position: relative; }
     .dropdown-content {
         position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
@@ -177,8 +222,7 @@
     @media (max-width: 900px) {
         nav { border-top: 1px solid #e6e9ef; }
         .nav-container { min-height: 56px; }
-        .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
-        .nav-toggle { margin-left: auto; }
+        .nav-toggle { display: inline-flex; align-items: center; justify-content: center; margin-left: auto; }
         .mobile-header-auth {
             display: flex;
             align-items: center;
@@ -242,6 +286,35 @@
         .dropdown:hover .dropdown-content { display: none; }
         .dropdown.open > .dropdown-content { display: block; }
 
+        .mobile-brosur-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 0.75rem 0.75rem;
+            border-radius: 8px;
+        }
+        .mobile-brosur-group > span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #333;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .mobile-brosur-group > span i { color: #009da5; width: 20px; }
+        .mobile-brosur-links {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-left: 30px;
+        }
+        .mobile-brosur-links a {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e3c72;
+            padding: 4px 0;
+        }
+
         /* Mobile-only portal and contacts */
         .mobile-only-links { display: block; margin-top: 15px; margin-bottom: 15px; }
         .nav-divider { border: 0; border-top: 1px solid rgba(0, 0, 0, 0.08); margin: 12px 0; }
@@ -281,7 +354,13 @@
                 <a href="https://academic.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer">E | Akademik</a>
                 <a href="https://lecturer.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer">E | Lecture</a>
                 <a href="">E | Carrier Hub</a>
-                <a href="">E | Brosur</a>
+                <div class="footer-brosur-dropdown">
+                    <a href="javascript:void(0)" class="footer-brosur-toggle">E | Brosur <i class="fas fa-chevron-down"></i></a>
+                    <div class="footer-brosur-menu">
+                        <a href="<?php echo e(asset('storage/docs/Brosur Reguler 2026 V2.pdf')); ?>" download>Reguler</a>
+                        <a href="<?php echo e(asset('storage/docs/Brosur Karyawan 2026-2027 V2.pdf')); ?>" download>Karyawan</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -327,7 +406,7 @@
 
     <nav id="mainNav">
         <div class="nav-container">
-            <!-- Mobile Auth Buttons (visible directly on mobile bar) -->
+            <!-- Mobile Auth Buttons -->
             <div class="mobile-header-auth">
                 <a href="<?php echo e(route('pendaftar.login')); ?>" class="login-btn">Login</a>
                 <a href="<?php echo e(route('mahasiswa.create')); ?>" class="register-btn"><i class="fas fa-user-plus"></i> Daftar</a>
@@ -374,13 +453,21 @@
                         <li><a href="https://academic.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer"><i class="fas fa-book"></i> E | Akademik</a></li>
                         <li><a href="https://lecturer.lp3iglobal.ac.id" target="_blank" rel="noopener noreferrer"><i class="fas fa-chalkboard-teacher"></i> E | Lecture</a></li>
                         <li><a href=""><i class="fas fa-briefcase"></i> E | Carrier Hub</a></li>
-                        <li><a href=""><i class="fas fa-briefcase"></i> E | Brosur</a></li>  
+                        <li>
+                            <div class="mobile-brosur-group">
+                                <span><i class="fas fa-file-pdf"></i> E | Brosur</span>
+                                <div class="mobile-brosur-links">
+                                    <a href="<?php echo e(asset('storage/docs/Brosur Reguler 2026 V2.pdf')); ?>" download><i class="fas fa-download"></i> Reguler</a>
+                                    <a href="<?php echo e(asset('storage/docs/Brosur Karyawan 2026-2027 V2.pdf')); ?>" download><i class="fas fa-download"></i> Karyawan</a>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                     <hr class="nav-divider">
                     <div class="menu-section-title">Hubungi Kami</div>
                     <ul class="nav-links-mobile-contacts">
                         <li><a href="tel:0851-1770-4112"><i class="fas fa-phone-alt"></i> 0851-1770-4112</a></li>
-                        <li><a href="mailto:college@lp3iglobal.com"><i class="fas fa-envelope"></i>college@lp3iglobal.com</a></li>
+                        <li><a href="mailto:college@lp3iglobal.com"><i class="fas fa-envelope"></i> college@lp3iglobal.com</a></li>
                         <li><a href="https://www.instagram.com/lp3i.karawang?igsh=MWxidG42NmpreWg1Ng==" target="_blank"><i class="fab fa-instagram"></i> LP3I Karawang</a></li>
                         <li><a href="https://www.tiktok.com/@lp3i.karawang?is_from_webapp=1&sender_device=pc" target="_blank"><i class="fab fa-tiktok"></i> TikTok LP3I Karawang</a></li>
                     </ul>
@@ -402,9 +489,9 @@
 
         const toggle = nav.querySelector('.nav-toggle');
         const dropdownLinks = nav.querySelectorAll('.dropdown > a');
-
         const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
 
+        // Toggle Navbar Mobile
         if (toggle) {
             toggle.addEventListener('click', () => {
                 const isOpen = nav.classList.toggle('nav-open');
@@ -412,6 +499,7 @@
             });
         }
 
+        // Toggle Main Dropdown di Mobile
         dropdownLinks.forEach((link) => {
             link.addEventListener('click', (event) => {
                 if (!isMobile()) return;
@@ -425,6 +513,35 @@
             });
         });
 
+        // Close dropdown handler
+        const closeDropdowns = () => {
+            document.querySelectorAll('.footer-brosur-dropdown.open').forEach((item) => item.classList.remove('open'));
+        };
+
+        // Event listener click untuk E-Brosur Topbar
+        document.addEventListener('click', (event) => {
+            const toggleBtn = event.target.closest('.footer-brosur-toggle');
+            if (toggleBtn) {
+                event.preventDefault();
+                event.stopPropagation();
+                const wrapper = toggleBtn.closest('.footer-brosur-dropdown');
+                if (!wrapper) return;
+                
+                const isOpen = wrapper.classList.contains('open');
+                closeDropdowns();
+                
+                if (!isOpen) {
+                    wrapper.classList.add('open');
+                }
+                return;
+            }
+
+            if (!event.target.closest('.footer-brosur-dropdown')) {
+                closeDropdowns();
+            }
+        });
+
+        // Resize reset
         window.addEventListener('resize', () => {
             if (!isMobile()) {
                 nav.classList.remove('nav-open');
@@ -433,6 +550,7 @@
             }
         });
 
+        // Header Scroll Sticky Effect
         const headerEl = document.querySelector('header');
         const onScroll = () => {
             const compact = window.scrollY > 80;
@@ -443,5 +561,4 @@
         onScroll();
         window.addEventListener('scroll', onScroll);
     })();
-</script>
-<?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/partials/header.blade.php ENDPATH**/ ?>
+</script><?php /**PATH D:\Lp3i\LP3IKARAWANG\resources\views/partials/header.blade.php ENDPATH**/ ?>

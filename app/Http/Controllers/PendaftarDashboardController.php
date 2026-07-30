@@ -301,12 +301,19 @@ class PendaftarDashboardController extends Controller
             'telp_wali' => 'nullable|string|max:50',
             'pekerjaan_wali' => 'nullable|string|max:255',
             'whatsapp_wali' => 'nullable|string|max:50',
+            'nama_ibu_kandung' => 'nullable|string|max:255',
+            'nama_ayah' => 'nullable|string|max:255',
             'ktp_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'ijazah_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'akte_kelahiran_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'surat_sudah_bekerja_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
+
+        if ($request->has('nama_ibu_kandung') || $request->has('nama_ayah')) {
+            $v['nama_wali'] = $request->input('nama_ibu_kandung', $request->input('nama_wali'));
+            $v['pekerjaan_wali'] = $request->input('nama_ayah', $request->input('pekerjaan_wali'));
+        }
 
         // assign allowed fields, but only if the corresponding DB column exists
         $fields = ['nama_mhs','tempat_lahir','angkatan','periode','no_hp','email','jenis_kelas','id_program_studi','id_program_study','asal_sekolah','alamat','domisili','kecamatan','desa','kode_pos','jenis_kelamin','agama','tahun_lulus','instagram','nama_wali','telp_wali','whatsapp_wali','pekerjaan_wali'];

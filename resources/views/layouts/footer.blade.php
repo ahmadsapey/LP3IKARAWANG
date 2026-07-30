@@ -21,11 +21,17 @@
     <div class="lp3i-footer-col nav-col">
       <div class="footer-title">Layanan Digital</div>
       <ul class="footer-nav-list">
-        <li><a href="{{ route('student') }}">E | Student</a></li>
-        <li><a href="{{ route('akademik') }}">E | Akademik</a></li>
-        <li><a href="{{ route('lecture') }}">E | Lecture</a></li>
+        <li><a href="https://student.lp3iglobal.ac.id">E | Student</a></li>
+        <li><a href="https://academic.lp3iglobal.ac.id">E | Akademik</a></li>
+        <li><a href="https://lecturer.lp3iglobal.ac.id">E | Lecture</a></li>
         <li><a href="{{ route('lecture') }}">E | Carrier Hub</a></li>
-        <li><a href="{{ route('lecture') }}">E | Brosur</a></li>
+        <li class="footer-brosur-dropdown">
+          <a href="javascript:void(0)" class="footer-brosur-toggle">E | Brosur <i class="fas fa-chevron-down"></i></a>
+          <div class="footer-brosur-menu">
+            <a href="{{ asset('storage/docs/Brosur Reguler 2026 V2.pdf') }}" download>Reguler</a>
+            <a href="{{ asset('storage/docs/Brosur Karyawan 2026-2027 V2.pdf') }}" download>Karyawan</a>
+          </div>
+        </li>
       </ul>
     </div>
     <div class="lp3i-footer-col address-col">
@@ -48,7 +54,7 @@
       </div>
       <div class="footer-contact-item">
         <i class="fas fa-map-marker-alt"></i>
-        <a href="https://maps.app.goo.gl/8LyaWJEy1xjiVK1j8" target="_blank" rel="noopener" target="_blank" rel="noopener noreferrer">Tarumanegara Blok B No.4-6, Kabupaten Karawang, Jawa Barat</a>
+        <a href="https://maps.app.goo.gl/8LyaWJEy1xjiVK1j8" target="_blank" rel="noopener" target="_blank" rel="noopener noreferrer">JL. Tarumanegara Blok B No.4-6, Kabupaten Karawang, Jawa Barat</a>
       </div>
     </div>
   </div>
@@ -108,7 +114,6 @@
   font-weight: 750;
   color: #ffd700;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
 }
 
 /* Section Title */
@@ -140,8 +145,66 @@
   margin: 0;
 }
 
-.footer-nav-list li {
-  margin-bottom: 12px;
+.footer-brosur-dropdown {
+  position: relative;
+  display: inline-block;
+  z-index: 999;
+}
+
+.footer-brosur-toggle {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.footer-brosur-toggle:hover {
+  color: #38bdf8;
+}
+
+.footer-brosur-dropdown.open > .footer-brosur-menu {
+  display: block;
+}
+
+.footer-brosur-menu {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  min-width: 220px;
+  background: #111827;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  padding: 8px 0;
+  z-index: 10;
+  white-space: normal;
+  width: auto;
+}
+
+.footer-brosur-menu a {
+  display: block;
+  width: 100%;
+  color: #cbd5e1;
+  padding: 12px 16px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.footer-brosur-menu a:last-child {
+  border-bottom: none;
+}
+
+.footer-brosur-menu a:hover {
+  background: rgba(255,255,255,0.08);
 }
 
 .footer-nav-list li a {

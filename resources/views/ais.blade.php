@@ -400,7 +400,7 @@
         
         <!-- Hero Section -->
         <div class="hero-section">
-            <h1 class="animate-hero">D3 Accounting Information System</h1>
+            <h1 class="animate-hero">Accounting Information System</h1>
             <div class="badges animate-hero">
                 <span class="badge"><i class="fas fa-bullseye"></i> Digital Marketing</span>
                 <span class="badge"><i class="fas fa-chart-line"></i> Marketing Administration</span>

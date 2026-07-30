@@ -400,7 +400,7 @@
         
         <!-- Hero Section -->
         <div class="hero-section">
-            <h1 class="animate-hero">D3 Office Administration Automatization</h1>
+            <h1 class="animate-hero">Office Administration Automatization</h1>
             <div class="badges animate-hero">
                 <span class="badge"><i class="fas fa-desktop"></i> Digital Marketing</span>
                 <span class="badge"><i class="fas fa-file-invoice"></i> Marketing Administration</span>

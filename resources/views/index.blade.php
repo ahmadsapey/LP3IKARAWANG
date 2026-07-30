@@ -886,7 +886,8 @@
             transform: translate(-50%, -50%) scale(1.1);
         }
 
-        .video-preview-wrapper iframe {
+        .video-preview-wrapper iframe,
+        .video-preview-wrapper .video-local-player {
             position: absolute;
             inset: 0;
             width: 100%;
@@ -1661,6 +1662,10 @@
                     <i class="fas fa-play"></i>
                     <span class="play-pulse"></span>
                 </button>
+                <video id="lp3i-local-video" class="video-local-player" controls playsinline preload="metadata" poster="{{ asset('storage/image/gedung.jpeg') }}" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; background:#000;">
+                    <source src="{{ asset('storage/image/Video.mp4') }}" type="video/mp4">
+                    Browser Anda tidak mendukung pemutar video.
+                </video>
             </div>
         </div>
         {{-- <div class="video-caption">Tonton video profil singkat LP3I Kampus Karawang.</div> --}}
@@ -1677,9 +1682,9 @@
       <!-- Section Vokasi -->
       <div class="study-box">
         <div class="study-header">
-          <div class="study-badge badge-yellow">D3</div>
+          <div class="study-badge badge-yellow">PS</div>
           <div class="study-title-group">
-            <h2 class="study-title">Diploma 3 Tahun</h2>
+            <h2 class="study-title">Program Study Unggulan</h2>
             <p class="study-subtitle">Program Pendidikan Di LP3I Karawang.</p>
           </div>
         </div>
@@ -1687,8 +1692,10 @@
         <div class="study-grid study-grid-1col">
           <div class="study-card card-yellow clickable">
             <div class="study-card-body">
-              <strong class="program-title">Administrasi bisnis</strong>
-              <span class="program-subtitle">PENILAIAN KINERJA A</span>
+              <a href="{{ route('ase') }}">
+              <strong class="program-title">Application Software Engineering</strong>
+              </a>
+              <span class="program-subtitle">Penilaian Kinerja A</span>
             </div>
             <div class="arrow-button">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1699,8 +1706,10 @@
 
           <div class="study-card card-yellow clickable">
             <div class="study-card-body">
-              <strong class="program-title">Teknik Otomotif</strong>
-              <span class="program-subtitle">PENILAIAN KINERJA A</span>
+                <a href="{{ route('ais') }}">
+              <strong class="program-title">Accounting Information System</strong>
+                </a>
+              <span class="program-subtitle">Penilaian Kinerja A</span>
             </div>
             <div class="arrow-button">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1711,8 +1720,10 @@
 
           <div class="study-card card-yellow clickable">
             <div class="study-card-body">
-              <strong class="program-title">Teknik Informatika</strong>
-              <span class="program-subtitle">PENILAIAN KINERJA A</span>
+                <a href="{{ route('oaa') }}">
+              <strong class="program-title">Office Administration Automatization</strong>
+                </a>
+              <span class="program-subtitle">Penilaian Kinerja A</span>
             </div>
             <div class="arrow-button">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1731,7 +1742,7 @@
         <img src="{{ asset('storage/image/AIS2.JPG') }}" alt="AIS LP3I Karawang" class="study-image">
       </div>
       <div class="study-image-wrap secondary-image">
-        <img src="{{ asset('storage/image/AIS.JPG') }}" alt="AIS Program LP3I Karawang" class="study-image">
+        <img src="{{ asset('storage/image/ASE2.JPG') }}" alt="AIS Program LP3I Karawang" class="study-image">
       </div>
     </div>
 
@@ -1855,12 +1866,18 @@
         }
     });
 
-    // YouTube lazy load play button handler
+    // Local video play button handler
     const playBtn = document.getElementById('play-video-btn');
-    if (playBtn) {
+    const localVideo = document.getElementById('lp3i-local-video');
+    if (playBtn && localVideo) {
         playBtn.addEventListener('click', function() {
-            const wrapper = document.getElementById('video-preview-wrapper');
-            wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/2dmy9PbQpz0?autoplay=1" title="Video profil LP3I Karawang" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            const poster = document.querySelector('#video-preview-wrapper .video-poster');
+            const overlay = document.querySelector('#video-preview-wrapper .video-overlay-glow');
+            if (poster) poster.style.display = 'none';
+            if (overlay) overlay.style.display = 'none';
+            playBtn.style.display = 'none';
+            localVideo.style.display = 'block';
+            localVideo.play().catch(() => {});
         });
     }
 

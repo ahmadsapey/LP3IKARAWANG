@@ -422,7 +422,7 @@
         <img src="{{ asset('storage/image/gedung.jpeg') }}" class="hero-bg" alt="Gedung LP3I">
         <div class="hero-content">
             <h1 class="animate-hero">Sejarah LP3I College</h1>
-            <p class="animate-hero">Kampus Karawang hadir dari thun 2012  sebagai jawaban atas kebutuhan.</p>
+            <p class="animate-hero">LP3I College Karawang Menjawab Kebutuhan Dunia Kerja Sejak 2012.</p>
         </div>
     </section>
 

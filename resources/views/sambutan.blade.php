@@ -17,7 +17,7 @@
     $bmTitle = !empty($settings['branch_manager_title']) ? $settings['branch_manager_title'] : 'Branch Manager';
     $bmRole = !empty($settings['branch_manager_role']) ? $settings['branch_manager_role'] : 'Kepala Kampus LP3I Karawang';
     
-    $bmImage = !empty($settings['branch_manager_image']) ? asset($settings['branch_manager_image']) : asset('storage/image/directur.jpg');
+    $bmImage = !empty($settings['branch_manager_image']) ? asset($settings['branch_manager_image']) : asset('storage/image/directur.jpeg');
     
     $bmGreeting = !empty($settings['branch_manager_greeting']) ? nl2br(e($settings['branch_manager_greeting'])) : "Assalamu’alaikum Warahmatullahi Wabarakatuh,<br>Salam Sejahtera bagi kita semua.";
     
